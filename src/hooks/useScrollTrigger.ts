@@ -22,7 +22,7 @@ function defaultTrigger(store: React.MutableRefObject<number>) {
     }
 
     if (window.innerHeight > store.current) {
-        return false
+        //    return false
     }
 
     return store.current > threshold;
