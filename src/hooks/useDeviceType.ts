@@ -1,24 +1,24 @@
 import { useMediaQuery, useTheme } from "@mui/material";
 
 
-const Size = {
+const DeviceSize = {
     mobile: "mobile",
     tablet: "tablet",
     desktop: "desktop",
 } as const;
 
-export type Size = typeof Size[keyof typeof Size];
+export type DeviceSize = typeof DeviceSize[keyof typeof DeviceSize];
 
-export default function useDeviceType(): Size {
+export default function useDeviceType(): DeviceSize {
     const theme = useTheme();;
     const mobileMatches = useMediaQuery(theme.breakpoints.down("md"));
     const tabletMatches = useMediaQuery(theme.breakpoints.between("md", 'lg'));
 
     if (mobileMatches) {
-        return Size.mobile
+        return DeviceSize.mobile
     } else if (tabletMatches) {
-        return Size.tablet
+        return DeviceSize.tablet
     } else {
-        return Size.desktop
+        return DeviceSize.desktop
     }
 }

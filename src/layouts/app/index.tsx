@@ -21,7 +21,7 @@ export default function AppLayout(props: Props) {
         <AppBar
           sx={{
             pl: deviceType === "mobile" ? 5 : 0,
-            pt: deviceType === "mobile" ? 3 : 5,
+            pt: deviceType === "mobile" ? 3 : 3,
             pb: 5
           }}
           color="transparent"
@@ -37,23 +37,25 @@ export default function AppLayout(props: Props) {
               width: "100%"
             }}
           >
-            <Typography
-              sx={{
-                color: "#fff",
-                left: 0,
-                fontSize: 23,
-                pl: deviceType === "tablet" ? 4 : 0,
-                letterSpacing: 4.6,
-                position: "absolute"
-              }}
-              variant="h6"
-              fontFamily={"Heebo-Bold"}
-            >
-              GALAXY
-            </Typography>
+            <Link to="/">
+              <Typography
+                sx={{
+                  color: "#fff",
+                  left: 0,
+                  fontSize: 23,
+                  pl: deviceType === "tablet" ? 4 : 0,
+                  letterSpacing: 4.6,
+                  position: "absolute"
+                }}
+                variant="h6"
+                fontFamily={"Heebo-Bold"}
+              >
+                GALAXY
+              </Typography>
+            </Link>
             {deviceType !== "mobile" && (
               <nav>
-                <StyledLink to="/lore">Lore</StyledLink>
+                <StyledLink to="/story">Lore</StyledLink>
                 <StyledLink to="/nft">NFT</StyledLink>
                 <StyledLink to="/stake">Stake</StyledLink>
                 <StyledLink to="/vote">Vote</StyledLink>
@@ -64,6 +66,7 @@ export default function AppLayout(props: Props) {
         </AppBar>
       </Slide>
       {props.children}
+
       <Footer />
     </React.Fragment>
   );

@@ -1,14 +1,19 @@
+import React, { useState } from "react";
 import { ButtonBase, Link, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import useDeviceType from "../../hooks/useDeviceType";
 import AppLayout from "../../layouts/app";
 import InterSection from "../../components/intersection";
+import Roadmap from "./Roadmap";
+import Introduce from "./Introduce";
 
 export default function Main() {
   const deviceType = useDeviceType();
+
   return (
     <AppLayout>
       <Background
+        id="fullpage"
         background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpeg"}
       >
         <Section i={0}>
@@ -20,6 +25,7 @@ export default function Main() {
           </Label>
           <Tiger alt="tiger" src="/assets/images/tiger.png" />
         </Section>
+
         <Section i={1}>
           <InterSection>
             <Label variant="h2" textAlign="right">
@@ -68,18 +74,8 @@ export default function Main() {
             </Grid>
           </Grid>
         </Section>
-        <Section i={2}>
-          <div>
-            <img
-              style={{
-                width: "100vw"
-              }}
-              alt="roadmap"
-              src="/assets/images/roadmap.png"
-            />
-          </div>
-        </Section>
-        <Section></Section>
+        <Roadmap />
+        <Introduce />
       </Background>
     </AppLayout>
   );
@@ -119,7 +115,7 @@ const CosmosButton = styled(ButtonBase)`
   }
 `;
 
-const Section = styled("section")(
+export const Section = styled("section")(
   (props: { i?: number }) => `
   min-height: 100vh;
   width: 100%;

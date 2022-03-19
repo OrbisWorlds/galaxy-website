@@ -1,31 +1,33 @@
+import styled from "@emotion/styled";
+import { Box } from "@mui/material";
 import React from "react";
+import useInterSection from "../../hooks/useInterSection";
 
 interface Props {
   children?: React.ReactNode | undefined;
+  td?: string;
 }
 
 export default function InterSection(props: Props) {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const domStore = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => setIsVisible(entry.isIntersecting));
-    });
-
-    if (domStore.current) observer.observe(domStore.current);
-
-    return () => {
-      if (domStore.current) observer.unobserve(domStore.current);
-    };
-  }, [domStore]);
-
+  const ref = React.useRef<HTMLDivElement>(null);
+  const isVisible = useInterSection(ref);
   return (
-    <div
-      ref={domStore}
-      className={`fade-in-section ${isVisible ? "is-visible" : ""}`}
-    >
+    <FadeIn v={isVisible} td={props.td} ref={ref}>
       {props.children}
-    </div>
+    </FadeIn>
   );
 }
+
+const FadeIn = styled(Box)((p: { v: boolean; td?: string }) => ({
+  opacity: 0,
+  transform: "translateY(10vh)",
+  visibility: "hidden",
+  transition: `opacity 0.6s  ease-out, transform 1s ease-out`,
+  transitionDelay: p.td || "0s",
+  "will-change": "opacity, visibility",
+  ...(p.v && {
+    opacity: 1,
+    transform: "none",
+    visibility: "visible"
+  })
+}));
