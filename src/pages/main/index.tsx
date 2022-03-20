@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { ButtonBase, Link, Grid, Typography } from "@mui/material";
+import { ButtonBase, Link, Grid, Typography, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import useDeviceType from "../../hooks/useDeviceType";
 import AppLayout from "../../layouts/app";
@@ -14,10 +13,12 @@ export default function Main() {
     <AppLayout>
       <Background
         id="fullpage"
-        background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpeg"}
+        background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpg"}
       >
         <Section i={0}>
-          <Star alt="star" src="/assets/images/star.png" />
+          {
+            //         <Star alt="star" src="/assets/images/star.png" />
+          }
           <Label zIndex={2} marginTop={"30%"} variant="h2">
             Create the universe
             <br />
@@ -26,7 +27,7 @@ export default function Main() {
           <Tiger alt="tiger" src="/assets/images/tiger.png" />
         </Section>
 
-        <Section i={1}>
+        <Section noDesktop={deviceType !== "desktop"} i={1}>
           <InterSection>
             <Label variant="h2" textAlign="right">
               Make
@@ -74,8 +75,14 @@ export default function Main() {
             </Grid>
           </Grid>
         </Section>
-        <Roadmap />
-        <Introduce />
+        <Section i={2}>
+          <Roadmap />
+        </Section>
+        <Section noDesktop={deviceType !== "desktop"}>
+          <Box sx={{ pb: 20 }}>
+            <Introduce />
+          </Box>
+        </Section>
       </Background>
     </AppLayout>
   );
@@ -116,7 +123,7 @@ const CosmosButton = styled(ButtonBase)`
 `;
 
 export const Section = styled("section")(
-  (props: { i?: number }) => `
+  (props: { noDesktop?: boolean; i?: number }) => `
   min-height: 100vh;
   width: 100%;
   max-width: ${props.i === 2 ? "auto" : "1200px"};
@@ -126,6 +133,8 @@ export const Section = styled("section")(
   flex-wrap: wrap;
   align-items: ${props.i === 1 ? "end" : props.i === 0 ? "start" : "center"};
   justify-content: ${props.i === 1 ? "center" : "start"};
+  padding :${props.noDesktop ? "0px 40px" : "0px"}
+  
 `
 );
 

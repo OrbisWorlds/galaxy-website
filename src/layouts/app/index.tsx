@@ -3,7 +3,7 @@ import { AppBar, CssBaseline, Slide, Toolbar, Typography } from "@mui/material";
 import useScrollTrigger from "../../hooks/useScrollTrigger";
 import useDeviceType from "../../hooks/useDeviceType";
 import { styled } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 
 export default function AppLayout(props: Props) {
   const trigger = useScrollTrigger();
+  const navigate = useNavigate();
   const deviceType = useDeviceType();
 
   return (
@@ -37,22 +38,22 @@ export default function AppLayout(props: Props) {
               width: "100%"
             }}
           >
-            <Link to="/">
-              <Typography
-                sx={{
-                  color: "#fff",
-                  left: 0,
-                  fontSize: 23,
-                  pl: deviceType === "tablet" ? 4 : 0,
-                  letterSpacing: 4.6,
-                  position: "absolute"
-                }}
-                variant="h6"
-                fontFamily={"Heebo-Bold"}
-              >
-                GALAXY
-              </Typography>
-            </Link>
+            <Typography
+              onClick={() => navigate("/")}
+              sx={{
+                color: "#fff",
+                left: 0,
+                fontSize: 23,
+                pl: deviceType === "tablet" ? 4 : 0,
+                letterSpacing: 4.6,
+                cursor: "pointer",
+                position: "absolute"
+              }}
+              variant="h6"
+              fontFamily={"Heebo-Bold"}
+            >
+              GALAXY
+            </Typography>
             {deviceType !== "mobile" && (
               <nav>
                 <StyledLink to="/story">Lore</StyledLink>

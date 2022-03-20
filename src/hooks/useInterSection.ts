@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-export default function useInterSection(domStore: React.RefObject<Element>): boolean {
+export default function useInterSection(domStore: React.RefObject<Element>, parent?: boolean): boolean {
     const [isVisible, setIsVisible] = React.useState(false);
+    const [once, setOnce] = React.useState(false);
 
     React.useEffect(() => {
         const observer = new IntersectionObserver(entries => {
@@ -15,7 +16,16 @@ export default function useInterSection(domStore: React.RefObject<Element>): boo
         };
     }, [domStore]);
 
-    return isVisible
+    React.useEffect(() => {
+        if (isVisible) {
+            setOnce(true)
+        }
+    }, [isVisible]);
+
+    if (parent !== undefined) {
+        return parent;
+    }
+    return once || isVisible
 }
 
 

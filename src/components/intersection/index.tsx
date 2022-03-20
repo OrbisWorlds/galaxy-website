@@ -1,18 +1,19 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import React from "react";
 import useInterSection from "../../hooks/useInterSection";
 
-interface Props {
+interface Props extends BoxProps {
   children?: React.ReactNode | undefined;
   td?: string;
+  parent?: boolean;
 }
 
 export default function InterSection(props: Props) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const isVisible = useInterSection(ref);
+  const isVisible = useInterSection(ref, props.parent);
   return (
-    <FadeIn v={isVisible} td={props.td} ref={ref}>
+    <FadeIn {...props} v={isVisible} td={props.td} ref={ref}>
       {props.children}
     </FadeIn>
   );
