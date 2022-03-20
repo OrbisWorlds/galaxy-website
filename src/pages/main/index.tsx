@@ -1,10 +1,11 @@
-import { ButtonBase, Link, Grid, Typography, Box } from "@mui/material";
+import { ButtonBase, Link, Grid, Typography, Box, Theme } from "@mui/material";
 import { styled } from "@mui/system";
 import useDeviceType from "../../hooks/useDeviceType";
 import AppLayout from "../../layouts/app";
 import InterSection from "../../components/intersection";
 import Roadmap from "./Roadmap";
 import Introduce from "./Introduce";
+import styledTheme from "../../store/styled";
 
 export default function Main() {
   const deviceType = useDeviceType();
@@ -16,63 +17,98 @@ export default function Main() {
         background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpg"}
       >
         <Section i={0}>
-          {
-            //         <Star alt="star" src="/assets/images/star.png" />
-          }
-          <Label zIndex={2} marginTop={"30%"} variant="h2">
-            Create the universe
-            <br />
-            with us
-          </Label>
-          <Tiger alt="tiger" src="/assets/images/tiger.png" />
+          <MainBanner>
+            <Label zIndex={2} variant="h2">
+              Create the universe
+              <br />
+              with us
+            </Label>
+          </MainBanner>
+
+          <Tiger src="/assets/images/tiger.png" alt="tiger" />
         </Section>
 
         <Section noDesktop={deviceType !== "desktop"} i={1}>
-          <InterSection>
-            <Label variant="h2" textAlign="right">
-              Make
-              <br />
-              The Cosmos Network
-              <br />
-              More Valuable
-            </Label>
-          </InterSection>
-          <Grid container>
-            <Grid
-              item
-              xs={7}
-              sx={{
-                mt: 3,
-                "& img": {
-                  width: "100%"
-                }
-              }}
-            >
+          <Grid container sx={{ position: "relative" }}>
+            <CNBackground alt="bg2" src="/assets/images/banner2-bg.png" />
+            <Grid item xs={12}>
               <InterSection>
-                <img alt="mobius" src="/assets/images/mobius.png" />
+                <Label variant="h2" textAlign="right">
+                  Make
+                  <br />
+                  The Cosmos Network
+                  <br />
+                  More Valuable
+                </Label>
               </InterSection>
             </Grid>
-            <Grid container xs={5} justifyContent="end">
-              <Grid item xs={12}>
+            <Grid container>
+              {deviceType === "desktop" && (
+                <Grid
+                  item
+                  xs={7}
+                  sx={{
+                    mt: 3
+                  }}
+                >
+                  <InterSection>
+                    <img
+                      width="100%"
+                      alt="mobius"
+                      src="/assets/images/mobius.png"
+                    />
+                  </InterSection>
+                </Grid>
+              )}
+
+              <Grid
+                item
+                xs={deviceType !== "desktop" ? 12 : 5}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "end"
+                }}
+              >
+                <Grid item xs={12}>
+                  <InterSection>
+                    <Text variant="body1" textAlign="right" marginTop={"60px"}>
+                      The collective intelligence of members in the smart <br />
+                      and creative Cosmos community gathers <br />
+                      to create a network of immersive world views. <br />
+                      Participate in an infinitely expandable Metaverse <br />
+                      and own NFT.
+                    </Text>
+                  </InterSection>
+                </Grid>
+
                 <InterSection>
-                  <Text variant="body1" textAlign="right" marginTop={"60px"}>
-                    The collective intelligence of members in the smart <br />
-                    and creative Cosmos community gathers <br />
-                    to create a network of immersive world views. <br />
-                    Participate in an infinitely expandable Metaverse <br />
-                    and own NFT.
-                  </Text>
+                  <Link href="https://cosmos.network">
+                    <CosmosButton>
+                      Cosmos universe
+                      <img alt="more" src="/assets/images/ic-more.png" />
+                    </CosmosButton>
+                  </Link>
                 </InterSection>
               </Grid>
-              <InterSection>
-                <Link href="https://cosmos.network">
-                  <CosmosButton>
-                    Cosmos universe
-                    <img alt="more" src="/assets/images/ic-more.png" />
-                  </CosmosButton>
-                </Link>
-              </InterSection>
             </Grid>
+
+            {deviceType !== "desktop" && (
+              <InterSection
+                sx={{
+                  width: "60%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  mt: 11
+                }}
+              >
+                <img
+                  width="100%"
+                  alt="mobius"
+                  src="/assets/images/mobius.png"
+                />
+              </InterSection>
+            )}
           </Grid>
         </Section>
         <Section i={2}>
@@ -88,21 +124,34 @@ export default function Main() {
   );
 }
 
-const Star = styled("img")`
-  width: 100vw;
-  top: 0;
-  left: 0;
-  height: 100vh;
+const MainBanner = styledTheme("div")(p => ({
+  maxWidth: 1920,
+  display: "flex",
+  zIndex: 2,
+  margin: "auto",
+  flex: 1,
+  [p.theme.breakpoints.down("lg")]: {
+    margin: "20% 0px 0px 0px",
+    textAlign: "center",
+    justifyContent: "center"
+  }
+}));
+const Tiger = styledTheme("img")(p => ({
+  position: "absolute",
+  maxHeight: "100vh",
+  right: 0,
+  width: "100%",
+  maxWidth: "1920px",
+  objectFit: "contain",
+  [p.theme.breakpoints.down("lg")]: {
+    position: "relative"
+  }
+}));
+
+const CNBackground = styled("img")`
   position: absolute;
-  object-fit: contain;
-`;
-const Tiger = styled("img")`
   width: 100%;
-  max-width: 1200px;
-  top: 0;
-  right: 0;
-  position: absolute;
-  object-fit: contain;
+  height: 100%;
 `;
 
 const CosmosButton = styled(ButtonBase)`
@@ -122,20 +171,19 @@ const CosmosButton = styled(ButtonBase)`
   }
 `;
 
-export const Section = styled("section")(
-  (props: { noDesktop?: boolean; i?: number }) => `
-  min-height: 100vh;
-  width: 100%;
-  max-width: ${props.i === 2 ? "auto" : "1200px"};
-  display: flex;
-  flex-direction: ${props.i === 1 ? "column" : "row"};
-  margin: auto;
-  flex-wrap: wrap;
-  align-items: ${props.i === 1 ? "end" : props.i === 0 ? "start" : "center"};
-  justify-content: ${props.i === 1 ? "center" : "start"};
-  padding :${props.noDesktop ? "0px 40px" : "0px"}
-  
-`
+const Section = styledTheme("section")<{ noDesktop?: boolean; i?: number }>(
+  props => ({
+    "min-height": "100vh",
+    width: "100%",
+    "max-width": props.i === 2 ? "auto" : "1200px",
+    display: "flex",
+    "flex-direction": props.i === 1 ? "column" : "row",
+    margin: "auto",
+    "flex-wrap": "wrap",
+    "align-items": props.i === 1 ? "end" : props.i === 0 ? "start" : "center",
+    "justify-content": props.i === 1 ? "center" : "start",
+    padding: props.noDesktop ? "0px 40px" : "0px"
+  })
 );
 
 const Background = styled("div")(

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Grid, styled, Typography } from "@mui/material";
-import { Section } from ".";
 import InterSection from "../../components/intersection";
 import BigBang from "../../components/animations/BigBang";
 import useInterSection from "../../hooks/useInterSection";
@@ -113,7 +112,7 @@ export default function Introduce() {
       />
       <IntroduceItem
         p={isVisible}
-        t1={"Economy"}
+        t1={"Governance"}
         t2={
           <>
             Participate <br />
