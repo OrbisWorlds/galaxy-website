@@ -3,11 +3,13 @@ import { AppBar, CssBaseline, Slide, Toolbar, Typography } from "@mui/material";
 import useScrollTrigger from "../../hooks/useScrollTrigger";
 import useDeviceType from "../../hooks/useDeviceType";
 import { styled } from "@mui/system";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import styledTheme from "../../store/styled";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode | undefined;
+  background?: React.ReactElement;
 }
 
 export default function AppLayout(props: Props) {
@@ -15,14 +17,20 @@ export default function AppLayout(props: Props) {
   const navigate = useNavigate();
   const deviceType = useDeviceType();
 
+  const renderChildren = (
+    <>
+      {props.children}
+      <Footer absolute={!Boolean(props.background)} />
+    </>
+  );
   return (
     <React.Fragment>
       <CssBaseline />
       <Slide direction="down" in={!trigger}>
         <AppBar
           sx={{
-            pl: deviceType === "mobile" ? 5 : 0,
-            pt: deviceType === "mobile" ? 3 : 3,
+            pl: deviceType === "mobile" ? 2 : 0,
+            pt: deviceType === "mobile" ? 1.5 : 3,
             pb: 5
           }}
           color="transparent"
@@ -38,22 +46,10 @@ export default function AppLayout(props: Props) {
               width: "100%"
             }}
           >
-            <Typography
-              onClick={() => navigate("/")}
-              sx={{
-                color: "#fff",
-                left: 0,
-                fontSize: 23,
-                pl: deviceType === "tablet" ? 4 : 0,
-                letterSpacing: 4.6,
-                cursor: "pointer",
-                position: "absolute"
-              }}
-              variant="h6"
-              fontFamily={"Heebo-Bold"}
-            >
+            <Title variant="h6" onClick={() => navigate("/")}>
               GALAXY
-            </Typography>
+            </Title>
+
             {deviceType !== "mobile" && (
               <nav>
                 <StyledLink to="/story">Lore</StyledLink>
@@ -66,12 +62,27 @@ export default function AppLayout(props: Props) {
           </Toolbar>
         </AppBar>
       </Slide>
-      {props.children}
-
-      <Footer />
+      {props.background
+        ? React.cloneElement(props.background, {
+            children: renderChildren
+          })
+        : renderChildren}
     </React.Fragment>
   );
 }
+
+const Title = styledTheme(Typography)(p => ({
+  color: "#fff",
+  left: 0,
+  fontSize: 23,
+  letterSpacing: 4.6,
+  cursor: "pointer",
+  position: "absolute",
+  fontFamily: "Heebo-Bold",
+  [p.theme.breakpoints.down("md")]: {
+    fontSize: 20
+  }
+}));
 
 const StyledLink = styled(Link)`
   text-decoration: none;

@@ -1,6 +1,7 @@
 import { Box, styled } from "@mui/material";
 import React from "react";
 import useInterSection from "../../hooks/useInterSection";
+import styledTheme from "../../store/styled";
 
 export default function BigBang() {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -33,15 +34,20 @@ export default function BigBang() {
   );
 }
 
-const WrapBox = styled(Box)({
-  position: "absolute",
-  top: 0,
-  width: "100%",
-  height: "100%",
+const WrapBox = styledTheme(Box)(p => ({
+  width: "70%",
+  height: "60%",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
-});
+  position: "absolute",
+  justifyContent: "center",
+  [p.theme.breakpoints.down("md")]: {
+    width: "50%",
+    height: "50%",
+    right: "-15%",
+    top: "-10%"
+  }
+}));
 
 const BigBangO = styled("img")(
   (p: {
