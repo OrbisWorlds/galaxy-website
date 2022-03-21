@@ -72,7 +72,7 @@ export default function Main() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "end"
+                alignItems: "flex-end"
               }}
             >
               <Grid item xs={12}>
@@ -144,7 +144,7 @@ const Section = styledTheme("section")<{ noDesktop?: boolean; i: number }>(
       props.i === 0
         ? "start"
         : props.i === 1
-        ? "end"
+        ? "flex-end"
         : props.i === 3
         ? "stretch"
         : "center",

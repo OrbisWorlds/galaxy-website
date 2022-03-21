@@ -44,7 +44,7 @@ const Container = styled("div")(
   padding-bottom: ${props.dt === "mobile" ? "30px" : "100px"};
   border-top: 1px solid #393645;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   max-width: 1200px;
   width: 100%;
 `
