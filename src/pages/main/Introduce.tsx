@@ -167,8 +167,11 @@ const Title = styledTheme(Typography)(p => ({
 }));
 const StyledGrid = styledTheme(Grid)(p => ({
   zIndex: 2,
-  "&:last-child": {
-    marginBottom: 80
+
+  [p.theme.breakpoints.down("md")]: {
+    "&:last-child": {
+      marginBottom: 80
+    }
   },
   "& div": {
     position: "relative",

@@ -21,16 +21,16 @@ export default function Footer(props: Props) {
     >
       <Container dt={deviceType}>
         <IconLink to="/">
-          <img src={"/assets/images/footer-github.png"} alt="github" />
+          <img src={"/assets/images/github.svg"} alt="github" />
         </IconLink>
         <IconLink to="/">
-          <img src={"/assets/images/footer-telegram.png"} alt="telegram" />
+          <img src={"/assets/images/telegram.svg"} alt="telegram" />
         </IconLink>
         <IconLink to="/">
-          <img src={"/assets/images/footer-discord.png"} alt="discord" />
+          <img src={"/assets/images/discord.svg"} alt="discord" />
         </IconLink>
         <IconLink to="/">
-          <img src={"/assets/images/footer-twitter.png"} alt="twitter" />
+          <img src={"/assets/images/twitter.svg"} alt="twitter" />
         </IconLink>
       </Container>
     </Box>

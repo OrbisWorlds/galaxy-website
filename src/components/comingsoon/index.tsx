@@ -46,5 +46,6 @@ const Container = styled(Box)`
   height: 100vh;
   display: flex;
   align-items: center;
+  background-color: #000;
   justify-content: center;
 `;
