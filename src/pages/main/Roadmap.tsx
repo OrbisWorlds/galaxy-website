@@ -114,7 +114,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "1Q` 22",
+                      t: "1Q 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -140,7 +140,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "1Q` 22",
+                      t: "1Q 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -169,14 +169,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "April 22",
+                      t: "April, 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Galaxy Mainnet Live\nGlx Airdrop\nOsmosis Lp Register",
+                      t: "Galaxy Mainnet Live\nGLX Airdrop\nOsmosis Lp Register",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -195,14 +195,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "April 22",
+                      t: "April, 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Mainnet Live\nGlx Airdrop\nOsmosis Lp Register",
+                      t: "Mainnet Live\nGLX Airdrop\nOsmosis Lp Register",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -224,14 +224,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "June 22",
+                      t: "June, 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Story NFT Publush System",
+                      t: "Story NFT Publish System",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -250,14 +250,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "June 22",
+                      t: "June, 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Story NFT\nPublush System",
+                      t: "Story NFT\nPublish System",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -279,7 +279,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "August 22",
+                      t: "August, 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -305,7 +305,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "Aug 22",
+                      t: "Aug, 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -334,7 +334,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "November 22 ~",
+                      t: "November, 2022 ~",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -360,7 +360,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "Nov 22~",
+                      t: "Nov, 2022~",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
