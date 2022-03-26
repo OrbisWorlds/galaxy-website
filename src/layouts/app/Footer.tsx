@@ -1,5 +1,4 @@
-import { Box, styled } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, styled, Link } from "@mui/material";
 import useDeviceType from "../../hooks/useDeviceType";
 
 interface Props {
@@ -20,23 +19,22 @@ export default function Footer(props: Props) {
       }}
     >
       <Container dt={deviceType}>
-        <IconLink to="/">
+        <IconLink target="_blank" href="https://github.com/galaxies-labs">
           <img src={"/assets/images/github.svg"} alt="github" />
         </IconLink>
-        <IconLink to="/">
-          <img src={"/assets/images/telegram.svg"} alt="telegram" />
+        <IconLink target="_blank" href="https://medium.com/@galaxyuniverse">
+          <img src={"/assets/images/medium.svg"} alt="medium" />
         </IconLink>
-        <IconLink to="/">
+        <IconLink target="_blank" href="https://discord.gg/DkPNtpJQ8C">
           <img src={"/assets/images/discord.svg"} alt="discord" />
         </IconLink>
-        <IconLink to="/">
+        <IconLink target="_blank" href="https://twitter.com/glxuniverse">
           <img src={"/assets/images/twitter.svg"} alt="twitter" />
         </IconLink>
       </Container>
     </Box>
   );
 }
-
 const Container = styled("div")(
   (props: { dt: string }) => `
   margin: auto;
