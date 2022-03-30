@@ -27,8 +27,13 @@ code {
   position: relative;
 }
 span,
+div,
 button {
   font-family: Heebo-Regular;
+}
+.column {
+  display: flex;
+  flex-direction: column;
 }
 
 /* fonts */
