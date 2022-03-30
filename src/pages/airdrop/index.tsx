@@ -1,11 +1,41 @@
 import { Box, ButtonBase, InputBase, styled } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/app";
 
 export default function Airdrop() {
+  const navigate = useNavigate();
+  const [address, setAddress] = React.useState("");
   const [cosmoshub, setCosmoshub] = React.useState("0");
   const [osmosisStake, setOsmosisStake] = React.useState("0");
   const [osmosisPool, setOsmosisPool] = React.useState("0");
+  const [searched, setSearched] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!address) {
+      setCosmoshub("0");
+      setOsmosisStake("0");
+      setOsmosisPool("0");
+      setSearched(false);
+    }
+  }, [address]);
+
+  const handleDetectClipboard = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (!address) {
+      navigator.clipboard
+        .readText()
+        .then(t => {
+          if (t && (t.startsWith("cosmos") || t.startsWith("osmo"))) {
+            setAddress(t);
+          }
+        })
+        .catch(console.log);
+    }
+  };
+
+  const handleCheckClaimAmount = (e: React.MouseEvent) => {
+    setSearched(true);
+  };
 
   return (
     <AppLayout background={<Background />}>
@@ -16,9 +46,14 @@ export default function Airdrop() {
         <Address>
           <InputBase
             fullWidth
+            value={address}
+            onChange={e => setAddress(e.target.value)}
+            onClick={handleDetectClipboard}
             placeholder="Enter your cosmos or osmosis address"
           />
-          <ButtonBase>Check</ButtonBase>
+          <ButtonBase disabled={!address} onClick={handleCheckClaimAmount}>
+            Check
+          </ButtonBase>
         </Address>
         <Content>
           <ContentLine
@@ -32,9 +67,11 @@ export default function Airdrop() {
           <TotalAmount>
             Total Amount :{" "}
             <span>
-              {parseInt(cosmoshub) +
-                parseInt(osmosisStake) +
-                parseInt(osmosisPool)}{" "}
+              {searched
+                ? parseInt(cosmoshub) +
+                  parseInt(osmosisStake) +
+                  parseInt(osmosisPool)
+                : "-"}{" "}
               GLX
             </span>
           </TotalAmount>
@@ -42,20 +79,27 @@ export default function Airdrop() {
           <Chain>
             <img src="/assets/images/cosmoshub.svg" alt="cosmos" />
             <span>Airdrop for Atom Staker</span>
-            <span>{cosmoshub} GLX</span>
+            <span>{searched ? cosmoshub : "-"} GLX</span>
           </Chain>
           <Chain>
             <img src="/assets/images/osmosis.svg" alt="osmosis" />
             <span>Airdrop for Osmosis Staker</span>
-            <span>{osmosisStake} GLX</span>
+            <span>{searched ? osmosisStake : "-"} GLX</span>
           </Chain>
           <Chain sx={{ borderBottom: "none" }}>
             <img src="/assets/images/osmosis.svg" alt="osmosis" />
             <span>Airdrop for Osmosis LP</span>
-            <span>{osmosisPool} GLX</span>
+            <span>{searched ? osmosisPool : "-"} GLX</span>
           </Chain>
 
-          <Claim>Check Claim Missions</Claim>
+          <Claim
+            onClick={() => {
+              navigate("/airdrop/claim");
+            }}
+            disabled={!searched}
+          >
+            Check Claim Missions
+          </Claim>
 
           <Schedules>
             <div>
@@ -113,6 +157,9 @@ const Claim = styled(ButtonBase)`
   font-family: Heebo-Regular;
   @media (min-width: 900px) {
     padding: 15px 64px;
+  }
+  :disabled {
+    color: #544c8f;
   }
 `;
 

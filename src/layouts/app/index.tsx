@@ -10,6 +10,7 @@ import styledTheme from "../../store/styled";
 interface Props {
   children?: React.ReactNode | undefined;
   background?: React.ReactElement;
+  wallet?: boolean;
 }
 
 export default function AppLayout(props: Props) {
