@@ -130,7 +130,7 @@ export default function Stake() {
               {
                 l: "Validator",
                 render: (d, i) => (
-                  <ValidatorMoniker icon="/" moniker={d.moniker} />
+                  <ValidatorMoniker icon="" moniker={d.moniker} />
                 )
               },
               { l: "Status", key: "status" },
@@ -163,7 +163,7 @@ export default function Stake() {
                 render: (d, i) => (
                   <ValidatorMoniker
                     align="flex-start"
-                    icon="/"
+                    icon=""
                     moniker={d.moniker}
                   />
                 )
