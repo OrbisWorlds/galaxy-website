@@ -96,7 +96,6 @@ export default function Airdrop() {
             onClick={() => {
               navigate("/airdrop/claim");
             }}
-            disabled={!searched}
           >
             Check Claim Missions
           </Claim>

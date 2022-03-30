@@ -26,7 +26,8 @@ code {
 #root {
   position: relative;
 }
-span {
+span,
+button {
   font-family: Heebo-Regular;
 }
 
