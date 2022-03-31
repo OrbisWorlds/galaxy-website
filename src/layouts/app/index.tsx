@@ -53,7 +53,7 @@ export default function AppLayout(props: Props) {
 
             {deviceType !== "mobile" && (
               <nav>
-                <StyledLink to="/story">Lore</StyledLink>
+                <StyledLink to="/story">Story</StyledLink>
                 <StyledLink to="/nft">NFT</StyledLink>
                 <StyledLink to="/stake">Stake</StyledLink>
                 <StyledLink to="/vote">Vote</StyledLink>
