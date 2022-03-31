@@ -3,21 +3,32 @@ import AppLayout from "../../layouts/app";
 import devicesize from "../../constants/deviceSize";
 import Tabs from "../../components/tabs";
 import Button from "../../components/button";
-import { VoteOption } from "../../interfaces/galaxy/vote";
+import { Vote as VoteI, VoteOption } from "../../interfaces/galaxy/vote";
 import { voteOptionColor } from "../../store/galaxy/vote";
 import Donut from "../../components/charts/donut";
 import styled from "@emotion/styled";
+import VoteDetailPopup from "./voteDetailPopup";
+import { MostVoted } from "../../components/votes";
 
 export default function Vote() {
   const [tabIndex, setTabIndex] = React.useState(0);
+  const [detailVote, setDetailVote] = React.useState<VoteI>();
   const [votes, setVotes] = React.useState([1, 2, 3, 4, 5]);
 
   React.useEffect(() => {
     setVotes([]);
   }, [tabIndex]);
 
+  const handleVoteDetail = (data: VoteI) => {
+    setDetailVote({ ...data });
+  };
+
   return (
     <AppLayout wallet background={<Background />}>
+      {detailVote && (
+        <VoteDetailPopup {...votes} onClose={() => setDetailVote(undefined)} />
+      )}
+
       <Container>
         <Content>
           <Tabs
@@ -50,7 +61,6 @@ export default function Vote() {
                   Most voted
                   <br />
                   <MostVoted color={voteOptionColor[VoteOption.noWithVeto]}>
-                    <div />
                     {VoteOption.noWithVeto}
                     <span>54%</span>
                   </MostVoted>
@@ -93,7 +103,6 @@ export default function Vote() {
                   Most voted
                   <br />
                   <MostVoted color={voteOptionColor[VoteOption.abstain]}>
-                    <div />
                     {VoteOption.abstain}
                     <span>54%</span>
                   </MostVoted>
@@ -136,7 +145,6 @@ export default function Vote() {
                   Most voted
                   <br />
                   <MostVoted color={voteOptionColor[VoteOption.no]}>
-                    <div />
                     {VoteOption.no}
                     <span>54%</span>
                   </MostVoted>
@@ -151,7 +159,9 @@ export default function Vote() {
                   </span>
                 </span>
                 <div>
-                  <Button border>Detail</Button>
+                  <Button onClick={() => handleVoteDetail({})} border>
+                    Detail
+                  </Button>
                   <Button>Vote</Button>
                 </div>
               </div>
@@ -179,8 +189,7 @@ export default function Vote() {
                   Most voted
                   <br />
                   <MostVoted color={voteOptionColor[VoteOption.yes]}>
-                    <div />
-                    {VoteOption.yes}
+                    {VoteOption.abstain}
                     <span>54%</span>
                   </MostVoted>
                 </span>
@@ -205,22 +214,6 @@ export default function Vote() {
     </AppLayout>
   );
 }
-
-const MostVoted = styled("div")`
-  display: flex;
-  align-items: center;
-  & div {
-    margin-right: 10px;
-    width: 8px;
-    height: 8px;
-    border-radius: 100%;
-    background-color: ${p => p.color};
-  }
-  & span {
-    margin-left: 10px;
-  }
-  color: ${p => p.color};
-`;
 
 const VoteResult = styled("div")`
   display: flex;
@@ -315,6 +308,6 @@ const Container = styled("div")`
 const Background = styled("div")`
   min-height: 100vh;
   background-image: url(/assets/images/airdrop-claim-bg.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-size: contain;
+  background-repeat: repeat;
 `;

@@ -1,3 +1,8 @@
+
+export interface Vote {
+
+}
+
 export const VoteOption = {
     yes: "Yes",
     no: "No",

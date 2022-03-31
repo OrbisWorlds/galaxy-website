@@ -1,7 +1,13 @@
 import React, { Children } from "react";
-import { ButtonBase, styled } from "@mui/material";
+import {
+  ButtonBase,
+  ButtonBaseProps,
+  ButtonBaseTypeMap,
+  ExtendButtonBase,
+  styled
+} from "@mui/material";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonBaseProps {
   border?: boolean;
 }
 

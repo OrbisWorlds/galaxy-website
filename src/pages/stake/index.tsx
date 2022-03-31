@@ -284,6 +284,6 @@ const Container = styled("div")`
 const Background = styled("div")`
   min-height: 100vh;
   background-image: url(/assets/images/airdrop-claim-bg.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-size: contain;
+  background-repeat: repeat;
 `;
