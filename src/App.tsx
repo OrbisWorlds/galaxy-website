@@ -14,10 +14,10 @@ export default function App() {
     <Routes>
       <Route path="/nft" element={<Nft />} />
       <Route path="/story" element={<Story />} />
-      <Route path="/stake" element={<Stake />} />
-      <Route path="/airdrop/claim" element={<AirdropClaim />} />
+      <Route path="/stake" element={<Story />} />
+      <Route path="/airdrop/claim" element={<Story />} />
       <Route path="/airdrop" element={<Airdrop />} />
-      <Route path="/vote" element={<Vote />} />
+      <Route path="/vote" element={<Story />} />
       <Route path="/" element={<Main />} />
     </Routes>
   );

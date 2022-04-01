@@ -1,7 +1,22 @@
-import { Box, ButtonBase, InputBase, styled } from "@mui/material";
+import {
+  Box,
+  ButtonBase,
+  CircularProgress,
+  InputBase,
+  LinearProgress,
+  styled
+} from "@mui/material";
+import { isFocusable } from "@testing-library/user-event/dist/utils";
+import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/app";
+
+interface Record {
+  Address: string;
+  Type: "osmo" | "osmo-pool" | "cosmos";
+  Uglx: number;
+}
 
 export default function Airdrop() {
   const navigate = useNavigate();
@@ -11,14 +26,20 @@ export default function Airdrop() {
   const [osmosisPool, setOsmosisPool] = React.useState("0");
   const [searched, setSearched] = React.useState(false);
 
+  const [loading, setLoading] = React.useState(false);
+
   React.useEffect(() => {
     if (!address) {
-      setCosmoshub("0");
-      setOsmosisStake("0");
-      setOsmosisPool("0");
-      setSearched(false);
+      handleClear();
     }
   }, [address]);
+
+  const handleClear = () => {
+    setCosmoshub("0");
+    setOsmosisStake("0");
+    setOsmosisPool("0");
+    setSearched(false);
+  };
 
   const handleDetectClipboard = (e: React.MouseEvent<HTMLInputElement>) => {
     if (!address) {
@@ -33,8 +54,53 @@ export default function Airdrop() {
     }
   };
 
-  const handleCheckClaimAmount = (e: React.MouseEvent) => {
-    setSearched(true);
+  const handleCheckClaimAmount = (e?: React.MouseEvent) => {
+    setLoading(true);
+    axios
+      .get(
+        "http://3.38.33.62/addresses/" + address + "/claimable" ||
+          "https://airdrop-api.galaxychain.zone/addresses/" +
+            address +
+            "/claimable"
+      )
+      .then(res => {
+        const data = res.data.Data as Record[];
+
+        const cosmos = data.filter(x => x.Type === "cosmos")[0];
+        const osmo = data.filter(x => x.Type === "osmo")[0];
+        const osmoPool = data.filter(x => x.Type === "osmo-pool")[0];
+
+        if (cosmos) {
+          setCosmoshub(
+            String(cosmos.Uglx).slice(0, String(cosmos.Uglx).length - 6) +
+              "." +
+              String(cosmos.Uglx).slice(String(cosmos.Uglx).length - 6)
+          );
+        }
+        if (osmoPool) {
+          setOsmosisPool(
+            String(osmoPool.Uglx).slice(0, String(osmoPool.Uglx).length - 6) +
+              "." +
+              String(osmoPool.Uglx).slice(String(osmoPool.Uglx).length - 6)
+          );
+        }
+
+        if (osmo) {
+          setOsmosisStake(
+            String(osmo.Uglx).slice(0, String(osmo.Uglx).length - 6) +
+              "." +
+              String(osmo.Uglx).slice(String(osmo.Uglx).length - 6)
+          );
+        }
+
+        setSearched(true);
+        setLoading(false);
+      })
+      .catch(e => {
+        alert(e.response.data?.Message || e.response.statusText);
+        setLoading(false);
+        handleClear();
+      });
   };
 
   return (
@@ -50,8 +116,14 @@ export default function Airdrop() {
             onChange={e => setAddress(e.target.value)}
             onClick={handleDetectClipboard}
             placeholder="Enter your cosmos or osmosis address"
+            onKeyDown={e => {
+              e.key === "Enter" && handleCheckClaimAmount(undefined);
+            }}
           />
-          <ButtonBase disabled={!address} onClick={handleCheckClaimAmount}>
+          <ButtonBase
+            disabled={!address || loading}
+            onClick={handleCheckClaimAmount}
+          >
             Check
           </ButtonBase>
         </Address>
@@ -68,9 +140,11 @@ export default function Airdrop() {
             Total Amount :{" "}
             <span>
               {searched
-                ? parseInt(cosmoshub) +
-                  parseInt(osmosisStake) +
-                  parseInt(osmosisPool)
+                ? (
+                    parseFloat(cosmoshub) +
+                    parseFloat(osmosisStake) +
+                    parseFloat(osmosisPool)
+                  ).toFixed(6)
                 : "-"}{" "}
               GLX
             </span>
@@ -88,7 +162,7 @@ export default function Airdrop() {
           </Chain>
           <Chain sx={{ borderBottom: "none" }}>
             <img src="/assets/images/osmosis.svg" alt="osmosis" />
-            <span>Airdrop for Osmosis LP</span>
+            <span>Airdrop for Osmosis LP ATOM/OSMO</span>
             <span>{searched ? osmosisPool : "-"} GLX</span>
           </Chain>
 
