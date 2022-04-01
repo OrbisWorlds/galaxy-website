@@ -58,10 +58,9 @@ export default function Airdrop() {
     setLoading(true);
     axios
       .get(
-        "http://3.38.33.62/addresses/" + address + "/claimable" ||
-          "https://airdrop-api.galaxychain.zone/addresses/" +
-            address +
-            "/claimable"
+        "https://airdrop-api.galaxychain.zone/addresses/" +
+          address +
+          "/claimable"
       )
       .then(res => {
         const data = res.data.Data as Record[];
