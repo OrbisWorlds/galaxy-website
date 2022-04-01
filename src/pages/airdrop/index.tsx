@@ -119,10 +119,7 @@ export default function Airdrop() {
               e.key === "Enter" && handleCheckClaimAmount(undefined);
             }}
           />
-          <ButtonBase
-            disabled={!address || loading}
-            onClick={handleCheckClaimAmount}
-          >
+          <ButtonBase disabled={!address} onClick={handleCheckClaimAmount}>
             Check
           </ButtonBase>
         </Address>
