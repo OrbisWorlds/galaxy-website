@@ -3,14 +3,20 @@ import { ButtonBase, styled } from "@mui/material";
 import AppLayout from "../../layouts/app";
 import devicesize from "../../constants/deviceSize";
 import Table from "../../components/table/table";
-import {
-  DelegatedValidators,
-  Validator
-} from "../../interfaces/galaxy/staking";
-import ValidatorMoniker from "../../components/validator-moniker/validatorMoniker";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import stakingSlice from "../../store/staking";
 import { fetchValidators, fetchPool } from "../../store/staking";
+import { Validator } from "../../interfaces/galaxy/staking";
+import ValidatorMoniker from "../../components/validator-moniker/validatorMoniker";
+import DelegatePopup from "./delegatePopup";
+import ManagePopup from "./managePopup";
+import UnDelegatePopup from "./unDelegatePopup";
+import ReDelegatePopup from "./reDelegatePopup copy";
+
+interface SelData {
+  popup: "delegate" | "redelegate" | "undelegate" | "manage";
+  validator: Validator;
+}
 
 export default function Stake() {
   const dispatch = useAppDispatch();
@@ -19,16 +25,42 @@ export default function Stake() {
   const [staked, setStaked] = React.useState("0");
   const [apr, setApr] = React.useState("0");
   const [reward, setReward] = React.useState("0.0");
-  const [delegatedValidators, setDelegatedValidators] =
-    React.useState<DelegatedValidators>([]);
+
+  const [selData, setSelData] = React.useState<SelData>();
 
   React.useEffect(() => {
     dispatch(fetchPool());
     dispatch(fetchValidators());
   }, []);
 
+  const handleClosePopup = () => {
+    setSelData(undefined);
+  };
+
   return (
     <AppLayout wallet background={<Background />}>
+      {selData?.popup === "delegate" && (
+        <DelegatePopup onClose={handleClosePopup} />
+      )}
+      {selData?.popup === "undelegate" && (
+        <UnDelegatePopup onClose={handleClosePopup} />
+      )}
+      {selData?.popup === "redelegate" && (
+        <ReDelegatePopup onClose={handleClosePopup} />
+      )}
+      {selData?.popup === "manage" && (
+        <ManagePopup
+          validator={selData.validator}
+          onClose={handleClosePopup}
+          onUnDelegate={v => {
+            setSelData({ popup: "undelegate", validator: v });
+          }}
+          onReDelegate={v => {
+            setSelData({ popup: "redelegate", validator: v });
+          }}
+        />
+      )}
+
       <Container>
         <Content>
           <Statictis>
@@ -66,7 +98,18 @@ export default function Stake() {
               { l: "Commission", key: "" },
               { l: "Staked Coins", key: "staked" },
               { l: "Rewards", key: "rewards" },
-              { l: "", render: (d, i) => <Manage>Manage</Manage> }
+              {
+                l: "",
+                render: (d, i) => (
+                  <Manage
+                    onClick={() => {
+                      setSelData({ popup: "manage", validator: d });
+                    }}
+                  >
+                    Manage
+                  </Manage>
+                )
+              }
             ]}
           />
   */}

@@ -4,7 +4,7 @@ import React from "react";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   onClose: () => void;
-  maxWidth?: "1" | "2" | "3";
+  maxWidth?: number | string;
 }
 
 export default function Popup(props: Props) {
@@ -12,12 +12,7 @@ export default function Popup(props: Props) {
     <Container {...props}>
       <Content
         sx={{
-          maxWidth:
-            props.maxWidth === "1"
-              ? "400px"
-              : props.maxWidth === "3"
-              ? "1200px"
-              : "700px"
+          maxWidth: props.maxWidth || "700px"
         }}
       >
         <Close

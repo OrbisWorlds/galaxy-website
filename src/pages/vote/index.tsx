@@ -75,7 +75,7 @@ export default function Vote() {
                   </span>
                 </span>
                 <div>
-                  <Button border>Detail</Button>
+                  <Button buttonType="border">Detail</Button>
                   <Button>Vote</Button>
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function Vote() {
                   </span>
                 </span>
                 <div>
-                  <Button border>Detail</Button>
+                  <Button buttonType="border">Detail</Button>
                   <Button>Vote</Button>
                 </div>
               </div>
@@ -159,7 +159,10 @@ export default function Vote() {
                   </span>
                 </span>
                 <div>
-                  <Button onClick={() => handleVoteDetail({})} border>
+                  <Button
+                    onClick={() => handleVoteDetail({})}
+                    buttonType="border"
+                  >
                     Detail
                   </Button>
                   <Button>Vote</Button>
@@ -203,7 +206,7 @@ export default function Vote() {
                   </span>
                 </span>
                 <div>
-                  <Button border>Detail</Button>
+                  <Button buttonType="border">Detail</Button>
                   <Button>Vote</Button>
                 </div>
               </div>

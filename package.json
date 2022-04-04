@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cosmjs/proto-signing": "^0.28.1",
+    "@cosmjs/stargate": "^0.28.1",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
+    "@keplr-wallet/types": "^0.9.12",
     "@mui/material": "^5.5.1",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.2",

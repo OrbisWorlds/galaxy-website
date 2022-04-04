@@ -27,6 +27,7 @@ code {
   position: relative;
 }
 span,
+input,
 div,
 button {
   font-family: Heebo-Regular;
