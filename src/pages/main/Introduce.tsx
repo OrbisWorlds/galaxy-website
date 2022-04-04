@@ -4,7 +4,7 @@ import InterSection from "../../components/intersection";
 import BigBang from "../../components/animations/BigBang";
 import useInterSection from "../../hooks/useInterSection";
 import useDeviceType from "../../hooks/useDeviceType";
-import styledTheme from "../../store/styled";
+import deviceSize from "../../constants/deviceSize";
 
 interface Props {
   t1: string | React.ReactNode;
@@ -157,32 +157,32 @@ const Icon = styled("img")`
   position: absolute;
 `;
 
-const Title = styledTheme(Typography)(p => ({
-  fontFamily: "Heebo-ExtraBold",
-  color: "#fff",
-  [p.theme.breakpoints.down("md")]: {
-    fontSize: "33px",
-    marginTop: 80
+const Title = styled(Typography)`
+  font-family: Heebo-ExtraBold;
+  color: #fff;
+  @media (max-width: ${deviceSize.tabletMin}) {
+    font-size: 33px;
+    margin-top: 80px;
   }
-}));
-const StyledGrid = styledTheme(Grid)(p => ({
-  zIndex: 2,
+`;
 
-  [p.theme.breakpoints.down("md")]: {
-    "&:last-child": {
-      marginBottom: 80
-    }
-  },
-  "& div": {
-    position: "relative",
-    padding: "60px",
-    "border-radius": "30px",
-    "background-color": "rgba(11, 7, 44, 0.7)",
-    display: "flex",
-    "flex-direction": "column",
-    [p.theme.breakpoints.down("md")]: {
-      "border-radius": "10px",
-      padding: "30px 25px"
+const StyledGrid = styled(Grid)`
+  z-index: 2;
+  @media (max-width: ${deviceSize.tabletMin}) {
+    :last-child {
+      margin-bottom: 80px;
     }
   }
-}));
+  & div {
+    position: relative;
+    padding: 60px;
+    border-radius: 30px;
+    background-color: rgba(11, 7, 44, 0.7);
+    display: flex;
+    flex-direction: column;
+    @media (max-width: ${deviceSize.tabletMin}) {
+      border-radius: 10px;
+      padding: 30px 25px;
+    }
+  }
+`;

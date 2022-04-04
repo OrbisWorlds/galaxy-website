@@ -4,8 +4,8 @@ import useScrollTrigger from "../../hooks/useScrollTrigger";
 import useDeviceType from "../../hooks/useDeviceType";
 import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "./Footer";
-import styledTheme from "../../store/styled";
+import Footer from "./footer";
+import deviceSize from "../../constants/deviceSize";
 
 interface Props {
   children?: React.ReactNode | undefined;
@@ -72,18 +72,18 @@ export default function AppLayout(props: Props) {
   );
 }
 
-const Title = styledTheme(Typography)(p => ({
-  color: "#fff",
-  left: 0,
-  fontSize: 23,
-  letterSpacing: 4.6,
-  cursor: "pointer",
-  position: "absolute",
-  fontFamily: "Heebo-Bold",
-  [p.theme.breakpoints.down("md")]: {
-    fontSize: 20
+const Title = styled(Typography)`
+  color: #fff;
+  left: 0;
+  font-size: 23px;
+  letter-spacing: 4.6px;
+  cursor: pointer;
+  position: absolute;
+  font-family: Heebo-Bold;
+  @media (max-width: ${deviceSize.tabletMin}) {
+    font-size: 20px;
   }
-}));
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;

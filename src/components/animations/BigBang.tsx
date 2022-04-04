@@ -1,7 +1,7 @@
 import { Box, styled } from "@mui/material";
 import React from "react";
+import deviceSize from "../../constants/deviceSize";
 import useInterSection from "../../hooks/useInterSection";
-import styledTheme from "../../store/styled";
 
 export default function BigBang() {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -34,20 +34,20 @@ export default function BigBang() {
   );
 }
 
-const WrapBox = styledTheme(Box)(p => ({
-  width: "70%",
-  height: "60%",
-  display: "flex",
-  alignItems: "center",
-  position: "absolute",
-  justifyContent: "center",
-  [p.theme.breakpoints.down("md")]: {
-    width: "50%",
-    height: "50%",
-    right: "-15%",
-    top: "-10%"
+const WrapBox = styled(Box)`
+  width: 70%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  justify-content: center;
+  @media (max-width: ${deviceSize.tabletMin}) {
+    width: 50%;
+    height: 50%;
+    right: -15%;
+    top: -10%;
   }
-}));
+`;
 
 const BigBangO = styled("img")(
   (p: {
