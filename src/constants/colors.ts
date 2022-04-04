@@ -1,4 +1,4 @@
-import { VoteOption } from "../../interfaces/galaxy/vote";
+import { VoteOption } from "../interfaces/galaxy/vote";
 
 export const voteOptionColor = {
     [VoteOption.yes]: "#d25581",

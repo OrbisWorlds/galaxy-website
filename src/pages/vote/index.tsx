@@ -4,7 +4,7 @@ import devicesize from "../../constants/deviceSize";
 import Tabs from "../../components/tabs";
 import Button from "../../components/button";
 import { Vote as VoteI, VoteOption } from "../../interfaces/galaxy/vote";
-import { voteOptionColor } from "../../store/galaxy/vote";
+import { voteOptionColor } from "../../constants/colors";
 import Donut from "../../components/charts/donut";
 import styled from "@emotion/styled";
 import VoteDetailPopup from "./voteDetailPopup";

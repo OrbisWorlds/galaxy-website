@@ -12,7 +12,7 @@ import {
 import Status from "../../components/status";
 import { MostVoted } from "../../components/votes";
 import { Vote, VoteOption } from "../../interfaces/galaxy/vote";
-import { voteOptionColor } from "../../store/galaxy/vote";
+import { voteOptionColor } from "../../constants/colors";
 import VotePopup from "./votePopup";
 
 interface Props extends Vote {
