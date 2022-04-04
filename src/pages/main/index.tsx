@@ -200,12 +200,12 @@ const CNBackground = styled("img")`
 const Background = styled("div")(
   ({ background }: { background: string }) =>
     `
-  background-image: url(/assets/images/${background});
-  background-size:  cover;
+      background-image: url(/assets/images/${background});
+  
+      background-size:  cover;
   background-repeat: no-repeat;
 `
 );
-
 const Label = styled(Typography)`
   font-family: Heebo-Bold;
   color: #fff;

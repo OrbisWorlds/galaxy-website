@@ -5,17 +5,27 @@ import devicesize from "../../constants/deviceSize";
 import Table from "../../components/table/table";
 import {
   DelegatedValidators,
-  Validators
+  Validator
 } from "../../interfaces/galaxy/staking";
 import ValidatorMoniker from "../../components/validator-moniker/validatorMoniker";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import stakingSlice from "../../store/staking";
+import { fetchValidators, fetchPool } from "../../store/staking";
 
 export default function Stake() {
+  const dispatch = useAppDispatch();
+  const validator = useAppSelector(s => s.staking.validator);
+  const pool = useAppSelector(s => s.staking.pool);
   const [staked, setStaked] = React.useState("0");
   const [apr, setApr] = React.useState("0");
   const [reward, setReward] = React.useState("0.0");
-  const [validators, setValidators] = React.useState<Validators>([]);
   const [delegatedValidators, setDelegatedValidators] =
     React.useState<DelegatedValidators>([]);
+
+  React.useEffect(() => {
+    dispatch(fetchPool());
+    dispatch(fetchValidators());
+  }, []);
 
   return (
     <AppLayout wallet background={<Background />}>
@@ -40,37 +50,39 @@ export default function Stake() {
           }
 
           <Label>Delegated Vaildators</Label>
-          <Table
+
+          {/*
+     <Table
             data={delegatedValidators}
             th={[
               {
                 l: "Validator",
                 render: (d, i) => (
-                  <ValidatorMoniker icon="" moniker={d.moniker} />
+                  <ValidatorMoniker icon="" moniker={d.description.moniker} />
                 )
               },
-              { l: "Status", key: "status" },
-              { l: "Voting Power", key: "voting_power" },
-              { l: "Commission", key: "commission" },
+              { l: "Status", key: "staked" },
+              //   { l: "Voting Power", key: "voting_power" },
+              { l: "Commission", key: "" },
               { l: "Staked Coins", key: "staked" },
               { l: "Rewards", key: "rewards" },
               { l: "", render: (d, i) => <Manage>Manage</Manage> }
             ]}
           />
-
+  */}
           {
             //Vaildators
           }
 
           <Label>Vaildators</Label>
+
           <Table
-            data={validators}
+            data={validator.validators}
             th={[
               {
                 width: 10,
                 l: "Rank",
-                key: "rank",
-                render: (d, i) => <Rank>{d.rank}</Rank>
+                render: (d, i) => <Rank>{i + 1}</Rank>
               },
               {
                 width: 45,
@@ -80,15 +92,21 @@ export default function Stake() {
                   <ValidatorMoniker
                     align="flex-start"
                     icon=""
-                    moniker={d.moniker}
+                    moniker={d.description.moniker}
                   />
                 )
               },
               {
                 l: "Voting Power",
-                key: "voting_power"
+                render: x =>
+                  (parseInt(x.tokens) / parseInt(pool.bonded_tokens)) * 100 +
+                  "%"
               },
-              { l: "Commission", key: "commission" },
+              {
+                l: "Commission",
+                render: (d, i) =>
+                  parseFloat(d.commission.commission_rates.rate) * 100 + "%"
+              },
               { l: "", render: (d, i) => <Delegate>Delegate</Delegate> }
             ]}
           />
