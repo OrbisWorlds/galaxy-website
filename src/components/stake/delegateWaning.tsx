@@ -5,11 +5,10 @@ export default function DelegateWaning() {
     <Container className="column">
       <img alt="waning" src="/assets/images/waning.svg" />
       <span>
-        <span>Staking will lock your funds for 14+ day</span>
-        You will need to undelegate in order
-        <br />
-        for your staked assets to be liquid again. <br />
-        This process will take 14 days to complete.
+        <span>Staking will lock your funds for 21+ day</span>
+        You will need to undelegate in order for your staked assets to be liquid
+        again. <br />
+        This process will take 21 days to complete.
         <br />
       </span>
     </Container>

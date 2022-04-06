@@ -21,7 +21,7 @@ export default function ManagePopup(props: Props) {
 
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
-      <ValidatorPopupHeader />
+      <ValidatorPopupHeader moniker="d" commision={0.5} />
       <Content className="column">
         <PopupSubLabel>Webstie</PopupSubLabel>
         <PopupMessage>https://galaxychain.zone</PopupMessage>

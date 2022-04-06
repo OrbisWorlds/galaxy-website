@@ -1,13 +1,33 @@
-import { BoxProps, Box, ButtonBase, InputBase } from "@mui/material";
+import {
+  BoxProps,
+  SxProps,
+  Box,
+  ButtonBase,
+  InputBase,
+  Theme
+} from "@mui/material";
 import { styled } from "@mui/system";
+import React from "react";
 
-export default function TokenInput(props: BoxProps) {
+interface Props {
+  value?: string;
+  sx?: SxProps<Theme>;
+  onMax?: () => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+export default function TokenInput(props: Props) {
   return (
-    <Box {...props}>
+    <Box sx={props.sx}>
       <Label>Amount to Delegate</Label>
       <Container>
-        <Input type="number" placeholder="0.00000" />
-        <Max>MAX</Max>
+        <Input
+          value={props.value}
+          onChange={props.onChange}
+          type="number"
+          placeholder="0.000000"
+        />
+        <Max onClick={props.onMax}>MAX</Max>
         <Token>GLX</Token>
       </Container>
     </Box>

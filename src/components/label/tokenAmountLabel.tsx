@@ -1,11 +1,18 @@
 import { Box, BoxProps, styled } from "@mui/system";
 
-export default function TokenAmountLabel(props: BoxProps) {
+interface Props extends BoxProps {
+  amount?: number | string;
+  denom?: string;
+  label?: string;
+}
+
+export default function TokenAmountLabel(props: Props) {
   return (
     <Contaienr {...props}>
-      <Label>My Delegations</Label>
+      <Label>{props.label}</Label>
       <Token>
-        <span>53.0000</span> GLX
+        <span>{props.amount}</span>{" "}
+        {props.denom?.toUpperCase().replace("U", "")}
       </Token>
     </Contaienr>
   );

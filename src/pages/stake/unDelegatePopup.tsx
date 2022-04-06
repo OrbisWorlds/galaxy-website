@@ -17,7 +17,7 @@ export default function UnDelegatePopup(props: Props) {
 
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
-      <ValidatorPopupHeader />
+      <ValidatorPopupHeader moniker="d" commision={0.5} />
       <Content className="column">
         <UnDelegateWaning />
 

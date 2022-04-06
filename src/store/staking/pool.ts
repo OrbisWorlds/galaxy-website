@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AxiosInstance } from "axios";
 import api from "../../api/axios";
-import { Validator, Pool } from "../../interfaces/galaxy/staking";
+import { Pool } from "../../interfaces/galaxy/staking";
 
 interface InitialState extends Pool {
 }

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AxiosInstance } from "axios";
 import api from "../../api/axios";
 import { Validator } from "../../interfaces/galaxy/staking";
 

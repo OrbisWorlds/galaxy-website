@@ -1,13 +1,18 @@
 import { styled } from "@mui/system";
 
-export default function ValidatorPopupHeader() {
+interface Props {
+  moniker: string;
+  commision: number;
+}
+
+export default function ValidatorPopupHeader(props: Props) {
   return (
     <Container>
       <Icon alt="validator" src="/assets/images/validator.svg" />
       <div>
-        <Moniker>GALAXY</Moniker>
+        <Moniker>{props.moniker}</Moniker>
         <br />
-        <Comission>Comission - 5%</Comission>
+        <Comission>Comission - {props.commision}%</Comission>
       </div>
     </Container>
   );

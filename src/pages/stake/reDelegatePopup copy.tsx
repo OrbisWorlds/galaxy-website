@@ -19,7 +19,7 @@ export default function ReDelegatePopup(props: Props) {
 
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
-      <ValidatorPopupHeader />
+      <ValidatorPopupHeader moniker="d" commision={0.5} />
       <Content className="column">
         <SearchInput />
 

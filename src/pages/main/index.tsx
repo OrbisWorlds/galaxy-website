@@ -11,13 +11,7 @@ export default function Main() {
   const deviceType = useDeviceType();
 
   return (
-    <AppLayout
-      background={
-        <Background
-          background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpg"}
-        />
-      }
-    >
+    <AppLayout background={<Background />}>
       <Section i={0}>
         <Box sx={{ zIndex: 2 }}>
           <SubLabel zIndex={2} variant="subtitle2">
@@ -197,15 +191,10 @@ const CNBackground = styled("img")`
   }
 `;
 
-const Background = styled("div")(
-  ({ background }: { background: string }) =>
-    `
-      background-image: url(/assets/images/${background});
-  
-      background-size:  cover;
-  background-repeat: no-repeat;
-`
-);
+const Background = styled("div")`
+  background-color: #09052b;
+`;
+
 const Label = styled(Typography)`
   font-family: Heebo-Bold;
   color: #fff;

@@ -1,15 +1,16 @@
-import { Box, ButtonBase } from "@mui/material";
-import { styled } from "@mui/system";
 import React from "react";
+import { Box } from "@mui/material";
+import { styled } from "@mui/system";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props {
   onClose: () => void;
   maxWidth?: number | string;
+  children: React.ReactNode;
 }
 
 export default function Popup(props: Props) {
   return (
-    <Container {...props}>
+    <Container>
       <Content
         sx={{
           maxWidth: props.maxWidth || "700px"

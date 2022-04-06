@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import InterSection from "../../components/intersection";
 import useDeviceType from "../../hooks/useDeviceType";
+import { styled } from "@mui/system";
 
 export default function Roadmap() {
   const deviceType = useDeviceType();
@@ -61,15 +62,11 @@ export default function Roadmap() {
   const viewBox = deviceType !== "mobile" ? "0 0 1920 611" : "0 0 360 900";
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1920,
-        margin: "auto",
-        position: "relative"
-      }}
-    >
-      <svg viewBox={viewBox} style={{ position: "absolute", left: 0, top: 0 }}>
+    <Container>
+      <svg
+        viewBox={viewBox}
+        style={{ position: "absolute", left: 0, right: 0 }}
+      >
         {deviceType !== "mobile" ? (
           <image
             width={"520"}
@@ -421,6 +418,13 @@ export default function Roadmap() {
           )}
         </svg>
       </InterSection>
-    </Box>
+    </Container>
   );
 }
+
+const Container = styled(Box)`
+  width: 100%;
+  max-width: 1920px;
+  margin: auto;
+  position: relative;
+`;

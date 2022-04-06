@@ -1,7 +1,3 @@
-export interface Pool {
-    not_bonded_tokens: string
-    bonded_tokens: string
-}
 export interface Validator {
     operator_address: string;
     jailed: boolean;
@@ -30,9 +26,6 @@ export interface Validator {
 
 
 
-
-
-
 export interface DelegatedValidator extends Validator {
     staked: number;
     rewards: number
@@ -42,8 +35,6 @@ export interface DelegatedValidator extends Validator {
 
 export type Validators = Validator[]
 export type DelegatedValidators = DelegatedValidator[]
-
-
 
 
 export const BondStatus = {

@@ -1,11 +1,20 @@
 import * as React from "react";
-import { AppBar, CssBaseline, Slide, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  ButtonBase,
+  CssBaseline,
+  Slide,
+  Toolbar,
+  Typography
+} from "@mui/material";
 import useScrollTrigger from "../../hooks/useScrollTrigger";
 import useDeviceType from "../../hooks/useDeviceType";
 import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "./footer";
 import deviceSize from "../../constants/deviceSize";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { connectWallet } from "../../store/wallet";
 
 interface Props {
   children?: React.ReactNode | undefined;
@@ -14,9 +23,16 @@ interface Props {
 }
 
 export default function AppLayout(props: Props) {
+  const dispatch = useAppDispatch();
   const trigger = useScrollTrigger();
   const navigate = useNavigate();
+  const wallet = useAppSelector(s => s.wallet);
+
   const deviceType = useDeviceType();
+
+  const handleConnectWallet = () => {
+    dispatch(connectWallet());
+  };
 
   const renderChildren = (
     <>
@@ -60,6 +76,25 @@ export default function AppLayout(props: Props) {
                 <StyledLink to="/airdrop">Airdrop</StyledLink>
               </nav>
             )}
+
+            {props.wallet && (
+              <Wallet disabled={wallet.connected} onClick={handleConnectWallet}>
+                {wallet.connected ? (
+                  <img alt="wallet" src="/assets/images/ic-wallet.svg" />
+                ) : (
+                  <img alt="connect" src="/assets/images/connect.svg" />
+                )}
+                <span>
+                  {wallet.connected
+                    ? `galaxy${wallet.address
+                        .replace("galaxy", "")
+                        .substring(0, 3)}...${wallet.address.substring(
+                        wallet.address.length - 6
+                      )}`
+                    : "connect"}
+                </span>
+              </Wallet>
+            )}
           </Toolbar>
         </AppBar>
       </Slide>
@@ -71,6 +106,16 @@ export default function AppLayout(props: Props) {
     </React.Fragment>
   );
 }
+
+const Wallet = styled(ButtonBase)`
+  position: absolute;
+  right: 0;
+  & span {
+    margin-left: 9px;
+    font-size: 14px;
+    color: #fff;
+  }
+`;
 
 const Title = styled(Typography)`
   color: #fff;
