@@ -4,7 +4,7 @@ import useScrollTrigger from "../../hooks/useScrollTrigger";
 import useDeviceType from "../../hooks/useDeviceType";
 import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "./footer";
 import styledTheme from "../../store/styled";
 
 interface Props {
