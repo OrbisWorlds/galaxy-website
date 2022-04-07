@@ -8,7 +8,8 @@ import {
   fetchValidators,
   fetchDelegations,
   fetchPool,
-  fetchDelegationValidators
+  fetchDelegationValidators,
+  fetchUnbondingDelegations
 } from "../../store/staking";
 import { Validator } from "../../interfaces/galaxy/staking";
 import ValidatorMoniker from "../../components/validator-moniker/validatorMoniker";
@@ -19,6 +20,8 @@ import ReDelegatePopup from "./reDelegatePopup";
 import { claimAllRewards, fetchRewards } from "../../store/distribution";
 import { connectWallet } from "../../store/wallet";
 import { Delegation } from "../../interfaces/galaxy/staking/delegation";
+import { parseOriginCoinAmount } from "../../utils/commom";
+import UnBonding from "../../components/stake/unBonding";
 
 interface SelData {
   delegation?: Delegation;
@@ -51,6 +54,7 @@ export default function Stake() {
     dispatch(fetchDelegations(wallet.address));
     dispatch(fetchRewards(wallet.address));
     dispatch(fetchDelegationValidators(wallet.address));
+    dispatch(fetchUnbondingDelegations(wallet.address));
   }, [wallet, dispatch]);
 
   const handleClosePopup = () => {
@@ -140,6 +144,26 @@ export default function Stake() {
               </ButtonBase>
             </div>
           </Statictis>
+
+          {delegation.unbondingDelegations.length >= 1 && (
+            <>
+              <Label>Undelegating</Label>
+              {delegation.unbondingDelegations.map((x, i) => {
+                return (
+                  <UnBonding
+                    key={i.toString()}
+                    unBonding={x}
+                    moniker={
+                      validator.validators.filter(
+                        y => y.operator_address === x.validator_address
+                      )[0]?.description.moniker
+                    }
+                    onFormatBalance={b => parseOriginCoinAmount(b)}
+                  />
+                );
+              })}
+            </>
+          )}
 
           <Label>Delegated Vaildators</Label>
 
@@ -265,7 +289,7 @@ export default function Stake() {
 const Rank = styled("span")`
   font-size: 14px;
   color: #fff;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
 `;
 
 const Delegate = styled(ButtonBase)`
@@ -305,7 +329,7 @@ const Statictis = styled("div")`
   #title {
     font-size: 22px;
     color: #fff;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
   #staked {
     font-size: 13px;
@@ -318,7 +342,7 @@ const Statictis = styled("div")`
     color: #fff;
     & span {
       line-height: 24px;
-      font-family: Heebo-Medium;
+      font-family: "Heebo-Medium";
       font-size: 22px;
       margin-left: 14px;
       color: #f4f3f6;
@@ -328,7 +352,7 @@ const Statictis = styled("div")`
     margin-left: 40px;
     font-size: 14px;
     line-height: 25px;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
     color: #2a267b;
     background-color: #fff;
     border-radius: 20px;
@@ -339,7 +363,7 @@ const Statictis = styled("div")`
 const Label = styled("p")`
   font-size: 24px;
   color: #f4f3f6;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   margin-top: 60px;
 `;
 
