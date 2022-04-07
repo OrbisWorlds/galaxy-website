@@ -11,7 +11,13 @@ export default function Main() {
   const deviceType = useDeviceType();
 
   return (
-    <AppLayout background={<Background />}>
+    <AppLayout
+      background={
+        <Background
+          background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpg"}
+        />
+      }
+    >
       <Section i={0}>
         <Box sx={{ zIndex: 2 }}>
           <SubLabel zIndex={2} variant="subtitle2">
@@ -24,12 +30,12 @@ export default function Main() {
           </Label>
         </Box>
         <Box />
-        <Tiger src="/public/assets/images/tiger.png" alt="tiger" />
+        <Tiger src="/assets/images/tiger.png" alt="tiger" />
       </Section>
 
       <Section noDesktop={deviceType !== "desktop"} i={1}>
         <Grid container sx={{ position: "relative" }}>
-          <CNBackground alt="bg2" src="/public/assets/images/banner2-bg.png" />
+          <CNBackground alt="bg2" src="/assets/images/banner2-bg.png" />
           <Grid item xs={12}>
             <InterSection>
               <Label variant="h2" textAlign="right">
@@ -54,7 +60,7 @@ export default function Main() {
                   <img
                     width="100%"
                     alt="mobius"
-                    src="/public/assets/images/mobius.png"
+                    src="/assets/images/mobius.png"
                   />
                 </InterSection>
               </Grid>
@@ -99,7 +105,7 @@ export default function Main() {
                 <Link href="https://cosmos.network">
                   <CosmosButton>
                     Galaxy universe
-                    <img alt="more" src="/public/assets/images/ic-more.png" />
+                    <img alt="more" src="/assets/images/ic-more.png" />
                   </CosmosButton>
                 </Link>
               </InterSection>
@@ -115,11 +121,7 @@ export default function Main() {
                 mt: 5.5
               }}
             >
-              <img
-                width="100%"
-                alt="mobius"
-                src="/public/assets/images/mobius.png"
-              />
+              <img width="100%" alt="mobius" src="/assets/images/mobius.png" />
             </InterSection>
           )}
         </Grid>
@@ -150,7 +152,6 @@ const Section = styled("section")`
       : p.i === 3
       ? "stretch"
       : "center"};
-
   justify-content: ${(p: SectionProps) => (p.i <= 1 ? "center" : "start")};
   min-height: 100vh;
   width: 100%;
@@ -195,12 +196,17 @@ const CNBackground = styled("img")`
   }
 `;
 
-const Background = styled("div")`
-  background-color: #09052b;
-`;
-
+const Background = styled("div")(
+  ({ background }: { background: string }) =>
+    `
+      background-image: url(/assets/images/${background});
+  
+      background-size:  cover;
+  background-repeat: no-repeat;
+`
+);
 const Label = styled(Typography)`
-  font-family: "Heebo-Bold";
+  font-family: Heebo-Bold;
   color: #fff;
   letter-spacing: 0.7px;
   @media (max-width: ${deviceSize.tabletMin}) {
@@ -209,7 +215,7 @@ const Label = styled(Typography)`
 `;
 
 const SubLabel = styled(Typography)`
-  font-family: "Heebo-Medium";
+  font-family: Heebo-Medium;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.96px;
   margin-bottom: 25px;
@@ -225,7 +231,7 @@ const Text = styled(Typography)`
   color: #ffffff;
   margin-top: 60px;
   letter-spacing: 0.5px;
-  font-family: "Heebo-Light";
+  font-family: Heebo-Light;
   @media (max-width: ${deviceSize.tabletMin}) {
     font-size: 16px;
     margin-top: 34px;
@@ -240,7 +246,7 @@ const CosmosButton = styled(ButtonBase)`
   text-align: center;
   margin-top: 70px;
   font-size: 20px;
-  font-family: "Heebo-Medium";
+  font-family: Heebo-Medium;
   color: #fff;
   & img {
     margin-left: 16px;
