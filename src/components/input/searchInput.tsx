@@ -14,7 +14,7 @@ export default function SearchInput(props: Props) {
         onChange={props.onChange}
         placeholder="Search Validators"
       />
-      <img alt="serach" src="/assets/images/search.svg" />
+      <img alt="serach" src="/public/assets/images/search.svg" />
     </Container>
   );
 }

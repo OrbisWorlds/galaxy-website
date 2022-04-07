@@ -8,7 +8,7 @@ interface Props {
 export default function ValidatorPopupHeader(props: Props) {
   return (
     <Container>
-      <Icon alt="validator" src="/assets/images/validator.svg" />
+      <Icon alt="validator" src="/public/assets/images/validator.svg" />
       <div>
         <Moniker>{props.moniker}</Moniker>
         <br />
@@ -26,7 +26,7 @@ const Comission = styled("span")`
 const Moniker = styled("span")`
   font-size: 20px;
   color: #2a267b;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
 `;
 
 const Icon = styled("img")`

@@ -32,7 +32,7 @@ export default function Validators(props: Props) {
                     : "transparent"
               }}
             >
-              <Icon src="/assets/images/validator.svg" alt="validator" />
+              <Icon src="/public/assets/images/validator.svg" alt="validator" />
               {x.description.moniker}
             </ListItem>
           );
@@ -56,7 +56,7 @@ const ListItem = styled(ButtonBase)`
   width: 100%;
   font-size: 14px;
   color: #111111;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   align-items: center;
   text-align: left;
   justify-content: flex-start;
@@ -68,7 +68,7 @@ const Header = styled("div")`
   display: flex;
   align-items: center;
   & span {
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
     font-size: 14px;
     color: #515f7f;
   }

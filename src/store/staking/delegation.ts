@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 import { galaxyChainConfig } from "../../constants/chain";
 import { Validator } from "../../interfaces/galaxy/staking";
-import { DelegateParams, Delegation, ReDelegateParams } from "../../interfaces/galaxy/staking/delegation";
+import { DelegateParams, Delegation, ReDelegateParams, UnbondingDelegation } from "../../interfaces/galaxy/staking/delegation";
 import { fetchBalances } from "../bank";
 import { fetchRewards } from "../distribution";
 import { fetchPool } from "./pool";
@@ -11,13 +11,15 @@ import { fetchValidators } from "./validator";
 
 interface InitialState {
     delegations: Delegation[],
-    validators: Validator[]
+    validators: Validator[],
+    unbondingDelegations: UnbondingDelegation[],
     totalStaked: number
 }
 
 const initialState: InitialState = {
     delegations: [],
     validators: [],
+    unbondingDelegations: [],
     totalStaked: 0,
 }
 
@@ -57,6 +59,7 @@ export const unDelegate = createAsyncThunk('staking/unDelegate', async ({ addres
         thunk.dispatch(fetchRewards(address))
         thunk.dispatch(fetchValidators())
         thunk.dispatch(fetchPool())
+        thunk.dispatch(fetchUnbondingDelegations(address))
         return result;
     } catch (error) {
         return thunk.rejectWithValue(error)
@@ -158,6 +161,16 @@ export const fetchDelegations = createAsyncThunk('staking/fetchDelegations', asy
 })
 
 
+export const fetchUnbondingDelegations = createAsyncThunk('staking/fetchUnbondingDelegations', async (address: string) => {
+    const response = await api.get("/cosmos/staking/v1beta1/delegators/" + address + '/unbonding_delegations')
+    const data = response.data;
+
+    const unbondingDelegations = data.unbonding_responses as UnbondingDelegation[]
+    return unbondingDelegations
+})
+
+
+
 export const fetchDelegationValidators = createAsyncThunk('staking/fetchDelegationValidators', async (address: string) => {
     const response = await api.get("/cosmos/staking/v1beta1/delegators/" + address + "/validators")
     const data = response.data;
@@ -177,6 +190,9 @@ export default createSlice({
         })
         builder.addCase(fetchDelegationValidators.fulfilled, (state, action) => {
             state.validators = action.payload
+        })
+        builder.addCase(fetchUnbondingDelegations.fulfilled, (state, action) => {
+            state.unbondingDelegations = action.payload
         })
     }
 }).reducer

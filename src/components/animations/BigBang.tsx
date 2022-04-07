@@ -12,23 +12,23 @@ export default function BigBang() {
       <BigBangO
         v={isVisible}
         alt="bigbang-1"
-        src="/assets/images/bigbang-1.png"
+        src="/public/assets/images/bigbang-1.png"
       />
       <BigBangO
         v={isVisible}
         alt="bigbang-1-0"
         transformTo="scale(0.6)"
-        src="/assets/images/bigbang-1.png"
+        src="/public/assets/images/bigbang-1.png"
       />
       <BigBangO
         v={isVisible}
         alt="bigbang-2"
-        src="/assets/images/bigbang-2.png"
+        src="/public/assets/images/bigbang-2.png"
       />
       <BigBangO
         v={isVisible}
         alt="bigbang-3"
-        src="/assets/images/bigbang-3.png"
+        src="/public/assets/images/bigbang-3.png"
       />
     </WrapBox>
   );

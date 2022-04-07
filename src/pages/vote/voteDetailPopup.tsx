@@ -142,19 +142,19 @@ const Total = styled("span")`
   margin-left: 20px;
   & span {
     color: #7d77ff;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
 `;
 
 const TurnOutPerc = styled("span")`
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 16px;
 `;
 
 const TurnOut = styled("span")`
   color: #999;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 12px;
 `;
 

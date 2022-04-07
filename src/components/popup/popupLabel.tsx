@@ -11,5 +11,5 @@ const Label = styled("p")`
   font-size: 20px;
   margin-top: 0px;
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
 `;

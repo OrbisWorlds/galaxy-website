@@ -76,7 +76,7 @@ export default function ReDelegatePopup(props: Props) {
       <Content className="column">
         <Select>
           Select{" : "}
-          <img alt="sel-validator" src="/assets/images/validator.svg" />
+          <img alt="sel-validator" src="/public/assets/images/validator.svg" />
           <span>
             {
               validators.filter(x => x.operator_address === validatorAddress)[0]
@@ -137,7 +137,7 @@ const Select = styled("div")`
   display: flex;
   align-items: center;
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   margin-bottom: 20px;
   font-size: 14px;
   & img {
@@ -151,14 +151,14 @@ const Select = styled("div")`
   & span {
     font-size: 14px;
     color: #111111;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
 `;
 
 const AvailableRedel = styled("span")`
   color: #7d77ff;
   margin-left: 10px;
-  font-family: Heebo-Bold;
+  font-family: "Heebo-Bold";
 `;
 const ValidatorsWrap = styled("div")`
   margin-top: 10px;

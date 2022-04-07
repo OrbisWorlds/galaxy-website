@@ -87,7 +87,7 @@ const TableWrap = styled("table")`
         }
         font-size: 14px;
         color: #5954cc;
-        font-family: Heebo-Regular;
+        font-family: "Heebo-Regular";
         padding: 20px;
       }
     }
@@ -101,7 +101,7 @@ const TableWrap = styled("table")`
         text-align: center;
         padding: 26px 20px;
         color: #c9c7d7;
-        font-family: Heebo-Regular;
+        font-family: "Heebo-Regular";
         font-size: 15px;
       }
       :last-of-type {

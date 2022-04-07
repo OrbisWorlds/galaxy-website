@@ -11,17 +11,14 @@ interface Props {
 export default function ValidatorMoniker(props: Props) {
   return (
     <Container align={props.align || "center"}>
-      <Icon
-        alt="validator"
-        src={props.icon || "/assets/images/validator.svg"}
-      />
+      <Icon alt="validator" src={props.icon || "assets/images/validator.svg"} />
       <Moniker>{props.moniker}</Moniker>
     </Container>
   );
 }
 
 const Moniker = styled("span")`
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 14px;
   color: #fff;
 `;

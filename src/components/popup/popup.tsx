@@ -19,7 +19,7 @@ export default function Popup(props: Props) {
         <Close
           onClick={props.onClose}
           alt="close"
-          src="/assets/images/close.svg"
+          src="/public/assets/images/close.svg"
         />
         {props.children}
       </Content>

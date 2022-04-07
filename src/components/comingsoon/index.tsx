@@ -4,10 +4,10 @@ export default function ComingSoon() {
   const deviceType = useDeviceType();
   return (
     <Container>
-      <Bg alt="comingsoon-bg" src="/assets/images/comingsoon-bg.jpg" />
+      <Bg alt="comingsoon-bg" src="/public/assets/images/comingsoon-bg.jpg" />
       <Center dt={deviceType}>
-        <img alt="comingsoon" src="/assets/images/comingsoon.svg" />
-        <img alt="moon" src="/assets/images/moon.png" />
+        <img alt="comingsoon" src="/public/assets/images/comingsoon.svg" />
+        <img alt="moon" src="/public/assets/images/moon.png" />
       </Center>
     </Container>
   );

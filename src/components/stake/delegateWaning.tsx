@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 export default function DelegateWaning() {
   return (
     <Container className="column">
-      <img alt="waning" src="/assets/images/waning.svg" />
+      <img alt="waning" src="/public/assets/images/waning.svg" />
       <span>
         <span>Staking will lock your funds for 21+ day</span>
         You will need to undelegate in order for your staked assets to be liquid
@@ -35,7 +35,7 @@ const Container = styled("div")`
       margin-top: 16px;
       display: block;
       color: #f25d53;
-      font-family: Heebo-Bold;
+      font-family: "Heebo-Bold";
       font-size: 16px;
     }
   }

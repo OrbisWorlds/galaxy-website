@@ -10,6 +10,6 @@ const Label = styled(Box)`
   font-size: 14px;
   display: block;
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   margin-bottom: 10px;
 `;

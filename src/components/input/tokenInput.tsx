@@ -29,7 +29,7 @@ export default function TokenInput(props: Props) {
 const Token = styled("span")`
   font-size: 16px;
   border-left: 1px solid #dee2e6;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   color: #515f7f;
   padding: 17px 21px;
   border-bottom-right-radius: 4px;

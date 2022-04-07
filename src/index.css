@@ -7,7 +7,7 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   margin: 0;
-  font-family: -apple-system, Heebo-Regular, BlinkMacSystemFont, "Segoe UI",
+  font-family: -apple-system, "Heebo-Regular", BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,7 +15,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Heebo-Regular, Menlo, Monaco, Consolas,
+  font-family: source-code-pro, "Heebo-Regular", Menlo, Monaco, Consolas,
     "Courier New", monospace;
 }
 
@@ -30,7 +30,7 @@ span,
 input,
 div,
 button {
-  font-family: Heebo-Regular;
+  font-family: "Heebo-Regular";
 }
 .column {
   display: flex;

@@ -73,7 +73,7 @@ export default function Roadmap() {
             height="520"
             x={"1400"}
             y="0"
-            href="/assets/images/explosion.png"
+            href="/public/assets/images/explosion.png"
           />
         ) : (
           <image
@@ -81,7 +81,7 @@ export default function Roadmap() {
             height="330"
             x={"0"}
             y={600}
-            href="/assets/images/explosion.png"
+            href="/public/assets/images/explosion.png"
           />
         )}
         <image
@@ -89,8 +89,8 @@ export default function Roadmap() {
           y="0"
           href={
             deviceType !== "mobile"
-              ? "/assets/images/roadmap.png"
-              : "/assets/images/roadmap-m.png"
+              ? "/public/assets/images/roadmap.png"
+              : "/public/assets/images/roadmap-m.png"
           }
           width={"100%"}
           height={deviceType !== "mobile" ? "100%" : "90%"}

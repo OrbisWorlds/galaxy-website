@@ -2,9 +2,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = (env, argv) => {
-  if (argv.mode === "development") {
+  const isDevelopment = argv.mode === "development";
+
+  if (isDevelopment) {
     dotenv.config({ path: ".env.development" });
   } else {
     dotenv.config();
@@ -12,10 +16,24 @@ module.exports = (env, argv) => {
 
   return {
     mode: argv.mode,
-    entry: {
-      main: "./src/index.tsx"
+    devtool: isDevelopment ? "source-map" : "hidden-source-map",
+    entry: "./src/index.tsx",
+    output: {
+      filename: "[name].js",
+      path: path.resolve(__dirname, "dist")
     },
-    devtool: "inline-source-map",
+    resolve: {
+      extensions: [".tsx", ".ts", ".js", ".jsx"],
+      fallback: {
+        buffer: false,
+        crypto: false,
+        events: false,
+        path: false,
+        stream: false,
+        string_decoder: false
+      }
+    },
+
     module: {
       rules: [
         {
@@ -33,34 +51,31 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/i,
           use: ["style-loader", "css-loader"]
+        },
+        {
+          test: /\.(svg|png|jpe?g|gif|woff|woff2|eot|ttf)$/i,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                name: "[name].[ext]",
+                outputPath: "assets"
+              }
+            }
+          ]
         }
       ]
     },
-    resolve: {
-      extensions: [".tsx", ".ts", ".js"],
-      fallback: {
-        buffer: false,
-        crypto: false,
-        events: false,
-        path: false,
-        stream: false,
-        string_decoder: false
-      }
-    },
-    output: {
-      filename: "bundle.js",
-      path: path.resolve(__dirname, "dist")
-    },
-    devServer: {
-      port: 3000,
-      hot: true,
-      historyApiFallback: true,
-      liveReload: true
-    },
+
     plugins: [
+      new CleanWebpackPlugin(),
+      new CopyWebpackPlugin({
+        patterns: [{ from: "public", to: "public" }]
+      }),
       new HtmlWebpackPlugin({
         template: "./public/index.html",
-        chunks: ["main"]
+        hash: true
       }),
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(process.env)
@@ -68,6 +83,16 @@ module.exports = (env, argv) => {
       new webpack.ProvidePlugin({
         Buffer: ["buffer", "Buffer"]
       })
-    ]
+    ],
+
+    devServer: {
+      static: {
+        directory: path.join(__dirname, "public")
+      },
+      port: 3000,
+      hot: true,
+      historyApiFallback: true,
+      liveReload: true
+    }
   };
 };

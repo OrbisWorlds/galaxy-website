@@ -25,7 +25,7 @@ export function TxBroadcasting() {
       <PaperWrap>
         <Content>
           <LoadingBar>
-            <img alt="loading" src="/assets/images/loading.gif" />
+            <img alt="loading" src="/public/assets/images/loading.gif" />
           </LoadingBar>
           <span>
             Transaction Broadcastiong
@@ -37,7 +37,7 @@ export function TxBroadcasting() {
           </span>
         </Content>
         <Close onClick={handleClose}>
-          <img alt="close" src="/assets/images/close.svg" />
+          <img alt="close" src="/public/assets/images/close.svg" />
         </Close>
       </PaperWrap>
     </Slide>
@@ -89,12 +89,12 @@ const Content = styled("div")`
     display: block;
     color: #515f7f;
     font-size: 18px;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
     & span {
       line-height: 24px;
       font-size: 16px;
       color: #999999;
-      font-family: Heebo-Regular;
+      font-family: "Heebo-Regular";
     }
   }
 `;

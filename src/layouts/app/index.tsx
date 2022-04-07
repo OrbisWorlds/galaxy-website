@@ -80,9 +80,9 @@ export default function AppLayout(props: Props) {
             {props.wallet && (
               <Wallet disabled={wallet.connected} onClick={handleConnectWallet}>
                 {wallet.connected ? (
-                  <img alt="wallet" src="/assets/images/ic-wallet.svg" />
+                  <img alt="wallet" src="/public/assets/images/ic-wallet.svg" />
                 ) : (
-                  <img alt="connect" src="/assets/images/connect.svg" />
+                  <img alt="connect" src="/public/assets/images/connect.svg" />
                 )}
                 <span>
                   {wallet.connected
@@ -124,7 +124,7 @@ const Title = styled(Typography)`
   letter-spacing: 4.6px;
   cursor: pointer;
   position: absolute;
-  font-family: Heebo-Bold;
+  font-family: "Heebo-Bold";
   @media (max-width: ${deviceSize.tabletMin}) {
     font-size: 20px;
   }

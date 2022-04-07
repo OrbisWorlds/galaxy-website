@@ -89,7 +89,7 @@ export default function Introduce() {
           </InterSection>
         </Grid>
         <IntroduceItem
-          src="/assets/images/main-intro1.png"
+          src="/public/assets/images/main-intro1.png"
           p={isVisible}
           t1={"Economy"}
           t2={
@@ -107,7 +107,7 @@ export default function Introduce() {
           }
         />
         <IntroduceItem
-          src="/assets/images/main-intro3.png"
+          src="/public/assets/images/main-intro3.png"
           p={isVisible}
           t1={"NFT/Metaverse"}
           t2={
@@ -126,7 +126,7 @@ export default function Introduce() {
           }
         />
         <IntroduceItem
-          src="/assets/images/main-intro2.png"
+          src="/public/assets/images/main-intro2.png"
           p={isVisible}
           t1={"Governance"}
           t2={
@@ -158,7 +158,7 @@ const Icon = styled("img")`
 `;
 
 const Title = styled(Typography)`
-  font-family: Heebo-ExtraBold;
+  font-family: "Heebo-ExtraBold";
   color: #fff;
   @media (max-width: ${deviceSize.tabletMin}) {
     font-size: 33px;

@@ -12,6 +12,17 @@ export interface Delegation {
     }
 }
 
+export interface UnbondingDelegation {
+    delegator_address: string
+    validator_address: string
+    entries: {
+        "creation_height": string
+        "completion_time": string
+        "initial_balance": string
+        "balance": string
+    }[]
+}
+
 
 export interface DelegateParams {
     address: string

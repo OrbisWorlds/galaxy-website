@@ -20,18 +20,18 @@ export default function TokenAmountLabel(props: Props) {
 
 const Token = styled("span")`
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 15px;
   line-height: 14px;
   & span {
     color: #7d77ff;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
 `;
 const Label = styled("span")`
   color: #515f7f;
   line-height: 14px;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 14px;
   line-height: 14px;
 `;

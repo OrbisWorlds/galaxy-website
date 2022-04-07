@@ -27,7 +27,7 @@ export function TxFailedPopup() {
     <Slide direction="up" in={open} mountOnEnter unmountOnExit>
       <PaperWrap>
         <Content>
-          <img alt="waning" src="/assets/images/waning.svg" />
+          <img alt="waning" src="/public/assets/images/waning.svg" />
           <span>
             Transaction Failed
             <br />
@@ -35,7 +35,7 @@ export function TxFailedPopup() {
           </span>
         </Content>
         <Close onClick={handleClose}>
-          <img alt="close" src="/assets/images/close.svg" />
+          <img alt="close" src="/public/assets/images/close.svg" />
         </Close>
       </PaperWrap>
     </Slide>
@@ -77,12 +77,12 @@ const Content = styled("div")`
     display: block;
     color: #515f7f;
     font-size: 18px;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
     & span {
       line-height: 24px;
       font-size: 16px;
       color: #999999;
-      font-family: Heebo-Regular;
+      font-family: "Heebo-Regular";
     }
   }
 `;

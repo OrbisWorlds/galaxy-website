@@ -20,6 +20,7 @@
     "@types/react-redux": "^7.1.23",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
+    "moment": "^2.29.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.8",
@@ -34,7 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "webpack server  --mode development",
+    "dev": "webpack serve --mode development --open --hot --progress",
     "prod": "webpack --progress --mode production"
   },
   "eslintConfig": {
@@ -56,7 +57,10 @@
     ]
   },
   "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.2.8",
     "webpack": "^5.71.0",

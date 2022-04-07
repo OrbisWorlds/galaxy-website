@@ -253,7 +253,7 @@ const VoteCard = styled.div`
     display: inline-block;
     font-size: 22px;
     color: #fff;
-    font-family: Heebo-Bold;
+    font-family: "Heebo-Bold";
     margin: 40px;
     margin-bottom: 10px;
   }
