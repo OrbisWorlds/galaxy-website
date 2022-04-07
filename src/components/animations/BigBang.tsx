@@ -1,7 +1,7 @@
 import { Box, styled } from "@mui/material";
 import React from "react";
+import deviceSize from "../../constants/deviceSize";
 import useInterSection from "../../hooks/useInterSection";
-import styledTheme from "../../store/styled";
 
 export default function BigBang() {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -12,42 +12,42 @@ export default function BigBang() {
       <BigBangO
         v={isVisible}
         alt="bigbang-1"
-        src="/assets/images/bigbang-1.png"
+        src="/public/assets/images/bigbang-1.png"
       />
       <BigBangO
         v={isVisible}
         alt="bigbang-1-0"
         transformTo="scale(0.6)"
-        src="/assets/images/bigbang-1.png"
+        src="/public/assets/images/bigbang-1.png"
       />
       <BigBangO
         v={isVisible}
         alt="bigbang-2"
-        src="/assets/images/bigbang-2.png"
+        src="/public/assets/images/bigbang-2.png"
       />
       <BigBangO
         v={isVisible}
         alt="bigbang-3"
-        src="/assets/images/bigbang-3.png"
+        src="/public/assets/images/bigbang-3.png"
       />
     </WrapBox>
   );
 }
 
-const WrapBox = styledTheme(Box)(p => ({
-  width: "70%",
-  height: "60%",
-  display: "flex",
-  alignItems: "center",
-  position: "absolute",
-  justifyContent: "center",
-  [p.theme.breakpoints.down("md")]: {
-    width: "50%",
-    height: "50%",
-    right: "-15%",
-    top: "-10%"
+const WrapBox = styled(Box)`
+  width: 70%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  justify-content: center;
+  @media (max-width: ${deviceSize.tabletMin}) {
+    width: 50%;
+    height: 50%;
+    right: -15%;
+    top: -10%;
   }
-}));
+`;
 
 const BigBangO = styled("img")(
   (p: {

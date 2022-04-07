@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 export default function Status() {
   return (
     <Container>
-      <img alt="check" src="/assets/images/checked.svg" />
+      <img alt="check" src="/public/assets/images/checked.svg" />
       PASSED
     </Container>
   );
@@ -16,7 +16,7 @@ const Container = styled("span")`
   background-color: #7d77ff;
   color: #ffffff;
   font-size: 12px;
-  font-family: Heebo-Regular;
+  font-family: "Heebo-Regular";
   padding: 5px 13px 7px 8px;
   & img {
     margin-right: 4px;

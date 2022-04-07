@@ -23,7 +23,7 @@ export default function VotePopup(props: Props) {
   };
 
   return (
-    <Popup maxWidth="1" onClose={props.onClose}>
+    <Popup maxWidth="400px" onClose={props.onClose}>
       <Content className="column">
         <PopupLabel>Your Vote</PopupLabel>
         <PopupMessage>

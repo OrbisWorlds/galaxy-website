@@ -8,8 +8,8 @@ export default function PopupSubLabel(props: Props) {
 }
 
 const Label = styled("p")`
-  margin: 10px 0px;
+  margin: 0px 0px;
   font-size: 14px;
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
 `;

@@ -12,7 +12,7 @@ import {
 import Status from "../../components/status";
 import { MostVoted } from "../../components/votes";
 import { Vote, VoteOption } from "../../interfaces/galaxy/vote";
-import { voteOptionColor } from "../../store/galaxy/vote";
+import { voteOptionColor } from "../../constants/colors";
 import VotePopup from "./votePopup";
 
 interface Props extends Vote {
@@ -142,19 +142,19 @@ const Total = styled("span")`
   margin-left: 20px;
   & span {
     color: #7d77ff;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
 `;
 
 const TurnOutPerc = styled("span")`
   color: #515f7f;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 16px;
 `;
 
 const TurnOut = styled("span")`
   color: #999;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   font-size: 12px;
 `;
 

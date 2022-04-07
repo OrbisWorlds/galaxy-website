@@ -125,11 +125,11 @@ export default function Airdrop() {
         </Address>
         <Content>
           <ContentLine
-            src="/assets/images/airdrop-content-line.png"
+            src="/public/assets/images/airdrop-content-line.png"
             alt="line"
           />
           <ContentLine
-            src="/assets/images/airdrop-content-line-2.png"
+            src="/public/assets/images/airdrop-content-line-2.png"
             alt="line"
           />
           <TotalAmount>
@@ -147,17 +147,17 @@ export default function Airdrop() {
           </TotalAmount>
 
           <Chain>
-            <img src="/assets/images/cosmoshub.svg" alt="cosmos" />
+            <img src="/public/assets/images/cosmoshub.svg" alt="cosmos" />
             <span>Airdrop for Atom Staker</span>
             <span>{searched ? cosmoshub : "-"} GLX</span>
           </Chain>
           <Chain>
-            <img src="/assets/images/osmosis.svg" alt="osmosis" />
+            <img src="/public/assets/images/osmosis.svg" alt="osmosis" />
             <span>Airdrop for Osmosis Staker</span>
             <span>{searched ? osmosisStake : "-"} GLX</span>
           </Chain>
           <Chain sx={{ borderBottom: "none" }}>
-            <img src="/assets/images/osmosis.svg" alt="osmosis" />
+            <img src="/public/assets/images/osmosis.svg" alt="osmosis" />
             <span>Airdrop for Osmosis LP ATOM/OSMO</span>
             <span>{searched ? osmosisPool : "-"} GLX</span>
           </Chain>
@@ -203,7 +203,7 @@ const Schedules = styled("div")`
       flex: 1;
       font-size: 13px;
       color: #222222;
-      font-family: Heebo-Regular;
+      font-family: "Heebo-Regular";
     }
   }
   @media (min-width: 768px) {
@@ -223,7 +223,7 @@ const Claim = styled(ButtonBase)`
   padding: 15px 42px;
   color: #fff;
   margin-top: 25px;
-  font-family: Heebo-Regular;
+  font-family: "Heebo-Regular";
   @media (min-width: 900px) {
     padding: 15px 64px;
   }
@@ -247,13 +247,13 @@ const Chain = styled("div")`
     flex: 1;
     color: #f4f3f6;
     font-size: 14px;
-    font-family: Heebo-Regular;
+    font-family: "Heebo-Regular";
     :last-child {
       flex: none;
       color: #fff;
       font-size: 15px;
       min-width: 30px;
-      font-family: Heebo-Medium;
+      font-family: "Heebo-Medium";
     }
   }
 `;
@@ -263,9 +263,9 @@ const TotalAmount = styled("span")`
   margin-bottom: 20px;
   font-size: 20px;
   align-self: center;
-  font-family: Heebo-Regular;
+  font-family: "Heebo-Regular";
   & span {
-    font-family: Heebo-Bold;
+    font-family: "Heebo-Bold";
     font-size: 20px;
     color: #fff;
   }
@@ -306,7 +306,7 @@ const Address = styled(Box)`
     font-size: 14px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
-    font-family: Heebo-Regular;
+    font-family: "Heebo-Regular";
     @media (min-width: 900px) {
       padding-right: 30px;
       padding-left: 30px;
@@ -317,7 +317,7 @@ const Address = styled(Box)`
     padding: 13px;
     padding-top: 17px;
     color: #8f3feb;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
 `;
 
@@ -325,13 +325,13 @@ const Message = styled("p")`
   color: #999;
   font-size: 18px;
   margin: 0px auto 40px auto;
-  font-family: Heebo-Regular;
+  font-family: "Heebo-Regular";
 `;
 
 const Title = styled("p")`
   display: block;
   color: #fff;
-  font-family: Heebo-Bold;
+  font-family: "Heebo-Bold";
   font-size: 36px;
   margin: 125px auto 0px auto;
 `;

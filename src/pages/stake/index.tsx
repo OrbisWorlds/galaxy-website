@@ -3,158 +3,242 @@ import { ButtonBase, styled } from "@mui/material";
 import AppLayout from "../../layouts/app";
 import devicesize from "../../constants/deviceSize";
 import Table from "../../components/table/table";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
-  DelegatedValidators,
-  Validators
-} from "../../interfaces/galaxy/staking";
+  fetchValidators,
+  fetchDelegations,
+  fetchPool,
+  fetchDelegationValidators,
+  fetchUnbondingDelegations
+} from "../../store/staking";
+import { Validator } from "../../interfaces/galaxy/staking";
 import ValidatorMoniker from "../../components/validator-moniker/validatorMoniker";
+import DelegatePopup from "./delegatePopup";
+import ManagePopup from "./managePopup";
+import UnDelegatePopup from "./unDelegatePopup";
+import ReDelegatePopup from "./reDelegatePopup";
+import { claimAllRewards, fetchRewards } from "../../store/distribution";
+import { connectWallet } from "../../store/wallet";
+import { Delegation } from "../../interfaces/galaxy/staking/delegation";
+import { parseOriginCoinAmount } from "../../utils/commom";
+import UnBonding from "../../components/stake/unBonding";
+
+interface SelData {
+  delegation?: Delegation;
+  popup: "delegate" | "redelegate" | "undelegate" | "manage";
+  validator: Validator;
+}
 
 export default function Stake() {
-  const [staked, setStaked] = React.useState("0");
-  const [apr, setApr] = React.useState("0");
-  const [reward, setReward] = React.useState("0.0");
-  const [validators, setValidators] = React.useState<Validators>([]);
-  const [delegatedValidators, setDelegatedValidators] =
-    React.useState<DelegatedValidators>([]);
+  const dispatch = useAppDispatch();
+  const delegation = useAppSelector(s => s.staking.delegation);
+  const wallet = useAppSelector(s => s.wallet);
+  const validator = useAppSelector(s => s.staking.validator);
+  const pool = useAppSelector(s => s.staking.pool);
+  const reward = useAppSelector(s => s.distribution.reward);
+
+  const [selData, setSelData] = React.useState<SelData>();
 
   React.useEffect(() => {
-    setDelegatedValidators([
-      {
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        rewards: 10.0,
-        staked: 50.0,
-        status: "BONDED",
-        commission: 0.5,
-        website: "",
-        details: ""
-      },
-      {
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        rewards: 10.0,
-        staked: 50.0,
-        status: "BONDED",
-        commission: 0.5,
-        website: "",
-        details: ""
-      },
-      {
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        rewards: 10.0,
-        staked: 50.0,
-        status: "BONDED",
-        commission: 0.5,
-        website: "",
-        details: ""
-      }
-    ]);
+    window.onload = () => {
+      dispatch(connectWallet());
+    };
+    dispatch(connectWallet());
 
-    setValidators([
-      {
-        rank: 1,
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        commission: 0.5,
-        website: "",
-        details: ""
-      },
-      {
-        rank: 1,
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        commission: 0.5,
-        website: "",
-        details: ""
-      },
-      {
-        rank: 1,
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        commission: 0.5,
-        website: "",
-        details: ""
-      },
-      {
-        rank: 1,
-        delegator_address: "galaxy1111",
-        validator_address: "galaxyvaloper1111",
-        moniker: "test1",
-        voting_power: 10.0,
-        commission: 0.5,
-        website: "",
-        details: ""
-      }
-    ]);
-  }, []);
+    dispatch(fetchPool());
+    dispatch(fetchValidators());
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (!wallet.connected) {
+      return;
+    }
+    dispatch(fetchDelegations(wallet.address));
+    dispatch(fetchRewards(wallet.address));
+    dispatch(fetchDelegationValidators(wallet.address));
+    dispatch(fetchUnbondingDelegations(wallet.address));
+  }, [wallet, dispatch]);
+
+  const handleClosePopup = () => {
+    setSelData(undefined);
+  };
+
+  const handleClaimReward = () => {
+    dispatch(
+      claimAllRewards({
+        address: wallet.address,
+        validatorAddresses: reward.rewards.map(x => x.validator_address)
+      })
+    );
+  };
 
   return (
     <AppLayout wallet background={<Background />}>
+      {selData?.popup === "delegate" && (
+        <DelegatePopup
+          validator={selData.validator}
+          onClose={handleClosePopup}
+        />
+      )}
+      {selData?.popup === "undelegate" && (
+        <UnDelegatePopup
+          validator={selData.validator}
+          onClose={handleClosePopup}
+        />
+      )}
+      {selData?.popup === "redelegate" && selData.delegation !== undefined && (
+        <ReDelegatePopup
+          delegation={selData.delegation}
+          validator={selData.validator}
+          onClose={handleClosePopup}
+        />
+      )}
+      {selData?.popup === "manage" && (
+        <ManagePopup
+          validator={selData.validator}
+          onClose={handleClosePopup}
+          onDelegate={v => {
+            setSelData({ popup: "delegate", validator: v });
+          }}
+          onUnDelegate={v => {
+            setSelData({ popup: "undelegate", validator: v });
+          }}
+          onReDelegate={(v, d) => {
+            setSelData({ popup: "redelegate", validator: v, delegation: d });
+          }}
+        />
+      )}
+
       <Container>
         <Content>
           <Statictis>
             <span id="title">Galaxy Staking</span>
             <div>
               <div>
-                <span id="staked">Staked : {staked} GLX</span>
+                <span id="staked">
+                  Staked :{" "}
+                  {wallet.connected
+                    ? (delegation.totalStaked / 1000000).toFixed(6)
+                    : "-"}{" "}
+                  GLX
+                </span>
                 <span id="apr">
                   GLX Staking APR
-                  <span>{apr}%</span>
+                  <span>
+                    {Math.floor(
+                      ((500000000000000 * 0.2) / parseInt(pool.bonded_tokens)) *
+                        100
+                    )}
+                    %
+                  </span>
                 </span>
               </div>
-              <span id="reward">Claim Reward : {reward} GLX</span>
+              <ButtonBase
+                id="reward"
+                onClick={handleClaimReward}
+                disabled={!wallet.connected || reward.totalReward === 0}
+              >
+                Claim Reward :{" "}
+                {wallet.connected
+                  ? (reward.totalReward / 1000000).toFixed(6)
+                  : "-"}{" "}
+                GLX
+              </ButtonBase>
             </div>
           </Statictis>
 
-          {
-            //Delegated Vaildators
-          }
+          {delegation.unbondingDelegations.length >= 1 && (
+            <>
+              <Label>Undelegating</Label>
+              {delegation.unbondingDelegations.map((x, i) => {
+                return (
+                  <UnBonding
+                    key={i.toString()}
+                    unBonding={x}
+                    moniker={
+                      validator.validators.filter(
+                        y => y.operator_address === x.validator_address
+                      )[0]?.description.moniker
+                    }
+                    onFormatBalance={b => parseOriginCoinAmount(b)}
+                  />
+                );
+              })}
+            </>
+          )}
 
           <Label>Delegated Vaildators</Label>
+
           <Table
-            data={delegatedValidators}
+            data={delegation.validators}
             th={[
               {
                 l: "Validator",
                 render: (d, i) => (
-                  <ValidatorMoniker icon="" moniker={d.moniker} />
+                  <ValidatorMoniker icon="" moniker={d.description.moniker} />
                 )
               },
-              { l: "Status", key: "status" },
-              { l: "Voting Power", key: "voting_power" },
-              { l: "Commission", key: "commission" },
-              { l: "Staked Coins", key: "staked" },
-              { l: "Rewards", key: "rewards" },
-              { l: "", render: (d, i) => <Manage>Manage</Manage> }
+              { l: "Status", render: x => x.status.split("_").pop() },
+              {
+                l: "Voting Power",
+                render: (d, i) =>
+                  (
+                    (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                    100
+                  ).toFixed(1) + "%"
+              },
+              {
+                l: "Commission",
+                render: (d, i) =>
+                  parseFloat(d.commission.commission_rates.rate) * 100 + "%"
+              },
+              {
+                l: "Staked Coins",
+                render: (d, i) =>
+                  (
+                    parseInt(
+                      delegation.delegations.filter(
+                        x =>
+                          x.delegation.validator_address === d.operator_address
+                      )[0]?.balance.amount
+                    ) / 1000000
+                  ).toFixed(6) + " GLX"
+              },
+              {
+                l: "Rewards",
+                render: (d, i) =>
+                  (
+                    parseInt(
+                      reward.rewards.filter(
+                        x => x.validator_address === d.operator_address
+                      )[0]?.reward[0]?.amount
+                    ) / 1000000 || 0
+                  ).toFixed(6) + " GLX"
+              },
+              {
+                l: "",
+                render: (d, i) => (
+                  <Manage
+                    onClick={() => {
+                      setSelData({ popup: "manage", validator: d });
+                    }}
+                  >
+                    Manage
+                  </Manage>
+                )
+              }
             ]}
           />
 
-          {
-            //Vaildators
-          }
-
           <Label>Vaildators</Label>
+
           <Table
-            data={validators}
+            data={validator.validators}
             th={[
               {
                 width: 10,
                 l: "Rank",
-                key: "rank",
-                render: (d, i) => <Rank>{d.rank}</Rank>
+                render: (d, i) => <Rank>{i + 1}</Rank>
               },
               {
                 width: 45,
@@ -164,16 +248,38 @@ export default function Stake() {
                   <ValidatorMoniker
                     align="flex-start"
                     icon=""
-                    moniker={d.moniker}
+                    moniker={d.description.moniker}
                   />
                 )
               },
               {
                 l: "Voting Power",
-                key: "voting_power"
+                render: d =>
+                  (
+                    (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                    100
+                  ).toFixed(1) + "%"
               },
-              { l: "Commission", key: "commission" },
-              { l: "", render: (d, i) => <Delegate>Delegate</Delegate> }
+              {
+                l: "Commission",
+                render: (d, i) =>
+                  parseFloat(d.commission.commission_rates.rate) * 100 + "%"
+              },
+              {
+                l: "",
+                render: (d, i) => (
+                  <Delegate
+                    onClick={() => {
+                      setSelData({
+                        popup: "delegate",
+                        validator: d
+                      });
+                    }}
+                  >
+                    Delegate
+                  </Delegate>
+                )
+              }
             ]}
           />
         </Content>
@@ -185,7 +291,7 @@ export default function Stake() {
 const Rank = styled("span")`
   font-size: 14px;
   color: #fff;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
 `;
 
 const Delegate = styled(ButtonBase)`
@@ -225,7 +331,7 @@ const Statictis = styled("div")`
   #title {
     font-size: 22px;
     color: #fff;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
   }
   #staked {
     font-size: 13px;
@@ -238,7 +344,7 @@ const Statictis = styled("div")`
     color: #fff;
     & span {
       line-height: 24px;
-      font-family: Heebo-Medium;
+      font-family: "Heebo-Medium";
       font-size: 22px;
       margin-left: 14px;
       color: #f4f3f6;
@@ -248,7 +354,7 @@ const Statictis = styled("div")`
     margin-left: 40px;
     font-size: 14px;
     line-height: 25px;
-    font-family: Heebo-Medium;
+    font-family: "Heebo-Medium";
     color: #2a267b;
     background-color: #fff;
     border-radius: 20px;
@@ -259,7 +365,7 @@ const Statictis = styled("div")`
 const Label = styled("p")`
   font-size: 24px;
   color: #f4f3f6;
-  font-family: Heebo-Medium;
+  font-family: "Heebo-Medium";
   margin-top: 60px;
 `;
 

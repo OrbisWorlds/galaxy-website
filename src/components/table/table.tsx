@@ -5,9 +5,8 @@ interface Props<T> {
   th: {
     width?: number;
     l?: string;
-    key?: keyof T;
     align?: "left" | "right";
-    render?: (
+    render: (
       data: T,
       index: number
     ) => React.ReactNode | React.ReactElement | undefined;
@@ -55,7 +54,7 @@ export default function Table<T extends object>(props: Props<T>) {
               {props.th.map((h, hi) => {
                 return (
                   <td key={di + "" + hi} className={"v-t-" + h.align}>
-                    {h.render ? h.render(d, di) : h.key ? d[h.key] : ""}
+                    {h.render(d, di)}
                   </td>
                 );
               })}
@@ -88,7 +87,7 @@ const TableWrap = styled("table")`
         }
         font-size: 14px;
         color: #5954cc;
-        font-family: Heebo-Regular;
+        font-family: "Heebo-Regular";
         padding: 20px;
       }
     }
@@ -102,7 +101,7 @@ const TableWrap = styled("table")`
         text-align: center;
         padding: 26px 20px;
         color: #c9c7d7;
-        font-family: Heebo-Regular;
+        font-family: "Heebo-Regular";
         font-size: 15px;
       }
       :last-of-type {

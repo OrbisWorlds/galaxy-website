@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import InterSection from "../../components/intersection";
 import useDeviceType from "../../hooks/useDeviceType";
+import { styled } from "@mui/system";
 
 export default function Roadmap() {
   const deviceType = useDeviceType();
@@ -61,22 +62,18 @@ export default function Roadmap() {
   const viewBox = deviceType !== "mobile" ? "0 0 1920 611" : "0 0 360 900";
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1920,
-        margin: "auto",
-        position: "relative"
-      }}
-    >
-      <svg viewBox={viewBox} style={{ position: "absolute", left: 0, top: 0 }}>
+    <Container>
+      <svg
+        viewBox={viewBox}
+        style={{ position: "absolute", left: 0, right: 0 }}
+      >
         {deviceType !== "mobile" ? (
           <image
             width={"520"}
             height="520"
             x={"1400"}
             y="0"
-            href="/assets/images/explosion.png"
+            href="/public/assets/images/explosion.png"
           />
         ) : (
           <image
@@ -84,7 +81,7 @@ export default function Roadmap() {
             height="330"
             x={"0"}
             y={600}
-            href="/assets/images/explosion.png"
+            href="/public/assets/images/explosion.png"
           />
         )}
         <image
@@ -92,8 +89,8 @@ export default function Roadmap() {
           y="0"
           href={
             deviceType !== "mobile"
-              ? "/assets/images/roadmap.png"
-              : "/assets/images/roadmap-m.png"
+              ? "/public/assets/images/roadmap.png"
+              : "/public/assets/images/roadmap-m.png"
           }
           width={"100%"}
           height={deviceType !== "mobile" ? "100%" : "90%"}
@@ -421,6 +418,13 @@ export default function Roadmap() {
           )}
         </svg>
       </InterSection>
-    </Box>
+    </Container>
   );
 }
+
+const Container = styled(Box)`
+  width: 100%;
+  max-width: 1920px;
+  margin: auto;
+  position: relative;
+`;

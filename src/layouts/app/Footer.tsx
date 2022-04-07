@@ -20,16 +20,16 @@ export default function Footer(props: Props) {
     >
       <Container dt={deviceType}>
         <IconLink target="_blank" href="https://github.com/galaxies-labs">
-          <img src={"/assets/images/github.svg"} alt="github" />
+          <img src={"/public/assets/images/github.svg"} alt="github" />
         </IconLink>
         <IconLink target="_blank" href="https://medium.com/@galaxyuniverse">
-          <img src={"/assets/images/medium.svg"} alt="medium" />
+          <img src={"/public/assets/images/medium.svg"} alt="medium" />
         </IconLink>
         <IconLink target="_blank" href="https://discord.gg/DkPNtpJQ8C">
-          <img src={"/assets/images/discord.svg"} alt="discord" />
+          <img src={"/public/assets/images/discord.svg"} alt="discord" />
         </IconLink>
         <IconLink target="_blank" href="https://twitter.com/glxuniverse">
-          <img src={"/assets/images/twitter.svg"} alt="twitter" />
+          <img src={"/public/assets/images/twitter.svg"} alt="twitter" />
         </IconLink>
       </Container>
     </Box>

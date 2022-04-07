@@ -45,7 +45,7 @@ export default function AirdropClaim() {
               <span style={{ width: getProgressPerc() + "%" }} />
               <img
                 alt="light"
-                src="/assets/images/progress-light.png"
+                src="/public/assets/images/progress-light.png"
                 style={{
                   marginLeft: getProgressPerc(true) - 0.5 + "%"
                 }}
@@ -130,7 +130,7 @@ const ClaimGrid = styled(Grid)`
       font-size: 15px;
       line-height: 26px;
       color: #999999;
-      font-family: Heebo-Regular;
+      font-family: "Heebo-Regular";
     }
     .title {
       flex: 1;
@@ -139,7 +139,7 @@ const ClaimGrid = styled(Grid)`
       font-size: 20px;
       line-height: 30px;
       color: #fff;
-      font-family: Heebo-Regular;
+      font-family: "Heebo-Regular";
     }
     .airdrop-state-button {
       border-bottom-right-radius: 8px;
@@ -205,20 +205,20 @@ const Progress = styled("div")`
     #perc {
       font-size: 18px;
       color: #7d77ff;
-      font-family: Heebo-Medium;
+      font-family: "Heebo-Medium";
     }
     #claimed {
       display: inline-block;
       font-size: 15px;
-      font-family: Heebo-Regular;
+      font-family: "Heebo-Regular";
       color: #fff;
       & span {
         margin-left: 24px;
-        font-family: Heebo-Medium;
+        font-family: "Heebo-Medium";
         font-size: 23px;
         & span {
           margin-left: 0px;
-          font-family: Heebo-Regular;
+          font-family: "Heebo-Regular";
         }
       }
     }
@@ -253,7 +253,7 @@ const Label = styled("p")`
   font-size: 20px;
   margin-top: 60px;
   color: #f4f3f6;
-  font-family: Heebo-Regular;
+  font-family: "Heebo-Regular";
   :first-of-type {
     margin-top: 180px;
   }
