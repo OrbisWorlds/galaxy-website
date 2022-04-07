@@ -13,9 +13,8 @@ export default function ComingSoon() {
   );
 }
 
-const Center = styled(Box)(
-  (p: { dt: DeviceSize }) => `
-  width: ${p.dt === "desktop" ? "30vw" : "80%"};
+const Center = styled(Box)`
+  width: ${(p: { dt: DeviceSize }) => (p.dt === "desktop" ? "30vw" : "80%")};
   z-index: 2;
   max-width: 600px;
   display: flex;
@@ -26,15 +25,15 @@ const Center = styled(Box)(
     width: 100%;
     position: absolute;
 
-    :first-child {
+    :first-of-type {
       margin-right: 15%;
       z-index: 2;
       width: 60%;
       position: absolute;
     }
   }
-`
-);
+`;
+
 const Bg = styled("img")`
   width: 100%;
   height: 100%;

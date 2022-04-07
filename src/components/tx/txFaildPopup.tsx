@@ -12,7 +12,7 @@ export function TxFailedPopup() {
     if (open) {
       let tm = setTimeout(() => {
         handleClose();
-      }, 2000);
+      }, 3000);
       return () => {
         clearTimeout(tm);
       };

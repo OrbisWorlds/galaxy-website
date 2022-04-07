@@ -1,10 +1,19 @@
 import { InputBase } from "@mui/material";
 import { styled } from "@mui/system";
+import React from "react";
 
-export default function SearchInput() {
+interface Props {
+  value?: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+export default function SearchInput(props: Props) {
   return (
     <Container>
-      <Input placeholder="Search Validators" />
+      <Input
+        value={props.value}
+        onChange={props.onChange}
+        placeholder="Search Validators"
+      />
       <img alt="serach" src="/assets/images/search.svg" />
     </Container>
   );

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { claimAllRewards } from "../distribution";
-import { delegate, unDelegate } from "../staking";
+import { delegate, reDelegate, unDelegate } from "../staking";
 
 interface InitialState {
     open: boolean,
@@ -32,6 +32,10 @@ export default createSlice({
             state.message = (action.payload as Error).message
         })
         builder.addCase(unDelegate.rejected, (state, action) => {
+            state.open = true;
+            state.message = (action.payload as Error).message
+        })
+        builder.addCase(reDelegate.rejected, (state, action) => {
             state.open = true;
             state.message = (action.payload as Error).message
         })

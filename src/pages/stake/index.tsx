@@ -15,11 +15,13 @@ import ValidatorMoniker from "../../components/validator-moniker/validatorMonike
 import DelegatePopup from "./delegatePopup";
 import ManagePopup from "./managePopup";
 import UnDelegatePopup from "./unDelegatePopup";
-import ReDelegatePopup from "./reDelegatePopup copy";
+import ReDelegatePopup from "./reDelegatePopup";
 import { claimAllRewards, fetchRewards } from "../../store/distribution";
 import { connectWallet } from "../../store/wallet";
+import { Delegation } from "../../interfaces/galaxy/staking/delegation";
 
 interface SelData {
+  delegation?: Delegation;
   popup: "delegate" | "redelegate" | "undelegate" | "manage";
   validator: Validator;
 }
@@ -73,20 +75,30 @@ export default function Stake() {
         />
       )}
       {selData?.popup === "undelegate" && (
-        <UnDelegatePopup onClose={handleClosePopup} />
+        <UnDelegatePopup
+          validator={selData.validator}
+          onClose={handleClosePopup}
+        />
       )}
-      {selData?.popup === "redelegate" && (
-        <ReDelegatePopup onClose={handleClosePopup} />
+      {selData?.popup === "redelegate" && selData.delegation !== undefined && (
+        <ReDelegatePopup
+          delegation={selData.delegation}
+          validator={selData.validator}
+          onClose={handleClosePopup}
+        />
       )}
       {selData?.popup === "manage" && (
         <ManagePopup
           validator={selData.validator}
           onClose={handleClosePopup}
+          onDelegate={v => {
+            setSelData({ popup: "delegate", validator: v });
+          }}
           onUnDelegate={v => {
             setSelData({ popup: "undelegate", validator: v });
           }}
-          onReDelegate={v => {
-            setSelData({ popup: "redelegate", validator: v });
+          onReDelegate={(v, d) => {
+            setSelData({ popup: "redelegate", validator: v, delegation: d });
           }}
         />
       )}
@@ -108,7 +120,8 @@ export default function Stake() {
                   GLX Staking APR
                   <span>
                     {Math.floor(
-                      (500000000000000 * 0.2) / parseInt(pool.bonded_tokens)
+                      ((500000000000000 * 0.2) / parseInt(pool.bonded_tokens)) *
+                        100
                     )}
                     %
                   </span>
@@ -143,8 +156,10 @@ export default function Stake() {
               {
                 l: "Voting Power",
                 render: (d, i) =>
-                  (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) * 100 +
-                  "%"
+                  (
+                    (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                    100
+                  ).toFixed(1) + "%"
               },
               {
                 l: "Commission",
@@ -214,8 +229,10 @@ export default function Stake() {
               {
                 l: "Voting Power",
                 render: d =>
-                  (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) * 100 +
-                  "%"
+                  (
+                    (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                    100
+                  ).toFixed(1) + "%"
               },
               {
                 l: "Commission",

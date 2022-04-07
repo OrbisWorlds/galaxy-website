@@ -1,13 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
+import config from "../../constants/config";
 import { Coin } from "../../interfaces/galaxy";
+
+const initialBalances: Coin[] = [
+    { denom: config.coinOriginDenom, amount: "0" }
+]
 
 interface InitialState {
     balances: Coin[]
 }
 
 const initialState: InitialState = {
-    balances: []
+    balances: initialBalances
 }
 
 
@@ -27,6 +32,11 @@ export default createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchBalances.fulfilled, (state, action) => {
             state.balances = action.payload
+
+            //check default
+            if (!state.balances.length) {
+                state.balances = initialBalances
+            }
         })
     }
 }).reducer

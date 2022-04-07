@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { claimAllRewards } from "../distribution";
-import { delegate, unDelegate } from "../staking";
+import { delegate, reDelegate, unDelegate } from "../staking";
 
 interface InitialState {
     open: boolean,
@@ -31,6 +31,10 @@ export default createSlice({
             state.transactionHash = action.payload.transactionHash
         })
         builder.addCase(unDelegate.fulfilled, (state, action) => {
+            state.open = true;
+            state.transactionHash = action.payload.transactionHash
+        })
+        builder.addCase(reDelegate.fulfilled, (state, action) => {
             state.open = true;
             state.transactionHash = action.payload.transactionHash
         })

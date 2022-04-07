@@ -36,6 +36,7 @@ const ButtonWrap = styled(ButtonBase)`
 
   border-radius: 4px;
   padding: 12px 24px;
+  box-shadow: 0px 3px 8px #dedee3;
 
   font-family: Heebo-Medium !important;
   :disabled {
@@ -50,8 +51,10 @@ const ButtonWrap = styled(ButtonBase)`
     border: 1px solid #515f7f;
     color: #515f7f;
     background-color: transparent;
+    box-shadow: 0px 3px 8px #dedee3;
   }
   &.cancel {
+    box-shadow: 0px 3px 8px #dedee3;
     border: 1px solid #f2f2f2;
     background-color: #f7fafc;
     color: #666;

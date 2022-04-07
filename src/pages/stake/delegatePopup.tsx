@@ -11,8 +11,8 @@ import { Validator } from "../../interfaces/galaxy/staking";
 import { parseOriginCoinAmount } from "../../utils";
 import { fetchBalances } from "../../store/bank";
 import config from "../../constants/config";
-import { Coin } from "../../interfaces/galaxy";
 import InputErrorMessage from "../../components/input/inputErrorMessage";
+import InputLabel from "../../components/input/inputLabel";
 
 interface Props {
   onClose: () => void;
@@ -24,12 +24,12 @@ export default function DelegatePopup(props: Props) {
   const wallet = useAppSelector(s => s.wallet);
   const balances = useAppSelector(s => s.bank.balances);
   const delegations = useAppSelector(s => s.staking.delegation.delegations);
-  /**  **/
+
   const [amount, setAmount] = React.useState("");
-  /**  **/
-  const glxBalance =
-    balances.filter(x => x.denom === config.coinOriginDenom)[0] ||
-    ({ denom: config.coinOriginDenom, amount: "0" } as Coin);
+
+  const glxBalance = balances.filter(
+    x => x.denom === config.coinOriginDenom
+  )[0];
   const thisDelegation = delegations.filter(
     x =>
       x.delegation.validator_address === props.validator.operator_address &&
@@ -79,20 +79,23 @@ export default function DelegatePopup(props: Props) {
             sx={{ mt: 2.5, borderBottom: "none" }}
           />
         )}
+
         <TokenAmountLabel
           label="Available Balance"
           amount={parseOriginCoinAmount(glxBalance.amount)}
           denom={glxBalance.denom}
+          sx={{ mt: thisDelegation ? 0 : 2.5 }}
         />
+        <InputLabel sx={{ mt: 3.75 }}>Amount to Delegate</InputLabel>
         <TokenInput
           onMax={() => setAmount(parseOriginCoinAmount(glxBalance.amount))}
           value={amount}
           onChange={e => setAmount(e.target.value)}
-          sx={{ mt: 3.75 }}
         />
         {insufficientBalance && (
           <InputErrorMessage>insufficient balance</InputErrorMessage>
         )}
+
         <Button
           disabled={insufficientBalance || !parseInt(amount)}
           onClick={handleDelegate}

@@ -10,7 +10,7 @@ export default function UnDelegateWaning() {
         <br />
         - not be able to cancel the unbonding
         <br />
-        - need to wait 14 days for the amount to be liquid.
+        - need to wait 21 days for the amount to be liquid.
         <br />
       </span>
     </Container>

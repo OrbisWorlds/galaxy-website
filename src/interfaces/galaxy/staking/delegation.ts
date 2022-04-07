@@ -18,3 +18,9 @@ export interface DelegateParams {
     validatorAddress: string
     amount: Coin
 }
+export interface ReDelegateParams {
+    address: string
+    validatorAddress: string
+    validatorDistAddress: string
+    amount: Coin
+}

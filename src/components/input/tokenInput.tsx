@@ -1,11 +1,4 @@
-import {
-  BoxProps,
-  SxProps,
-  Box,
-  ButtonBase,
-  InputBase,
-  Theme
-} from "@mui/material";
+import { SxProps, Box, ButtonBase, InputBase, Theme } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
 
@@ -19,7 +12,6 @@ interface Props {
 export default function TokenInput(props: Props) {
   return (
     <Box sx={props.sx}>
-      <Label>Amount to Delegate</Label>
       <Container>
         <Input
           value={props.value}
@@ -33,14 +25,6 @@ export default function TokenInput(props: Props) {
     </Box>
   );
 }
-
-const Label = styled("span")`
-  font-size: 14px;
-  display: block;
-  color: #515f7f;
-  font-family: Heebo-Medium;
-  margin-bottom: 10px;
-`;
 
 const Token = styled("span")`
   font-size: 16px;

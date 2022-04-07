@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 import { galaxyChainConfig } from "../../constants/chain";
 import { Validator } from "../../interfaces/galaxy/staking";
-import { DelegateParams, Delegation } from "../../interfaces/galaxy/staking/delegation";
+import { DelegateParams, Delegation, ReDelegateParams } from "../../interfaces/galaxy/staking/delegation";
 import { fetchBalances } from "../bank";
 import { fetchRewards } from "../distribution";
 import { fetchPool } from "./pool";
@@ -21,7 +21,7 @@ const initialState: InitialState = {
     totalStaked: 0,
 }
 
-export const delegate = createAsyncThunk('staking/delegate', async ({ address, validatorAddress, amount }: DelegateParams, thunk) => {
+export const unDelegate = createAsyncThunk('staking/unDelegate', async ({ address, validatorAddress, amount }: DelegateParams, thunk) => {
     try {
         if (!window.keplr || !window.getOfflineSigner) {
             throw new Error("Please install keplr extension.")
@@ -37,7 +37,7 @@ export const delegate = createAsyncThunk('staking/delegate', async ({ address, v
         const result = await client.signAndBroadcast(
             address,
             [{
-                typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+                typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
                 value: {
                     delegatorAddress: address,
                     validatorAddress: validatorAddress,
@@ -63,6 +63,90 @@ export const delegate = createAsyncThunk('staking/delegate', async ({ address, v
     }
 })
 
+export const delegate = createAsyncThunk('staking/delegate', async ({ address, validatorAddress, amount }: DelegateParams, thunk) => {
+    try {
+        if (!window.keplr || !window.getOfflineSigner) {
+            throw new Error("Please install keplr extension.")
+        }
+        await window.keplr.enable(galaxyChainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+
+        const client = await SigningStargateClient.connectWithSigner(
+            galaxyChainConfig.rpc,
+            offlineSigner,
+        )
+
+        const result = await client.signAndBroadcast(
+            address,
+            [{
+                typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+                value: {
+                    delegatorAddress: address,
+                    validatorAddress: validatorAddress,
+                    amount
+                }
+            }],
+            {
+                gas: "300000",
+                amount: [{ denom: "uglx", amount: String(300000 * galaxyChainConfig.gasPriceStep!.average) }]
+            },
+            ""
+        )
+        assertIsDeliverTxSuccess(result)
+        thunk.dispatch(fetchDelegations(address))
+        thunk.dispatch(fetchBalances(address))
+        thunk.dispatch(fetchDelegationValidators(address))
+        thunk.dispatch(fetchRewards(address))
+        thunk.dispatch(fetchValidators())
+        thunk.dispatch(fetchPool())
+        return result;
+    } catch (error) {
+        return thunk.rejectWithValue(error)
+    }
+})
+
+export const reDelegate = createAsyncThunk('staking/reDelegate', async ({ address, validatorAddress, validatorDistAddress, amount }: ReDelegateParams, thunk) => {
+    try {
+        if (!window.keplr || !window.getOfflineSigner) {
+            throw new Error("Please install keplr extension.")
+        }
+        await window.keplr.enable(galaxyChainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+
+        const client = await SigningStargateClient.connectWithSigner(
+            galaxyChainConfig.rpc,
+            offlineSigner,
+        )
+
+        const result = await client.signAndBroadcast(
+            address,
+            [{
+                typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+                value: {
+                    delegatorAddress: address,
+                    validatorSrcAddress: validatorAddress,
+                    validatorDstAddress: validatorDistAddress,
+                    amount
+                }
+            }],
+            {
+                gas: "300000",
+                amount: [{ denom: "uglx", amount: String(300000 * galaxyChainConfig.gasPriceStep!.average) }]
+            },
+            ""
+        )
+        assertIsDeliverTxSuccess(result)
+        thunk.dispatch(fetchDelegations(address))
+        thunk.dispatch(fetchBalances(address))
+        thunk.dispatch(fetchDelegationValidators(address))
+        thunk.dispatch(fetchRewards(address))
+        thunk.dispatch(fetchValidators())
+        thunk.dispatch(fetchPool())
+        return result;
+    } catch (error) {
+        return thunk.rejectWithValue(error)
+    }
+})
 
 
 export const fetchDelegations = createAsyncThunk('staking/fetchDelegations', async (address: string) => {
