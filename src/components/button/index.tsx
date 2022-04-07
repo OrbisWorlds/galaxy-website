@@ -14,8 +14,8 @@ export default function Button(props: Props) {
   return (
     <ButtonWrap
       className={props.buttonType || "normal"}
-      disabled={props.loading}
       {...props}
+      disabled={props.loading || props.disabled}
     >
       {props.loading ? (
         <CircularProgress

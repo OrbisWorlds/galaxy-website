@@ -43,6 +43,8 @@ export default function Stake() {
     window.onload = () => {
       dispatch(connectWallet());
     };
+    dispatch(connectWallet());
+
     dispatch(fetchPool());
     dispatch(fetchValidators());
   }, [dispatch]);

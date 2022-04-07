@@ -21,6 +21,7 @@ interface Props {
 
 export default function DelegatePopup(props: Props) {
   const dispatch = useAppDispatch();
+  const tx = useAppSelector(s => s.tx);
   const wallet = useAppSelector(s => s.wallet);
   const balances = useAppSelector(s => s.bank.balances);
   const delegations = useAppSelector(s => s.staking.delegation.delegations);
@@ -97,6 +98,7 @@ export default function DelegatePopup(props: Props) {
         )}
 
         <Button
+          loading={tx.broadcasting.open}
           disabled={insufficientBalance || !parseInt(amount)}
           onClick={handleDelegate}
           sx={{ alignSelf: "flex-end", mt: 3 }}

@@ -151,7 +151,6 @@ export const reDelegate = createAsyncThunk('staking/reDelegate', async ({ addres
     }
 })
 
-
 export const fetchDelegations = createAsyncThunk('staking/fetchDelegations', async (address: string) => {
     const response = await api.get("/cosmos/staking/v1beta1/delegations/" + address)
     const data = response.data;

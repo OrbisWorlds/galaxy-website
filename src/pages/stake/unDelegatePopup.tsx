@@ -22,13 +22,10 @@ export default function UnDelegatePopup(props: Props) {
   const dispatch = useAppDispatch();
   const delegations = useAppSelector(s => s.staking.delegation.delegations);
   const wallet = useAppSelector(s => s.wallet);
-  const balances = useAppSelector(s => s.bank.balances);
+  const tx = useAppSelector(s => s.tx);
 
   const [amount, setAmount] = React.useState("");
 
-  const glxBalance = balances.filter(
-    x => x.denom === config.coinOriginDenom
-  )[0];
   const delegation = delegations.filter(
     x => x.delegation.validator_address === props.validator.operator_address
   )[0];
@@ -87,11 +84,12 @@ export default function UnDelegatePopup(props: Props) {
           <InputErrorMessage>insufficient balance</InputErrorMessage>
         )}
         <Button
+          loading={tx.broadcasting.open}
           disabled={insufficientBalance || !parseInt(amount)}
           onClick={handleUnDelegate}
           sx={{ alignSelf: "flex-end", mt: 3 }}
         >
-          UnDelegate
+          {"UnDelegate"}
         </Button>
       </Content>
     </Popup>

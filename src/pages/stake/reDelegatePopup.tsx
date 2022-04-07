@@ -24,6 +24,7 @@ interface Props {
 export default function ReDelegatePopup(props: Props) {
   const dispatch = useAppDispatch();
   const wallet = useAppSelector(s => s.wallet);
+  const tx = useAppSelector(s => s.tx);
   const validators = useAppSelector(s => s.staking.validator.validators).filter(
     x => x.operator_address !== props.delegation.delegation.validator_address
   );
@@ -120,6 +121,7 @@ export default function ReDelegatePopup(props: Props) {
         )}
 
         <Button
+          loading={tx.broadcasting.open}
           disabled={
             insufficientBalance || !parseInt(amount) || !validatorAddress
           }
