@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Airdrop from "./pages/airdrop";
 import AirdropClaim from "./pages/airdrop-claim";
 //pages
@@ -19,6 +19,7 @@ export default function App() {
       <Route path="/airdrop" element={<Airdrop />} />
       <Route path="/vote" element={<Story />} />
       <Route path="/" element={<Main />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
