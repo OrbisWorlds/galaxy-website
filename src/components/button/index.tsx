@@ -7,12 +7,14 @@ import {
 
 interface Props extends ButtonBaseProps {
   loading?: boolean;
+  shadowDisabled?: boolean;
   buttonType?: "normal" | "cancel" | "border2" | "border";
 }
 
 export default function Button(props: Props) {
   return (
     <ButtonWrap
+      shadowDisabled={props.shadowDisabled}
       className={props.buttonType || "normal"}
       {...props}
       disabled={props.loading || props.disabled}
@@ -36,8 +38,7 @@ const ButtonWrap = styled(ButtonBase)`
 
   border-radius: 4px;
   padding: 12px 24px;
-  box-shadow: 0px 3px 8px #dedee3;
-
+  box-shadow: ${(p: Props) => (p.shadowDisabled ? "" : "0px 3px 8px #dedee3")};
   font-family: Heebo-Medium !important;
   :disabled {
     color: #544c8f;

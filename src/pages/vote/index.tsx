@@ -9,15 +9,20 @@ import Donut from "../../components/charts/donut";
 import styled from "@emotion/styled";
 import VoteDetailPopup from "./voteDetailPopup";
 import { MostVoted } from "../../components/votes";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import moment from "moment";
+import { fetchProposals } from "../../store/gov";
 
 export default function Vote() {
+  const dispatch = useAppDispatch();
+  const proposal = useAppSelector(s => s.gov.proposal);
   const [tabIndex, setTabIndex] = React.useState(0);
   const [detailVote, setDetailVote] = React.useState<VoteI>();
   const [votes, setVotes] = React.useState([1, 2, 3, 4, 5]);
 
   React.useEffect(() => {
-    setVotes([]);
-  }, [tabIndex]);
+    dispatch(fetchProposals());
+  }, [tabIndex, dispatch]);
 
   const handleVoteDetail = (data: VoteI) => {
     setDetailVote({ ...data });
@@ -38,179 +43,58 @@ export default function Vote() {
           />
 
           <VoteCards>
-            <VoteCard>
-              <span className="v-n">#134</span>
-              <span className="v-t">
-                Semi-Automatic Incentive Adjustments for 02/28/2022
-              </span>
-              <VoteResult>
-                <Donut
-                  color={voteOptionColor[VoteOption.noWithVeto]}
-                  size={90}
-                  perc={50}
-                />
-                <span className="v-t-c">
-                  Turn out
-                  <span>
-                    <br />
-                    54.04%
+            {proposal.proposals.map((x, i) => {
+              console.log(x);
+              return (
+                <VoteCard key={i.toString()}>
+                  <span className="v-n">#{x.proposal_id}</span>
+                  <span className="v-t">
+                    {x.content.title}{" "}
+                    {moment(x.submit_time).format("MM/DD/YYYY")}
                   </span>
-                </span>
-                <div className="v-t-c-l" />
-                <span className="v-t-c">
-                  Most voted
-                  <br />
-                  <MostVoted color={voteOptionColor[VoteOption.noWithVeto]}>
-                    {VoteOption.noWithVeto}
-                    <span>54%</span>
-                  </MostVoted>
-                </span>
-              </VoteResult>
-              <div className="v-f">
-                <span className="v-t-c">
-                  Voting End Time
-                  <span>
-                    <br />
-                    2022-03-03 16:58 UTC
-                  </span>
-                </span>
-                <div>
-                  <Button buttonType="border">Detail</Button>
-                  <Button>Vote</Button>
-                </div>
-              </div>
-            </VoteCard>
-            <VoteCard>
-              <span className="v-n">#134</span>
-              <span className="v-t">
-                Semi-Automatic Incentive Adjustments for 02/28/2022
-              </span>
-              <VoteResult>
-                <Donut
-                  color={voteOptionColor[VoteOption.abstain]}
-                  size={90}
-                  perc={50}
-                />
-                <span className="v-t-c">
-                  Turn out
-                  <span>
-                    <br />
-                    54.04%
-                  </span>
-                </span>
-                <div className="v-t-c-l" />
-                <span className="v-t-c">
-                  Most voted
-                  <br />
-                  <MostVoted color={voteOptionColor[VoteOption.abstain]}>
-                    {VoteOption.abstain}
-                    <span>54%</span>
-                  </MostVoted>
-                </span>
-              </VoteResult>
-              <div className="v-f">
-                <span className="v-t-c">
-                  Voting End Time
-                  <span>
-                    <br />
-                    2022-03-03 16:58 UTC
-                  </span>
-                </span>
-                <div>
-                  <Button buttonType="border">Detail</Button>
-                  <Button>Vote</Button>
-                </div>
-              </div>
-            </VoteCard>
-            <VoteCard>
-              <span className="v-n">#134</span>
-              <span className="v-t">
-                Semi-Automatic Incentive Adjustments for 02/28/2022
-              </span>
-              <VoteResult>
-                <Donut
-                  color={voteOptionColor[VoteOption.no]}
-                  size={90}
-                  perc={50}
-                />
-                <span className="v-t-c">
-                  Turn out
-                  <span>
-                    <br />
-                    54.04%
-                  </span>
-                </span>
-                <div className="v-t-c-l" />
-                <span className="v-t-c">
-                  Most voted
-                  <br />
-                  <MostVoted color={voteOptionColor[VoteOption.no]}>
-                    {VoteOption.no}
-                    <span>54%</span>
-                  </MostVoted>
-                </span>
-              </VoteResult>
-              <div className="v-f">
-                <span className="v-t-c">
-                  Voting End Time
-                  <span>
-                    <br />
-                    2022-03-03 16:58 UTC
-                  </span>
-                </span>
-                <div>
-                  <Button
-                    onClick={() => handleVoteDetail({})}
-                    buttonType="border"
-                  >
-                    Detail
-                  </Button>
-                  <Button>Vote</Button>
-                </div>
-              </div>
-            </VoteCard>
-            <VoteCard>
-              <span className="v-n">#134</span>
-              <span className="v-t">
-                Semi-Automatic Incentive Adjustments for 02/28/2022
-              </span>
-              <VoteResult>
-                <Donut
-                  color={voteOptionColor[VoteOption.yes]}
-                  size={90}
-                  perc={50}
-                />
-                <span className="v-t-c">
-                  Turn out
-                  <span>
-                    <br />
-                    54.04%
-                  </span>
-                </span>
-                <div className="v-t-c-l" />
-                <span className="v-t-c">
-                  Most voted
-                  <br />
-                  <MostVoted color={voteOptionColor[VoteOption.yes]}>
-                    {VoteOption.abstain}
-                    <span>54%</span>
-                  </MostVoted>
-                </span>
-              </VoteResult>
-              <div className="v-f">
-                <span className="v-t-c">
-                  Voting End Time
-                  <span>
-                    <br />
-                    2022-03-03 16:58 UTC
-                  </span>
-                </span>
-                <div>
-                  <Button buttonType="border">Detail</Button>
-                  <Button>Vote</Button>
-                </div>
-              </div>
-            </VoteCard>
+                  <VoteResult>
+                    <Donut
+                      color={voteOptionColor[VoteOption.noWithVeto]}
+                      size={90}
+                      perc={50}
+                    />
+                    <span className="v-t-c">
+                      Turn out
+                      <span>
+                        <br />
+                        54.04%
+                      </span>
+                    </span>
+                    <div className="v-t-c-l" />
+                    <span className="v-t-c">
+                      Most voted
+                      <br />
+                      <MostVoted color={voteOptionColor[VoteOption.noWithVeto]}>
+                        {VoteOption.noWithVeto}
+                        <span>54%</span>
+                      </MostVoted>
+                    </span>
+                  </VoteResult>
+                  <div className="v-f">
+                    <span className="v-t-c">
+                      Voting End Time
+                      <span>
+                        <br />
+                        {moment(x.voting_end_time)
+                          .utc()
+                          .format("YYYY-MM-DD HH:mm") + " UTC"}
+                      </span>
+                    </span>
+                    <div>
+                      <Button shadowDisabled buttonType="border">
+                        Detail
+                      </Button>
+                      <Button shadowDisabled>Vote</Button>
+                    </div>
+                  </div>
+                </VoteCard>
+              );
+            })}
           </VoteCards>
         </Content>
       </Container>

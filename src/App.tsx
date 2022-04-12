@@ -21,7 +21,7 @@ export default function App() {
         <Route path="/stake" element={<Stake />} />
         <Route path="/airdrop/claim" element={<Story />} />
         <Route path="/airdrop" element={<Airdrop />} />
-        <Route path="/vote" element={<Story />} />
+        <Route path="/vote" element={<Vote />} />
         <Route path="/" element={<Main />} />
       </Routes>
       <TxBroadcasting />

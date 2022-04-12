@@ -3,6 +3,7 @@ import bank from './bank';
 import distribution from './distribution';
 import staking from './staking';
 import tx from './tx';
+import gov from './gov';
 import wallet from './wallet';
 
 export const store = configureStore({
@@ -11,7 +12,8 @@ export const store = configureStore({
         staking,
         distribution: distribution,
         bank: bank,
-        tx: tx
+        tx: tx,
+        gov: gov
     },
     middleware: gmd => gmd({
         serializableCheck: false
