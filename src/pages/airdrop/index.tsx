@@ -1,12 +1,4 @@
-import {
-  Box,
-  ButtonBase,
-  CircularProgress,
-  InputBase,
-  LinearProgress,
-  styled
-} from "@mui/material";
-import { isFocusable } from "@testing-library/user-event/dist/utils";
+import { Box, ButtonBase, InputBase, styled } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,19 +31,6 @@ export default function Airdrop() {
     setOsmosisStake("0");
     setOsmosisPool("0");
     setSearched(false);
-  };
-
-  const handleDetectClipboard = (e: React.MouseEvent<HTMLInputElement>) => {
-    if (!address) {
-      navigator.clipboard
-        .readText()
-        .then(t => {
-          if (t && (t.startsWith("cosmos") || t.startsWith("osmo"))) {
-            setAddress(t);
-          }
-        })
-        .catch(console.log);
-    }
   };
 
   const handleCheckClaimAmount = (e?: React.MouseEvent) => {
@@ -113,7 +92,6 @@ export default function Airdrop() {
             fullWidth
             value={address}
             onChange={e => setAddress(e.target.value)}
-            onClick={handleDetectClipboard}
             placeholder="Enter your cosmos or osmosis address"
             onKeyDown={e => {
               e.key === "Enter" && handleCheckClaimAmount(undefined);
