@@ -158,11 +158,36 @@ export default function Airdrop() {
               <span>2022-01-01 00:00 UTC</span>
             </div>
           </Schedules>
+
+          <Link>
+            <a
+              target="_blank"
+              href="https://medium.com/@galaxyuniverse/airdrops-4a93d65c9c2e"
+              rel="noreferrer"
+            >
+              Read more about airdrops
+            </a>
+            <img alt="share" src="/assets/images/share_color.svg" />
+          </Link>
         </Content>
       </Container>
     </AppLayout>
   );
 }
+
+const Link = styled("a")`
+  margin-top: 16px;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  & a {
+    margin-right: 6px;
+    color: #8f8aff;
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid #8f8aff;
+  }
+`;
 
 const Schedules = styled("div")`
   display: flex;
