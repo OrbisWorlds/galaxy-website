@@ -28,7 +28,7 @@ const Tab = styled("span")`
   font-size: 13px;
   color: #5954cc;
   flex: 1;
-  padding: 12px 20px;
+  padding: 8px 20px;
   cursor: pointer;
 `;
 

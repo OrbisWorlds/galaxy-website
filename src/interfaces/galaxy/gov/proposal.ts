@@ -20,8 +20,8 @@ export interface Proposal {
     total_deposit: Coin[],
     voting_start_time: string
     voting_end_time: string
-
 }
+
 export const ProposalStatus = {
     PROPOSAL_STATUS_UNSPECIFIED: "PROPOSAL_STATUS_UNSPECIFIED",
     PROPOSAL_STATUS_DEPOSIT_PERIOD: "PROPOSAL_STATUS_DEPOSIT_PERIOD",

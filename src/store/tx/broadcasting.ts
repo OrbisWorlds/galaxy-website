@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { claimAllRewards } from "../distribution";
+import { deposit } from "../gov";
 import { delegate, reDelegate, unDelegate } from "../staking";
 
 interface InitialState {
@@ -32,6 +33,9 @@ export default createSlice({
             state.open = true
         })
         builder.addCase(claimAllRewards.pending, (state, action) => {
+            state.open = true
+        })
+        builder.addCase(deposit.pending, (state, action) => {
             state.open = true
         })
 
