@@ -19,6 +19,7 @@ interface Props {
 
 export default function VotePopup(props: Props) {
   const dispatch = useAppDispatch();
+  const broadcasting = useAppSelector(s => s.tx.broadcasting);
   const wallet = useAppSelector(s => s.wallet);
   const [option, setOption] = React.useState<VoteOption>();
 
@@ -76,6 +77,7 @@ export default function VotePopup(props: Props) {
         <Button
           onClick={handleVoteConfirm}
           disabled={!option}
+          loading={broadcasting.open}
           sx={{ alignSelf: "flex-end" }}
         >
           Confirm

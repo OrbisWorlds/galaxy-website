@@ -55,14 +55,17 @@ export default function ProposalItem(props: Props) {
               size={90}
               perc={mostVoted?.perc || 0}
             />
-            <span className="v-t-c">
+            {/*
+                <span className="v-t-c">
               Turn out
               <span>
                 <br />
                 {mostVoted?.perc || "0"}%
               </span>
             </span>
-            <div className="v-t-c-l" />
+            <div className="v-t-c-l" /> 
+              */}
+
             <span className="v-t-c">
               Most voted
               <br />

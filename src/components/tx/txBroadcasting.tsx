@@ -9,6 +9,7 @@ export function TxBroadcasting() {
   const failed = useAppSelector(s => s.tx.failed);
   const successful = useAppSelector(s => s.tx.successful);
   const { open } = useAppSelector(s => s.tx.broadcasting);
+  const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
     if ((failed.open || successful.open) && open) {
@@ -16,12 +17,16 @@ export function TxBroadcasting() {
     }
   }, [failed.open, successful.open, open, dispatch]);
 
+  React.useEffect(() => {
+    setShow(open);
+  }, [open]);
+
   const handleClose = () => {
     dispatch(broadcasting.actions.close());
   };
 
   return (
-    <Slide direction="up" in={open} mountOnEnter unmountOnExit>
+    <Slide direction="up" in={show} mountOnEnter unmountOnExit>
       <PaperWrap>
         <Content>
           <LoadingBar>
@@ -36,7 +41,7 @@ export function TxBroadcasting() {
             </span>
           </span>
         </Content>
-        <Close onClick={handleClose}>
+        <Close onClick={() => setShow(false)}>
           <img alt="close" src="/public/assets/images/close.svg" />
         </Close>
       </PaperWrap>

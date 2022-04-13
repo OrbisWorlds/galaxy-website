@@ -59,7 +59,7 @@ const Children = styled("div")`
 `;
 
 const AnimatedCircle = styled("circle")`
-  animation: circle-fill-animation 2s ease;
+  animation: circle-fill-animation 1s ease;
   @keyframes circle-fill-animation {
     0% {
       stroke-dasharray: 0 ${2 * Math.PI * 90};

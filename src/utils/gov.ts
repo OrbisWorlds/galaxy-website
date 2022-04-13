@@ -7,7 +7,7 @@ interface MostVoted {
 }
 
 
-const getVotePerc = (tally: Tally, key: keyof typeof VoteOption) => {
+export const getVotePerc = (tally: Tally, key: keyof typeof VoteOption) => {
     return Math.floor((parseInt(tally[key]) /
         Object.keys(tally).reduce((a, b) => parseInt(tally[b]) + a, 0)) * 100)
 }

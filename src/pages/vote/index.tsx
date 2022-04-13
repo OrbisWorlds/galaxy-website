@@ -3,7 +3,7 @@ import AppLayout from "../../layouts/app";
 import devicesize from "../../constants/deviceSize";
 import Tabs from "../../components/tabs";
 import styled from "@emotion/styled";
-import VoteDetailPopup from "./voteDetailPopup";
+import DetailPopup from "./detailPopup";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchParamsDeposit, fetchProposals } from "../../store/gov";
 import ProposalItem from "../../components/gov/proposalItem";
@@ -34,7 +34,7 @@ export default function Vote() {
     dispatch(fetchParamsDeposit());
   }, [tabIndex, dispatch]);
 
-  const getProposalStatusByTabIndex = (): ProposalStatus => {
+  const getProposalStatusByTabIndex = React.useCallback((): ProposalStatus => {
     switch (tabIndex) {
       case 0:
         return ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD;
@@ -47,7 +47,29 @@ export default function Vote() {
       default:
         return ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED;
     }
-  };
+  }, [tabIndex]);
+
+  React.useEffect(() => {
+    if (
+      getProposalStatusByTabIndex() ===
+        ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD &&
+      !depositProposal &&
+      detailProposal &&
+      !proposal.proposals.filter(
+        x =>
+          x.proposal_id === detailProposal.proposal_id &&
+          x.status === ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD
+      ).length
+    ) {
+      setDetailProposal(undefined);
+    }
+  }, [
+    tabIndex,
+    proposal.proposals,
+    depositProposal,
+    detailProposal,
+    getProposalStatusByTabIndex
+  ]);
 
   const handleDeposit = (proposal: Proposal) => {
     setDepositProposal(proposal);
@@ -55,26 +77,26 @@ export default function Vote() {
 
   return (
     <AppLayout wallet background={<Background />}>
-      {voteProposal && (
-        <VotePopup
-          onClose={() => setVoteProposal(undefined)}
-          proposal={voteProposal}
-        />
-      )}
       {detailProposal && (
-        <VoteDetailPopup
+        <DetailPopup
+          onProposal={() => setVoteProposal(detailProposal)}
           proposal={detailProposal}
+          onDeposit={() => setDepositProposal(detailProposal)}
           onClose={() => setDetailProposal(undefined)}
         />
       )}
-
       {depositProposal && (
         <DepositPopup
           proposal={depositProposal}
           onClose={() => setDepositProposal(undefined)}
         />
       )}
-
+      {voteProposal && (
+        <VotePopup
+          onClose={() => setVoteProposal(undefined)}
+          proposal={voteProposal}
+        />
+      )}
       <Container>
         <Content>
           <Tabs
