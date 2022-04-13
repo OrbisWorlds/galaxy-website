@@ -6,11 +6,11 @@ import styled from "@emotion/styled";
 import VoteDetailPopup from "./voteDetailPopup";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchParamsDeposit, fetchProposals } from "../../store/gov";
-import VoteItem from "../../components/votes/voteItem";
+import ProposalItem from "../../components/gov/proposalItem";
 import { Proposal, ProposalStatus } from "../../interfaces/galaxy/gov";
 import DepositPopup from "./depositPopup";
 import { connectWallet } from "../../store/wallet";
-
+import VotePopup from "./votePopup";
 export default function Vote() {
   const dispatch = useAppDispatch();
   const gov = useAppSelector(s => s.gov);
@@ -18,8 +18,9 @@ export default function Vote() {
   const params = gov.params;
 
   const [tabIndex, setTabIndex] = React.useState(0);
-  const [detailVote, setDetailVote] = React.useState<Proposal>();
+  const [detailProposal, setDetailProposal] = React.useState<Proposal>();
   const [depositProposal, setDepositProposal] = React.useState<Proposal>();
+  const [voteProposal, setVoteProposal] = React.useState<Proposal>();
 
   React.useEffect(() => {
     window.onload = () => {
@@ -32,10 +33,6 @@ export default function Vote() {
     dispatch(fetchProposals());
     dispatch(fetchParamsDeposit());
   }, [tabIndex, dispatch]);
-
-  const handleVoteDetail = (data: Proposal) => {
-    setDetailVote({ ...data });
-  };
 
   const getProposalStatusByTabIndex = (): ProposalStatus => {
     switch (tabIndex) {
@@ -58,8 +55,17 @@ export default function Vote() {
 
   return (
     <AppLayout wallet background={<Background />}>
-      {detailVote && (
-        <VoteDetailPopup onClose={() => setDetailVote(undefined)} />
+      {voteProposal && (
+        <VotePopup
+          onClose={() => setVoteProposal(undefined)}
+          proposal={voteProposal}
+        />
+      )}
+      {detailProposal && (
+        <VoteDetailPopup
+          proposal={detailProposal}
+          onClose={() => setDetailProposal(undefined)}
+        />
       )}
 
       {depositProposal && (
@@ -84,12 +90,18 @@ export default function Vote() {
                 return null;
               }
               return (
-                <VoteItem
+                <ProposalItem
                   minDeposit={params.deposit_params.min_deposit}
                   status={status}
                   key={i.toString()}
                   proposal={x}
                   onDeposit={handleDeposit}
+                  onDetail={p => {
+                    setDetailProposal(p);
+                  }}
+                  onVote={p => {
+                    setVoteProposal(p);
+                  }}
                 />
               );
             })}

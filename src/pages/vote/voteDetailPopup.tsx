@@ -10,13 +10,14 @@ import {
   PopupSubLabel
 } from "../../components/popup";
 import Status from "../../components/status";
-import { MostVoted } from "../../components/votes";
-import { Vote, VoteOption } from "../../interfaces/galaxy/vote";
+import { MostVoted } from "../../components/gov";
+import { Proposal, VoteOption } from "../../interfaces/galaxy/gov";
 import { voteOptionColor } from "../../constants/colors";
 import VotePopup from "./votePopup";
 
-interface Props extends Vote {
+interface Props {
   onClose: () => void;
+  proposal: Proposal;
 }
 
 export default function VoteDetailPopup(props: Props) {
@@ -93,22 +94,20 @@ export default function VoteDetailPopup(props: Props) {
               Total <span>50.180945 GLX</span>
             </Total>
             <Options>
-              <MostVoted color={voteOptionColor[VoteOption.yes]}>
+              <MostVoted color={voteOptionColor.yes}>
                 {VoteOption.yes}
               </MostVoted>
-              <MostVoted color={voteOptionColor[VoteOption.no]}>
-                {VoteOption.no}
+              <MostVoted color={voteOptionColor.no}>{VoteOption.no}</MostVoted>
+              <MostVoted color={voteOptionColor.no_with_veto}>
+                {VoteOption.no_with_veto}
               </MostVoted>
-              <MostVoted color={voteOptionColor[VoteOption.noWithVeto]}>
-                {VoteOption.noWithVeto}
-              </MostVoted>
-              <MostVoted color={voteOptionColor[VoteOption.abstain]}>
+              <MostVoted color={voteOptionColor.abstain}>
                 {VoteOption.abstain}
               </MostVoted>
             </Options>
           </Box>
           <Button onClick={handleVote} sx={{ pl: 4.5, pr: 4.5 }}>
-            Vote
+            Proposal
           </Button>
         </VoteResult>
         <PopupFooter>
@@ -122,7 +121,9 @@ export default function VoteDetailPopup(props: Props) {
           </PopupMessage>
         </PopupFooter>
       </Popup>
-      {vote && <VotePopup onClose={() => setVote(false)} />}
+      {vote && (
+        <VotePopup proposal={props.proposal} onClose={() => setVote(false)} />
+      )}
     </>
   );
 }

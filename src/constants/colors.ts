@@ -1,8 +1,8 @@
-import { VoteOption } from "../interfaces/galaxy/vote";
+import { VoteOption } from "../interfaces/galaxy/gov";
 
 export const voteOptionColor = {
-    [VoteOption.yes]: "#d25581",
-    [VoteOption.no]: "#3577e5",
-    [VoteOption.noWithVeto]: "#d67b5c",
-    [VoteOption.abstain]: "#653abd",
+    yes: "#d25581",
+    no: "#3577e5",
+    no_with_veto: "#d67b5c",
+    abstain: "#653abd",
 }

@@ -2,17 +2,58 @@ import { assertIsDeliverTxSuccess, SigningStargateClient } from "@cosmjs/stargat
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 import { galaxyChainConfig } from "../../constants/chain";
-import { Proposal } from "../../interfaces/galaxy/gov";
-import { MsgDeposit } from "../../interfaces/galaxy/gov/tx";
+import { Proposal, Tally } from "../../interfaces/galaxy/gov";
+import { MsgDeposit, MsgVote } from "../../interfaces/galaxy/gov/tx";
 
 interface InitialState {
-    proposals: Proposal[]
+    proposals: Proposal[],
+    tally: {
+        [n: string]: Tally
+    }
 }
 
 const initialState: InitialState = {
-    proposals: []
+    proposals: [],
+    tally: {}
 }
 
+export const vote = createAsyncThunk('gov/deposit', async ({ proposal_id, option, voter }: MsgVote, thunk) => {
+    try {
+        if (!window.keplr || !window.getOfflineSigner) {
+            throw new Error("Please install keplr extension.")
+        }
+        await window.keplr.enable(galaxyChainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+
+        const client = await SigningStargateClient.connectWithSigner(
+            galaxyChainConfig.rpc,
+            offlineSigner,
+        )
+
+        const result = await client.signAndBroadcast(
+            voter,
+            [{
+                typeUrl: "/cosmos.gov.v1beta1.MsgVote",
+                value: {
+                    voter,
+                    proposalId: proposal_id,
+                    option
+                }
+            }],
+            {
+                gas: "1800000",
+                amount: [{ denom: "uglx", amount: "2000" }]
+            },
+            ""
+        )
+
+        assertIsDeliverTxSuccess(result)
+        thunk.dispatch(fetchProposalTally(proposal_id))
+        return result;
+    } catch (error) {
+        return thunk.rejectWithValue(error)
+    }
+})
 
 
 export const deposit = createAsyncThunk('gov/deposit', async ({ proposal_id, depositor, amount }: MsgDeposit, thunk) => {
@@ -55,11 +96,6 @@ export const deposit = createAsyncThunk('gov/deposit', async ({ proposal_id, dep
     }
 })
 
-
-
-
-
-
 export const fetchProposals = createAsyncThunk('vote/fetchProposals', async (arg, thunk) => {
     try {
         const response = await api.get('/cosmos/gov/v1beta1/proposals')
@@ -73,6 +109,20 @@ export const fetchProposals = createAsyncThunk('vote/fetchProposals', async (arg
     }
 })
 
+export const fetchProposalTally = createAsyncThunk('vote/fetchProposalTally', async (proposalId: string | number, thunk) => {
+    try {
+        const response = await api.get('/cosmos/gov/v1beta1/proposals/' + proposalId + "/tally")
+        const data = response.data;
+
+        const tally = data.tally as Tally
+
+        return { proposalId, tally }
+    } catch (error) {
+        return thunk.rejectWithValue(error)
+    }
+})
+
+
 
 export default createSlice({
     name: 'gov/proposal',
@@ -81,5 +131,8 @@ export default createSlice({
     },
     extraReducers: builder => {
         builder.addCase(fetchProposals.fulfilled, (state, action) => { state.proposals = action.payload })
+        builder.addCase(fetchProposalTally.fulfilled, (state, action) => {
+            state.tally[action.payload.proposalId] = action.payload.tally
+        })
     }
 }).reducer

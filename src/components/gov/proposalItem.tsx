@@ -1,24 +1,39 @@
 import React from "react";
 import devicesize from "../../constants/deviceSize";
-import Button from "../../components/button";
-import { VoteOption } from "../../interfaces/galaxy/vote";
+import Button from "../button";
+import { VoteOption, VoteOptionLabel } from "../../interfaces/galaxy/gov";
 import { voteOptionColor } from "../../constants/colors";
-import Donut from "../../components/charts/donut";
+import Donut from "../charts/donut";
 import styled from "@emotion/styled";
-import { MostVoted } from "../../components/votes";
+import { MostVoted } from ".";
 import moment from "moment";
 import { Proposal, ProposalStatus } from "../../interfaces/galaxy/gov";
-import { parseOriginCoinAmount } from "../../utils";
+import { getMostVoted, parseOriginCoinAmount } from "../../utils";
 import { Coin } from "../../interfaces/galaxy";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchProposalTally } from "../../store/gov";
 
 interface Props {
   proposal: Proposal;
   status: ProposalStatus;
   minDeposit?: Coin[];
   onDeposit?: (proposal: Proposal) => void;
+  onVote?: (proposal: Proposal) => void;
+  onDetail: (proposal: Proposal) => void;
 }
 
-export default function VoteItem(props: Props) {
+export default function ProposalItem(props: Props) {
+  const dispatch = useAppDispatch();
+  const tally = useAppSelector(s => s.gov.proposal.tally);
+
+  React.useEffect(() => {
+    if (props.status !== ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD) {
+      dispatch(fetchProposalTally(props.proposal.proposal_id));
+    }
+  }, [dispatch, props.status, props.proposal.proposal_id]);
+
+  const mostVoted = getMostVoted(tally[props.proposal.proposal_id]);
+
   return (
     <VoteCard>
       <span className="v-n">
@@ -36,24 +51,26 @@ export default function VoteItem(props: Props) {
         {props.status !== ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD ? (
           <>
             <Donut
-              color={voteOptionColor[VoteOption.noWithVeto]}
+              color={mostVoted ? voteOptionColor[mostVoted.option] : ""}
               size={90}
-              perc={50}
+              perc={mostVoted?.perc || 0}
             />
             <span className="v-t-c">
               Turn out
               <span>
                 <br />
-                54.04%
+                {mostVoted?.perc || "0"}%
               </span>
             </span>
             <div className="v-t-c-l" />
             <span className="v-t-c">
               Most voted
               <br />
-              <MostVoted color={voteOptionColor[VoteOption.noWithVeto]}>
-                {VoteOption.noWithVeto}
-                <span>54%</span>
+              <MostVoted
+                color={mostVoted ? voteOptionColor[mostVoted.option] : ""}
+              >
+                {mostVoted ? VoteOptionLabel[VoteOption[mostVoted.option]] : ""}
+                <span>{mostVoted?.perc || "0"}%</span>
               </MostVoted>
             </span>
           </>
@@ -114,7 +131,13 @@ export default function VoteItem(props: Props) {
           <span />
         )}
         <div>
-          <Button shadowDisabled buttonType="border">
+          <Button
+            onClick={() => {
+              if (props.onDetail) props.onDetail(props.proposal);
+            }}
+            shadowDisabled
+            buttonType="border"
+          >
             Detail
           </Button>
           {props.status === ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD ? (
@@ -127,7 +150,14 @@ export default function VoteItem(props: Props) {
               Deposit
             </Button>
           ) : (
-            <Button shadowDisabled>Vote</Button>
+            <Button
+              shadowDisabled
+              onClick={() => {
+                if (props.onVote) props.onVote(props.proposal);
+              }}
+            >
+              Vote
+            </Button>
           )}
         </div>
       </div>
