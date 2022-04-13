@@ -1,5 +1,4 @@
-import { EncodeObject } from "@cosmjs/proto-signing"
-import { Coin } from "../common"
+import { Coin } from "../../common"
 
 export interface Reward {
     validator_address: string

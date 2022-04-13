@@ -2,7 +2,7 @@ import { assertIsDeliverTxSuccess, SigningStargateClient } from "@cosmjs/stargat
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 import { galaxyChainConfig } from "../../constants/chain";
-import { Coin } from "../../interfaces/galaxy";
+import { Coin } from "../../interfaces";
 import { Reward, ClaimAllRewardParams } from "../../interfaces/galaxy/distribution";
 import { fetchBalances } from "../bank";
 import { fetchDelegations, fetchDelegationValidators } from "../staking";

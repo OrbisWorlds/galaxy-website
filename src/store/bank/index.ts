@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 import config from "../../constants/config";
-import { Coin } from "../../interfaces/galaxy";
+import { Coin } from "../../interfaces";
 
 const initialBalances: Coin[] = [
     { denom: config.coinOriginDenom, amount: "0" }

@@ -1,4 +1,4 @@
-import { Coin } from "../common"
+import { Coin } from "../../common"
 
 export interface Params {
     "voting_params": {

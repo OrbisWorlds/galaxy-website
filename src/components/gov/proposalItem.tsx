@@ -9,7 +9,7 @@ import { MostVoted } from ".";
 import moment from "moment";
 import { Proposal, ProposalStatus } from "../../interfaces/galaxy/gov";
 import { getMostVoted, parseOriginCoinAmount } from "../../utils";
-import { Coin } from "../../interfaces/galaxy";
+import { Coin } from "../../interfaces";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchProposalTally } from "../../store/gov";
 

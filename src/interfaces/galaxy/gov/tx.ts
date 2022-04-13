@@ -1,4 +1,4 @@
-import { Coin } from "../common"
+import { Coin } from "../../common"
 import { VoteOption } from "./proposal"
 
 export interface MsgDeposit {
