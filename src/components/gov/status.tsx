@@ -7,7 +7,7 @@ interface Props {
 
 export function Status(props: Props) {
   return (
-    <Container>
+    <Container status={props.status}>
       <img alt="check" src="/public/assets/images/checked.svg" />
       {props.status === ProposalStatus.PROPOSAL_STATUS_PASSED && "PASSED"}
       {props.status === ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD &&
@@ -25,11 +25,18 @@ const Container = styled("span")`
   align-self: flex-start;
   margin-top: 5px;
   width: auto;
-  background-color: #7d77ff;
+  background-color: ${(props: Props) =>
+    props.status === ProposalStatus.PROPOSAL_STATUS_PASSED
+      ? "#7d77ff"
+      : props.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD
+      ? "#73c86c"
+      : props.status === ProposalStatus.PROPOSAL_STATUS_REJECTED
+      ? "#fd8176"
+      : "#efc66e"};
   color: #ffffff;
   font-size: 12px;
   font-family: "Heebo-Regular";
-  padding: 5px 13px 5px 8px;
+  padding: 2px 13px 2px 8px;
   & img {
     margin-right: 4px;
     width: 10px;
