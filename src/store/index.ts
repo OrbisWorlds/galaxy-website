@@ -5,6 +5,7 @@ import staking from './staking';
 import tx from './tx';
 import gov from './gov';
 import wallet from './wallet';
+import clairdrop from './clairdrop';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         distribution: distribution,
         bank: bank,
         tx: tx,
+        clairdrop: clairdrop,
         gov: gov
     },
     middleware: gmd => gmd({

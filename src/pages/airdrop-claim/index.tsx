@@ -2,35 +2,107 @@ import React from "react";
 import { Grid, styled } from "@mui/material";
 import AppLayout from "../../layouts/app";
 import devicesize from "../../constants/deviceSize";
-
-const MISSION_STATE = {
-  wait: "mission_wait",
-  claimed: "mission_claimed",
-  coming: "mission_coming"
-} as const;
-type MISSION_STATE = typeof MISSION_STATE[keyof typeof MISSION_STATE];
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { connectWallet } from "../../store/wallet";
+import { fetchClaimRecord, fetchTotalClaimable } from "../../store/clairdrop";
+import { parseOriginCoinAmount } from "../../utils";
+import {
+  ClaimMissionState,
+  ClaimMissionStateLabel
+} from "../../interfaces/galaxy/clairdrop";
+import config from "../../constants/config";
 
 export default function AirdropClaim() {
-  const [mission1, setMisson1] = React.useState<MISSION_STATE>(
-    MISSION_STATE.claimed
+  const dispatch = useAppDispatch();
+  const wallet = useAppSelector(s => s.wallet);
+  const clairdrop = useAppSelector(s => s.clairdrop);
+  const [mission1, setMisson1] = React.useState<ClaimMissionState>(
+    ClaimMissionState.notEligible
   );
-  const [mission2, setMisson2] = React.useState<MISSION_STATE>(
-    MISSION_STATE.wait
+  const [mission2, setMisson2] = React.useState<ClaimMissionState>(
+    ClaimMissionState.notEligible
   );
-  const [mission3, setMisson3] = React.useState<MISSION_STATE>(
-    MISSION_STATE.coming
+  const [mission3, setMisson3] = React.useState<ClaimMissionState>(
+    ClaimMissionState.notEligible
   );
-  const [mission4, setMisson4] = React.useState<MISSION_STATE>(
-    MISSION_STATE.coming
+  const [mission4, setMisson4] = React.useState<ClaimMissionState>(
+    ClaimMissionState.notEligible
   );
-  const [mission5, setMisson5] = React.useState<MISSION_STATE>(
-    MISSION_STATE.coming
+  const [mission5, setMisson5] = React.useState<ClaimMissionState>(
+    ClaimMissionState.notEligible
   );
+
+  React.useEffect(() => {
+    window.onload = () => {
+      dispatch(connectWallet());
+    };
+    dispatch(connectWallet());
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (!wallet.connected) return;
+
+    dispatch(fetchClaimRecord(wallet.address));
+    dispatch(fetchTotalClaimable(wallet.address));
+  }, [wallet, dispatch]);
+
+  React.useEffect(() => {
+    setMisson1(
+      clairdrop.eligible
+        ? ClaimMissionState.claimed
+        : ClaimMissionState.notEligible
+    );
+    setMisson2(
+      clairdrop.eligible
+        ? clairdrop.claimRecord.action_completed[0]
+          ? ClaimMissionState.claimed
+          : ClaimMissionState.eligible
+        : ClaimMissionState.notEligible
+    );
+    setMisson3(
+      clairdrop.eligible
+        ? clairdrop.claimRecord.action_completed[1]
+          ? ClaimMissionState.claimed
+          : ClaimMissionState.eligible
+        : ClaimMissionState.notEligible
+    );
+    setMisson4(
+      clairdrop.eligible
+        ? ClaimMissionState.coming
+        : ClaimMissionState.notEligible
+    );
+    setMisson5(
+      clairdrop.eligible
+        ? ClaimMissionState.coming
+        : ClaimMissionState.notEligible
+    );
+  }, [clairdrop]);
+
+  const getClaimedAmount = React.useCallback(() => {
+    if (!clairdrop.eligible) {
+      return "0";
+    }
+    const glx = clairdrop.claimRecord.inital_claimable_amount.filter(
+      x => x.denom === config.coinOriginDenom
+    )[0];
+
+    if (!glx) {
+      return "0";
+    }
+
+    let amountPerAction = (parseInt(glx.amount) * 1) / 4;
+
+    return String(
+      amountPerAction +
+        clairdrop.claimRecord.action_completed.filter(x => x).length *
+          amountPerAction
+    );
+  }, [clairdrop]);
 
   const getProgressPerc = (img?: boolean) => {
     return (
-      [mission1, mission2, mission3, mission4, mission5].filter(
-        x => x === MISSION_STATE.claimed
+      [clairdrop.eligible, ...clairdrop.claimRecord.action_completed].filter(
+        x => x
       ).length * 20
     );
   };
@@ -55,7 +127,12 @@ export default function AirdropClaim() {
               <span id="claimed">
                 Claimed
                 <span>
-                  1470 / 2453.31<span>GLX</span>
+                  {parseOriginCoinAmount(getClaimedAmount())} /{" "}
+                  {parseOriginCoinAmount(
+                    parseInt(clairdrop.totalClaimable.amount) +
+                      parseInt(getClaimedAmount())
+                  )}
+                  <span> GLX</span>
                 </span>
               </span>
               <span id="perc">{getProgressPerc()}%</span>
@@ -63,43 +140,44 @@ export default function AirdropClaim() {
           </Progress>
           <Label>My Missions</Label>
           <ClaimGrid>
-            <div className={"content " + mission1}>
-              <span className="mission">Mission #1</span>
-              <span className="title">Claim initial 20%</span>
-              <div className="airdrop-state-button">
-                <span>Claimed</span>
-              </div>
-            </div>
-            <div className={"content " + mission2}>
-              <span className="mission">Mission #2</span>
-              <span className="title">Stake some GLX (20%)</span>
-              <div className="airdrop-state-button">
-                <span>Claim</span>
-              </div>
-            </div>
-            <div className={"content " + mission3}>
-              <span className="mission">Mission #3</span>
-              <span className="title">Vote on a governance proposal (20%)</span>
-              <div className="airdrop-state-button">
-                <span>Coming</span>
-              </div>
-            </div>
-            <div className={"content " + mission4}>
-              <span className="mission">Mission #4</span>
-              <span className="title">
-                Available to claim at NFT market launch (20%)
-              </span>
-              <div className="airdrop-state-button">
-                <span>Coming</span>
-              </div>
-            </div>
-            <div className={"content " + mission5}>
-              <span className="mission">Mission #5</span>
-              <span className="title">Vote on a governance proposal (20%)</span>
-              <div className="airdrop-state-button">
-                <span>Coming</span>
-              </div>
-            </div>
+            {[mission1, mission2, mission3, mission4, mission5].map((x, i) => {
+              let label = "";
+              switch (i) {
+                case 0:
+                  label = "Claim initial 20%";
+                  break;
+                case 1:
+                  label = "Stake some GLX (20%)";
+                  break;
+                case 2:
+                  label = "Vote on a governance proposal (20%)";
+                  break;
+                case 3:
+                  label = "Available to claim at STORY system launch (20%)";
+                  break;
+                case 4:
+                  label = "Available to claim at NFT market launch (20%)";
+                  break;
+              }
+              return (
+                <div className={"content " + x}>
+                  <span className="mission">Mission #{i + 1}</span>
+                  <span className="title">{label}</span>
+                  <div className="airdrop-state-button">
+                    <span>
+                      {x === ClaimMissionState.notEligible && (
+                        <img
+                          className="danger"
+                          src="/public/assets/images/danger.svg"
+                          alt="danger"
+                        />
+                      )}
+                      {ClaimMissionStateLabel[x]}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </ClaimGrid>
         </Content>
       </Container>
@@ -119,6 +197,11 @@ const ClaimGrid = styled(Grid)`
     margin-right: 30px;
     border-radius: 8px;
     background-color: #0d0c2599;
+    .danger {
+      width: 14px;
+      height: 14px;
+      margin-right: 10px;
+    }
     :nth-of-type(n + 4) {
       margin-top: 30px;
     }
@@ -160,8 +243,14 @@ const ClaimGrid = styled(Grid)`
       align-self: stretch;
     }
   }
-
-  ${"." + MISSION_STATE.claimed} {
+  ${"." + ClaimMissionState.notEligible} {
+    background-color: #0d0c25 !important;
+    .airdrop-state-button {
+      border-top: 1px solid #5954cc88;
+      color: #fd8176;
+    }
+  }
+  ${"." + ClaimMissionState.claimed} {
     background-color: #0d0c25 !important;
     border: 1px solid #5954cc;
     .airdrop-state-button {
@@ -171,7 +260,7 @@ const ClaimGrid = styled(Grid)`
       }
     }
   }
-  ${"." + MISSION_STATE.wait} {
+  ${"." + ClaimMissionState.eligible} {
     background-color: #0d0c25 !important;
     .airdrop-state-button {
       background-color: #625cca;
@@ -180,7 +269,7 @@ const ClaimGrid = styled(Grid)`
       }
     }
   }
-  ${"." + MISSION_STATE.coming} {
+  ${"." + ClaimMissionState.coming} {
     background-color: #0d0c25 !important;
     .airdrop-state-button {
       border-top: 1px solid #5954cc44;

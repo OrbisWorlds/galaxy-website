@@ -1,16 +1,10 @@
-import {
-  Box,
-  ButtonBase,
-  CircularProgress,
-  InputBase,
-  LinearProgress,
-  styled
-} from "@mui/material";
-import { isFocusable } from "@testing-library/user-event/dist/utils";
-import axios from "axios";
 import React from "react";
+import { Box, ButtonBase, InputBase, styled } from "@mui/material";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/app";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { connectWallet } from "../../store/wallet";
 
 interface Record {
   Address: string;
@@ -20,6 +14,8 @@ interface Record {
 
 export default function Airdrop() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const wallet = useAppSelector(s => s.wallet);
   const [address, setAddress] = React.useState("");
   const [cosmoshub, setCosmoshub] = React.useState("0");
   const [osmosisStake, setOsmosisStake] = React.useState("0");
@@ -27,6 +23,19 @@ export default function Airdrop() {
   const [searched, setSearched] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    window.onload = () => {
+      dispatch(connectWallet());
+    };
+    dispatch(connectWallet());
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (wallet.connected) {
+      navigate("/airdrop/claim", { replace: true });
+    }
+  }, [wallet, navigate]);
 
   React.useEffect(() => {
     if (!address) {
