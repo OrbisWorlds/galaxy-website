@@ -35,7 +35,11 @@ export default function ProposalItem(props: Props) {
   const mostVoted = getMostVoted(tally[props.proposal.proposal_id]);
 
   return (
-    <VoteCard>
+    <VoteCard
+      onClick={() => {
+        if (props.onDetail) props.onDetail(props.proposal);
+      }}
+    >
       <span className="v-n">
         #{props.proposal.proposal_id}
         <span>
@@ -135,6 +139,10 @@ export default function ProposalItem(props: Props) {
         )}
         <div>
           <Button
+            sx={{
+              cursor: "none",
+              pointerEvents: "none"
+            }}
             onClick={() => {
               if (props.onDetail) props.onDetail(props.proposal);
             }}
@@ -189,12 +197,18 @@ const VoteResult = styled("div")`
 
 const VoteCard = styled.div`
   background-color: #0d0c25;
-  border: 1px solid #5954cc;
   border-radius: 8px;
   width: calc(calc(100% - 30px) / 2);
   margin-top: 30px;
   display: flex;
   flex-direction: column;
+  transition: transform ease 0.3s, border ease-in 0.2s;
+  transition-delay: 0s, 0.2s;
+  cursor: pointer;
+  :hover {
+    transform: scale(1.01);
+    border: 1px solid #5954cc;
+  }
   & svg {
     margin-right: 28px;
   }
