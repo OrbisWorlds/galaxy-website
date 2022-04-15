@@ -19,6 +19,7 @@ module.exports = (env, argv) => {
     devtool: isDevelopment ? "source-map" : "hidden-source-map",
     entry: "./src/index.tsx",
     output: {
+      publicPath: "/",
       filename: "[name].js",
       path: path.resolve(__dirname, "dist")
     },
