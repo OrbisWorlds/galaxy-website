@@ -112,7 +112,7 @@ export default function Introduce() {
           t1={"NFT/Metaverse"}
           t2={
             <>
-              Imagine They <br />
+              Imagine The <br />
               New Universe
             </>
           }
