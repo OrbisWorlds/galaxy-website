@@ -6,7 +6,7 @@ import { ValidatorPopupHeader } from "../../components/stake";
 import { TokenAmountLabel } from "../../components/label";
 import { Validator } from "../../interfaces/galaxy/staking";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { parseOriginCoinAmount } from "../../utils";
+import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils";
 import { fetchDelegations } from "../../store/staking";
 import { Delegation } from "../../interfaces/galaxy/staking/delegation";
 
@@ -35,6 +35,7 @@ export default function ManagePopup(props: Props) {
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
       <ValidatorPopupHeader
+        operatorAddress={props.validator.operator_address}
         moniker={props.validator.description.moniker}
         commision={
           parseFloat(props.validator.commission.commission_rates.rate) * 100
@@ -59,17 +60,21 @@ export default function ManagePopup(props: Props) {
         <TokenAmountLabel
           label="My Delegation"
           denom={delegation?.balance.denom}
-          amount={parseOriginCoinAmount(delegation?.balance.amount)}
+          amount={parsePrettyNumber(
+            parseOriginCoinAmount(delegation?.balance.amount)
+          )}
           sx={{ mt: 2.5 }}
         />
         <Buttons>
           <Button
+            disabled={!Boolean(delegation)}
             buttonType="border2"
             onClick={() => props.onReDelegate(props.validator, delegation)}
           >
             ReDelegate
           </Button>
           <Button
+            disabled={!Boolean(delegation)}
             buttonType="cancel"
             onClick={() => props.onUnDelegate(props.validator)}
           >

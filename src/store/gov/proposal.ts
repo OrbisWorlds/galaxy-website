@@ -1,7 +1,7 @@
 import { assertIsDeliverTxSuccess, SigningStargateClient } from "@cosmjs/stargate";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-import { galaxyChainConfig } from "../../constants/chain";
+import { chainConfig } from "../../constants/chain";
 import { Proposal, Tally } from "../../interfaces/galaxy/gov";
 import { MsgDeposit, MsgVote } from "../../interfaces/galaxy/gov/tx";
 
@@ -22,11 +22,11 @@ export const vote = createAsyncThunk('gov/deposit', async ({ proposal_id, option
         if (!window.keplr || !window.getOfflineSigner) {
             throw new Error("Please install keplr extension.")
         }
-        await window.keplr.enable(galaxyChainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+        await window.keplr.enable(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
-            galaxyChainConfig.rpc,
+            chainConfig.rpc,
             offlineSigner,
         )
 
@@ -61,11 +61,11 @@ export const deposit = createAsyncThunk('gov/deposit', async ({ proposal_id, dep
         if (!window.keplr || !window.getOfflineSigner) {
             throw new Error("Please install keplr extension.")
         }
-        await window.keplr.enable(galaxyChainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+        await window.keplr.enable(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
-            galaxyChainConfig.rpc,
+            chainConfig.rpc,
             offlineSigner,
         )
 

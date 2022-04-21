@@ -6,7 +6,7 @@ import { ValidatorPopupHeader, UnDelegateWaning } from "../../components/stake";
 import { TokenAmountLabel } from "../../components/label";
 import TokenInput from "../../components/input/tokenInput";
 import { Validator } from "../../interfaces/galaxy/staking";
-import { parseOriginCoinAmount } from "../../utils";
+import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import config from "../../constants/config";
 import { fetchDelegations, unDelegate } from "../../store/staking";
@@ -32,7 +32,7 @@ export default function UnDelegatePopup(props: Props) {
 
   const insufficientBalance =
     parseFloat(amount) >
-    parseFloat(parseOriginCoinAmount(delegation.balance.amount));
+    parseFloat(parseOriginCoinAmount(delegation?.balance.amount));
 
   React.useEffect(() => {
     if (!wallet.connected) return;
@@ -58,6 +58,7 @@ export default function UnDelegatePopup(props: Props) {
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
       <ValidatorPopupHeader
+        operatorAddress={props.validator.operator_address}
         moniker={props.validator.description.moniker}
         commision={
           parseFloat(props.validator.commission.commission_rates.rate) * 100
@@ -69,7 +70,9 @@ export default function UnDelegatePopup(props: Props) {
         <TokenAmountLabel
           label="My Delegation"
           denom={delegation?.balance.denom}
-          amount={parseOriginCoinAmount(delegation?.balance.amount)}
+          amount={parsePrettyNumber(
+            parseOriginCoinAmount(delegation?.balance.amount)
+          )}
           sx={{ mt: 2.5 }}
         />
         <TokenInput

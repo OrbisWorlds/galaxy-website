@@ -5,7 +5,7 @@ import devicesize from "../../constants/deviceSize";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { connectWallet } from "../../store/wallet";
 import { fetchClaimRecord, fetchTotalClaimable } from "../../store/clairdrop";
-import { parseOriginCoinAmount } from "../../utils";
+import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils";
 import {
   ClaimMissionState,
   ClaimMissionStateLabel
@@ -127,10 +127,13 @@ export default function AirdropClaim() {
               <span id="claimed">
                 Claimed
                 <span>
-                  {parseOriginCoinAmount(getClaimedAmount())} /{" "}
-                  {parseOriginCoinAmount(
-                    parseInt(clairdrop.totalClaimable.amount) +
-                      parseInt(getClaimedAmount())
+                  {parsePrettyNumber(parseOriginCoinAmount(getClaimedAmount()))}{" "}
+                  /{" "}
+                  {parsePrettyNumber(
+                    parseOriginCoinAmount(
+                      parseInt(clairdrop.totalClaimable.amount) +
+                        parseInt(getClaimedAmount())
+                    )
                   )}
                   <span> GLX</span>
                 </span>

@@ -20,7 +20,7 @@ import ReDelegatePopup from "./reDelegatePopup";
 import { claimAllRewards, fetchRewards } from "../../store/distribution";
 import { connectWallet } from "../../store/wallet";
 import { Delegation } from "../../interfaces/galaxy/staking/delegation";
-import { parseOriginCoinAmount } from "../../utils/commom";
+import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils/commom";
 import UnBonding from "../../components/stake/unBonding";
 
 interface SelData {
@@ -118,16 +118,21 @@ export default function Stake() {
                 <span id="staked">
                   Staked :{" "}
                   {wallet.connected
-                    ? (delegation.totalStaked / 1000000).toFixed(6)
+                    ? parsePrettyNumber(
+                        parseOriginCoinAmount(delegation.totalStaked)
+                      )
                     : "-"}{" "}
                   GLX
                 </span>
                 <span id="apr">
                   GLX Staking APR
                   <span>
-                    {Math.floor(
-                      ((500000000000000 * 0.2) / parseInt(pool.bonded_tokens)) *
-                        100
+                    {parsePrettyNumber(
+                      Math.floor(
+                        ((500000000000000 * 0.2) /
+                          parseInt(pool.bonded_tokens)) *
+                          100
+                      )
                     )}
                     %
                   </span>
@@ -140,7 +145,7 @@ export default function Stake() {
               >
                 Claim Reward :{" "}
                 {wallet.connected
-                  ? (reward.totalReward / 1000000).toFixed(6)
+                  ? parsePrettyNumber(parseOriginCoinAmount(reward.totalReward))
                   : "-"}{" "}
                 GLX
               </ButtonBase>
@@ -160,7 +165,9 @@ export default function Stake() {
                         y => y.operator_address === x.validator_address
                       )[0]?.description.moniker
                     }
-                    onFormatBalance={b => parseOriginCoinAmount(b)}
+                    onFormatBalance={b =>
+                      parsePrettyNumber(parseOriginCoinAmount(b))
+                    }
                   />
                 );
               })}
@@ -174,35 +181,51 @@ export default function Stake() {
             th={[
               {
                 l: "Validator",
+                align: "left",
                 render: (d, i) => (
-                  <ValidatorMoniker icon="" moniker={d.description.moniker} />
+                  <ValidatorMoniker
+                    align="flex-start"
+                    operatorAddress={d.operator_address}
+                    moniker={d.description.moniker}
+                  />
                 )
               },
               { l: "Status", render: x => x.status.split("_").pop() },
               {
                 l: "Voting Power",
-                render: (d, i) =>
-                  (
-                    (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
-                    100
-                  ).toFixed(1) + "%"
+                render: (d, i) => (
+                  <>
+                    {parsePrettyNumber(
+                      parseFloat(parseOriginCoinAmount(d.tokens)).toFixed()
+                    )}
+                    <br />
+                    <VotingPower>
+                      {(
+                        (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                        100
+                      ).toFixed(2) + "%"}
+                    </VotingPower>
+                  </>
+                )
               },
               {
                 l: "Commission",
                 render: (d, i) =>
-                  parseFloat(d.commission.commission_rates.rate) * 100 + "%"
+                  (
+                    parseFloat(d.commission.commission_rates.rate) * 100
+                  ).toFixed(2) + "%"
               },
               {
                 l: "Staked Coins",
                 render: (d, i) =>
-                  (
-                    parseInt(
+                  parsePrettyNumber(
+                    parseOriginCoinAmount(
                       delegation.delegations.filter(
                         x =>
                           x.delegation.validator_address === d.operator_address
                       )[0]?.balance.amount
-                    ) / 1000000
-                  ).toFixed(6) + " GLX"
+                    )
+                  ) + " GLX"
               },
               {
                 l: "Rewards",
@@ -246,24 +269,38 @@ export default function Stake() {
                 l: "Validator",
                 render: (d, i) => (
                   <ValidatorMoniker
+                    onClick={() => {
+                      setSelData({ popup: "manage", validator: d });
+                    }}
+                    operatorAddress={d.operator_address}
                     align="flex-start"
-                    icon=""
                     moniker={d.description.moniker}
                   />
                 )
               },
               {
                 l: "Voting Power",
-                render: d =>
-                  (
-                    (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
-                    100
-                  ).toFixed(1) + "%"
+                render: d => (
+                  <>
+                    {parsePrettyNumber(
+                      parseFloat(parseOriginCoinAmount(d.tokens)).toFixed()
+                    )}
+                    <br />
+                    <VotingPower>
+                      {(
+                        (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                        100
+                      ).toFixed(2) + "%"}
+                    </VotingPower>
+                  </>
+                )
               },
               {
                 l: "Commission",
                 render: (d, i) =>
-                  parseFloat(d.commission.commission_rates.rate) * 100 + "%"
+                  (
+                    parseFloat(d.commission.commission_rates.rate) * 100
+                  ).toFixed(2) + "%"
               },
               {
                 l: "",
@@ -287,6 +324,11 @@ export default function Stake() {
     </AppLayout>
   );
 }
+
+const VotingPower = styled("span")`
+  font-size: 13px;
+  color: #7d77ff;
+`;
 
 const Rank = styled("span")`
   font-size: 14px;

@@ -1,6 +1,7 @@
 import { Box, ButtonBase } from "@mui/material";
 import { styled } from "@mui/system";
 import { Validator } from "../../interfaces/galaxy/staking";
+import ValidatorMoniker from "../validator-moniker/validatorMoniker";
 
 interface Props {
   validators: Validator[];
@@ -16,7 +17,13 @@ export default function Validators(props: Props) {
       </Header>
       <Box sx={{ maxHeight: 52 * 3, height: 52 * 3, overflowY: "auto" }}>
         {props.validators.map((x, i) => {
-          if (props.keyword && !x.description.moniker.match(props.keyword)) {
+          if (
+            props.keyword &&
+            !x.description.moniker
+              .replace(/ /g, "")
+              .toLowerCase()
+              .match(props.keyword)
+          ) {
             return null;
           }
           return (
@@ -32,8 +39,11 @@ export default function Validators(props: Props) {
                     : "transparent"
               }}
             >
-              <Icon src="/public/assets/images/validator.svg" alt="validator" />
-              {x.description.moniker}
+              <ValidatorMoniker
+                dark
+                operatorAddress={x.operator_address}
+                moniker={x.description.moniker}
+              />
             </ListItem>
           );
         })}
@@ -41,14 +51,6 @@ export default function Validators(props: Props) {
     </Container>
   );
 }
-
-const Icon = styled("img")`
-  width: 32px;
-  height: 32px;
-  border-radius: 100%;
-  object-fit: cover;
-  margin-right: 20px;
-`;
 
 const ListItem = styled(ButtonBase)`
   padding: 10px 24px;

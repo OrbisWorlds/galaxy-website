@@ -7,13 +7,14 @@ import TokenInput from "../../components/input/tokenInput";
 import SearchInput from "../../components/input/searchInput";
 import Validators from "../../components/stake/validators";
 import { Delegation } from "../../interfaces/galaxy/staking/delegation";
-import { parseOriginCoinAmount } from "../../utils";
+import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchDelegations, reDelegate } from "../../store/staking";
 import InputErrorMessage from "../../components/input/inputErrorMessage";
 import { Validator } from "../../interfaces/galaxy/staking";
 import InputLabel from "../../components/input/inputLabel";
 import config from "../../constants/config";
+import ValidatorMoniker from "../../components/validator-moniker/validatorMoniker";
 
 interface Props {
   onClose: () => void;
@@ -68,6 +69,7 @@ export default function ReDelegatePopup(props: Props) {
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
       <ValidatorPopupHeader
+        operatorAddress={props.validator.operator_address}
         moniker={props.validator.description.moniker}
         commision={
           parseFloat(props.validator.commission.commission_rates.rate) * 100
@@ -77,13 +79,23 @@ export default function ReDelegatePopup(props: Props) {
       <Content className="column">
         <Select>
           Select{" : "}
-          <img alt="sel-validator" src="/public/assets/images/validator.svg" />
-          <span>
-            {
-              validators.filter(x => x.operator_address === validatorAddress)[0]
-                ?.description.moniker
-            }
-          </span>
+          {validators.filter(
+            x => x.operator_address === validatorAddress
+          )[0] && (
+            <ValidatorMoniker
+              dark
+              operatorAddress={
+                validators.filter(
+                  x => x.operator_address === validatorAddress
+                )[0].operator_address
+              }
+              moniker={
+                validators.filter(
+                  x => x.operator_address === validatorAddress
+                )[0].description.moniker
+              }
+            />
+          )}
         </Select>
         <SearchInput
           value={keyword}
@@ -106,7 +118,10 @@ export default function ReDelegatePopup(props: Props) {
         >
           Available for redelegation{" "}
           <AvailableRedel>
-            {parseOriginCoinAmount(delegation.balance.amount)} GLX
+            {parsePrettyNumber(
+              parseOriginCoinAmount(delegation.balance.amount)
+            )}{" "}
+            GLX
           </AvailableRedel>
         </InputLabel>
         <TokenInput
@@ -143,17 +158,7 @@ const Select = styled("div")`
   margin-bottom: 20px;
   font-size: 14px;
   & img {
-    width: 32px;
-    height: 32px;
-    object-fit: cover;
-    border-radius: 100%;
-    margin-right: 10px;
     margin-left: 20px;
-  }
-  & span {
-    font-size: 14px;
-    color: #111111;
-    font-family: "Heebo-Medium";
   }
 `;
 

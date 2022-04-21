@@ -1,4 +1,5 @@
 export const parseOriginCoinAmount = (origin: string | number, demical: number = 6) => {
+    if (!origin) return "0"
     if (typeof origin === 'number') {
         origin = String(origin)
     }
@@ -12,10 +13,13 @@ export const parseOriginCoinAmount = (origin: string | number, demical: number =
 export const parsePrettyNumber = (number: string | number) => {
 
     if (!number) return "0"
-    if (typeof number === 'string') {
-        number = parseInt(number)
+    if (typeof number === 'number') {
+        number = String(number)
     }
 
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const [integer, demical] = number.split('.')
+
+
+    return integer.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (demical ? "." + demical : "")
 
 }

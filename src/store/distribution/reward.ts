@@ -1,7 +1,7 @@
 import { assertIsDeliverTxSuccess, SigningStargateClient } from "@cosmjs/stargate";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-import { galaxyChainConfig } from "../../constants/chain";
+import { chainConfig } from "../../constants/chain";
 import { Coin } from "../../interfaces";
 import { Reward, ClaimAllRewardParams } from "../../interfaces/galaxy/distribution";
 import { fetchBalances } from "../bank";
@@ -23,11 +23,11 @@ export const claimAllRewards = createAsyncThunk('distribution/claimAllRewards',
             if (!window.keplr || !window.getOfflineSigner) {
                 throw new Error("Please install keplr extension.")
             }
-            await window.keplr.enable(galaxyChainConfig.chainId);
-            const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+            await window.keplr.enable(chainConfig.chainId);
+            const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
 
             const client = await SigningStargateClient.connectWithSigner(
-                galaxyChainConfig.rpc,
+                chainConfig.rpc,
                 offlineSigner,
             )
             const result = await client.signAndBroadcast(

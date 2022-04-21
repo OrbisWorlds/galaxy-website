@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/app";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { connectWallet } from "../../store/wallet";
+import { parsePrettyNumber } from "../../utils";
 
 interface Record {
   Address: string;
@@ -33,7 +34,7 @@ export default function Airdrop() {
 
   React.useEffect(() => {
     if (wallet.connected) {
-      navigate("/airdrop/claim", { replace: true });
+      // navigate("/airdrop/claim", { replace: true });
     }
   }, [wallet, navigate]);
 
@@ -131,11 +132,13 @@ export default function Airdrop() {
             Total Amount :{" "}
             <span>
               {searched
-                ? (
-                    parseFloat(cosmoshub) +
-                    parseFloat(osmosisStake) +
-                    parseFloat(osmosisPool)
-                  ).toFixed(6)
+                ? parsePrettyNumber(
+                    (
+                      parseFloat(cosmoshub) +
+                      parseFloat(osmosisStake) +
+                      parseFloat(osmosisPool)
+                    ).toFixed(6)
+                  )
                 : "-"}{" "}
               GLX
             </span>
@@ -144,17 +147,17 @@ export default function Airdrop() {
           <Chain>
             <img src="/public/assets/images/cosmoshub.svg" alt="cosmos" />
             <span>Airdrop for Atom Staker</span>
-            <span>{searched ? cosmoshub : "-"} GLX</span>
+            <span>{searched ? parsePrettyNumber(cosmoshub) : "-"} GLX</span>
           </Chain>
           <Chain>
             <img src="/public/assets/images/osmosis.svg" alt="osmosis" />
             <span>Airdrop for Osmosis Staker</span>
-            <span>{searched ? osmosisStake : "-"} GLX</span>
+            <span>{searched ? parsePrettyNumber(osmosisStake) : "-"} GLX</span>
           </Chain>
           <Chain sx={{ borderBottom: "none" }}>
             <img src="/public/assets/images/osmosis.svg" alt="osmosis" />
             <span>Airdrop for Osmosis LP ATOM/OSMO</span>
-            <span>{searched ? osmosisPool : "-"} GLX</span>
+            <span>{searched ? parsePrettyNumber(osmosisPool) : "-"} GLX</span>
           </Chain>
 
           <Claim

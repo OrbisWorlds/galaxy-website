@@ -25,6 +25,13 @@ export interface Validator {
 }
 
 
+export interface ValidatorImage {
+    operator_address: string;
+    src: string
+}
+
+
+
 
 export interface DelegatedValidator extends Validator {
     staked: number;

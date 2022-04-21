@@ -1,7 +1,7 @@
 import { assertIsDeliverTxSuccess, SigningStargateClient } from "@cosmjs/stargate";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-import { galaxyChainConfig } from "../../constants/chain";
+import { chainConfig } from "../../constants/chain";
 import { Validator } from "../../interfaces/galaxy/staking";
 import { DelegateParams, Delegation, ReDelegateParams, UnbondingDelegation } from "../../interfaces/galaxy/staking/delegation";
 import { fetchBalances } from "../bank";
@@ -28,11 +28,11 @@ export const unDelegate = createAsyncThunk('staking/unDelegate', async ({ addres
         if (!window.keplr || !window.getOfflineSigner) {
             throw new Error("Please install keplr extension.")
         }
-        await window.keplr.enable(galaxyChainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+        await window.keplr.enable(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
-            galaxyChainConfig.rpc,
+            chainConfig.rpc,
             offlineSigner,
         )
 
@@ -71,11 +71,11 @@ export const delegate = createAsyncThunk('staking/delegate', async ({ address, v
         if (!window.keplr || !window.getOfflineSigner) {
             throw new Error("Please install keplr extension.")
         }
-        await window.keplr.enable(galaxyChainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+        await window.keplr.enable(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
-            galaxyChainConfig.rpc,
+            chainConfig.rpc,
             offlineSigner,
         )
 
@@ -91,7 +91,7 @@ export const delegate = createAsyncThunk('staking/delegate', async ({ address, v
             }],
             {
                 gas: "300000",
-                amount: [{ denom: "uglx", amount: String(300000 * galaxyChainConfig.gasPriceStep!.average) }]
+                amount: [{ denom: "uglx", amount: String(300000 * chainConfig.gasPriceStep!.average) }]
             },
             ""
         )
@@ -113,11 +113,11 @@ export const reDelegate = createAsyncThunk('staking/reDelegate', async ({ addres
         if (!window.keplr || !window.getOfflineSigner) {
             throw new Error("Please install keplr extension.")
         }
-        await window.keplr.enable(galaxyChainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(galaxyChainConfig.chainId);
+        await window.keplr.enable(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
-            galaxyChainConfig.rpc,
+            chainConfig.rpc,
             offlineSigner,
         )
 
@@ -134,7 +134,7 @@ export const reDelegate = createAsyncThunk('staking/reDelegate', async ({ addres
             }],
             {
                 gas: "300000",
-                amount: [{ denom: "uglx", amount: String(300000 * galaxyChainConfig.gasPriceStep!.average) }]
+                amount: [{ denom: "uglx", amount: String(300000 * chainConfig.gasPriceStep!.average) }]
             },
             ""
         )

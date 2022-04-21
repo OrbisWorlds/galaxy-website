@@ -1,7 +1,7 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-import { galaxyChainConfig } from "../../constants/chain";
+import { chainConfig } from "../../constants/chain";
 import config from "../../constants/config";
 import { Coin } from "../../interfaces";
 import { ClaimRecord } from "../../interfaces/galaxy/clairdrop";

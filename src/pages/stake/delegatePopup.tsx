@@ -8,7 +8,7 @@ import TokenInput from "../../components/input/tokenInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { delegate, fetchDelegations } from "../../store/staking";
 import { Validator } from "../../interfaces/galaxy/staking";
-import { parseOriginCoinAmount } from "../../utils";
+import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils";
 import { fetchBalances } from "../../store/bank";
 import config from "../../constants/config";
 import InputErrorMessage from "../../components/input/inputErrorMessage";
@@ -64,6 +64,7 @@ export default function DelegatePopup(props: Props) {
   return (
     <Popup maxWidth="500px" onClose={props.onClose}>
       <ValidatorPopupHeader
+        operatorAddress={props.validator.operator_address}
         moniker={props.validator.description.moniker}
         commision={
           parseFloat(props.validator.commission.commission_rates.rate) * 100
@@ -75,7 +76,9 @@ export default function DelegatePopup(props: Props) {
         {thisDelegation && (
           <TokenAmountLabel
             label="My Delegation"
-            amount={parseOriginCoinAmount(thisDelegation.balance.amount)}
+            amount={parsePrettyNumber(
+              parseOriginCoinAmount(thisDelegation.balance.amount)
+            )}
             denom={thisDelegation.balance.denom}
             sx={{ mt: 2.5, borderBottom: "none" }}
           />
@@ -83,7 +86,7 @@ export default function DelegatePopup(props: Props) {
 
         <TokenAmountLabel
           label="Available Balance"
-          amount={parseOriginCoinAmount(glxBalance.amount)}
+          amount={parsePrettyNumber(parseOriginCoinAmount(glxBalance.amount))}
           denom={glxBalance.denom}
           sx={{ mt: thisDelegation ? 0 : 2.5 }}
         />

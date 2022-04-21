@@ -14,6 +14,7 @@ export default function UnBonding(props: Props) {
   return (
     <Container>
       <ValidatorMoniker
+        operatorAddress={props.unBonding.validator_address}
         moniker={props.moniker || props.unBonding.validator_address}
       />
       <RemainingList>
