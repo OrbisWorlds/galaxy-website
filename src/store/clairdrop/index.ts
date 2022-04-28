@@ -5,6 +5,7 @@ import { chainConfig } from "../../constants/chain";
 import config from "../../constants/config";
 import { Coin } from "../../interfaces";
 import { ClaimRecord } from "../../interfaces/galaxy/clairdrop";
+import { disconnectWallet } from "../wallet";
 
 interface InitialState {
     eligible: boolean
@@ -59,5 +60,11 @@ export default createSlice({
             state.claimRecord = action.payload;
             state.eligible = action.payload.inital_claimable_amount.length >= 1
         })
+        builder.addCase(disconnectWallet.fulfilled, (state, action) => {
+            state.eligible = false
+            state.totalClaimable = { denom: config.coinOriginDenom, amount: "0" }
+            state.claimRecord = { address: "", inital_claimable_amount: [], action_completed: [false, false, false, false] }
+        })
+
     }
 }).reducer

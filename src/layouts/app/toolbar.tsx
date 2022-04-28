@@ -12,7 +12,7 @@ import { styled } from "@mui/system";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import deviceSize from "../../constants/deviceSize";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { connectWallet } from "../../store/wallet";
+import { connectWallet, disconnectWallet } from "../../store/wallet";
 
 interface Props {
   wallet?: boolean;
@@ -29,6 +29,10 @@ export default function Toolbar(props: Props) {
 
   const handleConnectWallet = () => {
     dispatch(connectWallet());
+  };
+
+  const handleDisconnect = () => {
+    dispatch(disconnectWallet());
   };
 
   return (
@@ -105,28 +109,52 @@ export default function Toolbar(props: Props) {
           )}
 
           {props.wallet && (
-            <Wallet disabled={wallet.connected} onClick={handleConnectWallet}>
+            <WalletWrap>
+              <Wallet disabled={wallet.connected} onClick={handleConnectWallet}>
+                {wallet.connected ? (
+                  <img alt="wallet" src="/public/assets/images/ic-wallet.svg" />
+                ) : (
+                  <img alt="connect" src="/public/assets/images/connect.svg" />
+                )}
+                <span>
+                  {wallet.connected
+                    ? `galaxy${wallet.address
+                        .replace("galaxy", "")
+                        .substring(0, 3)}...${wallet.address.substring(
+                        wallet.address.length - 6
+                      )}`
+                    : "connect"}
+                </span>
+              </Wallet>
               {wallet.connected ? (
-                <img alt="wallet" src="/public/assets/images/ic-wallet.svg" />
-              ) : (
-                <img alt="connect" src="/public/assets/images/connect.svg" />
-              )}
-              <span>
-                {wallet.connected
-                  ? `galaxy${wallet.address
-                      .replace("galaxy", "")
-                      .substring(0, 3)}...${wallet.address.substring(
-                      wallet.address.length - 6
-                    )}`
-                  : "connect"}
-              </span>
-            </Wallet>
+                <Disconnect onClick={handleDisconnect}>X Disconnect</Disconnect>
+              ) : null}
+            </WalletWrap>
           )}
         </ToolbarWrap>
       </AppBar>
     </Slide>
   );
 }
+
+const WalletWrap = styled("div")`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 0;
+`;
+
+const Disconnect = styled(ButtonBase)`
+  background-color: #ffffff;
+  border-radius: 12px;
+  color: #000;
+  font-size: 11px;
+  font-family: Heebo-Medium;
+  min-height: 24px;
+  width: 90px;
+  position: absolute;
+  right: -100px;
+`;
 
 const ToolbarWrap = styled(MaterialToolbar)`
   display: flex;
@@ -137,8 +165,6 @@ const ToolbarWrap = styled(MaterialToolbar)`
 `;
 
 const Wallet = styled(ButtonBase)`
-  position: absolute;
-  right: 0;
   & span {
     margin-left: 9px;
     font-size: 14px;

@@ -6,6 +6,7 @@ import { Validator } from "../../interfaces/galaxy/staking";
 import { DelegateParams, Delegation, ReDelegateParams, UnbondingDelegation } from "../../interfaces/galaxy/staking/delegation";
 import { fetchBalances } from "../bank";
 import { fetchRewards } from "../distribution";
+import { disconnectWallet } from "../wallet";
 import { fetchPool } from "./pool";
 import { fetchValidators } from "./validator";
 
@@ -159,7 +160,6 @@ export const fetchDelegations = createAsyncThunk('staking/fetchDelegations', asy
     return delegations
 })
 
-
 export const fetchUnbondingDelegations = createAsyncThunk('staking/fetchUnbondingDelegations', async (address: string) => {
     const response = await api.get("/cosmos/staking/v1beta1/delegators/" + address + '/unbonding_delegations')
     const data = response.data;
@@ -167,8 +167,6 @@ export const fetchUnbondingDelegations = createAsyncThunk('staking/fetchUnbondin
     const unbondingDelegations = data.unbonding_responses as UnbondingDelegation[]
     return unbondingDelegations
 })
-
-
 
 export const fetchDelegationValidators = createAsyncThunk('staking/fetchDelegationValidators', async (address: string) => {
     const response = await api.get("/cosmos/staking/v1beta1/delegators/" + address + "/validators")
@@ -192,6 +190,12 @@ export default createSlice({
         })
         builder.addCase(fetchUnbondingDelegations.fulfilled, (state, action) => {
             state.unbondingDelegations = action.payload
+        })
+        builder.addCase(disconnectWallet.fulfilled, (state, action) => {
+            state.delegations = []
+            state.totalStaked = 0;
+            state.unbondingDelegations = []
+            state.validators = []
         })
     }
 }).reducer

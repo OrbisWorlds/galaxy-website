@@ -20,7 +20,6 @@ export const connectWallet = createAsyncThunk('wallet/connect', async (arg, { re
         if (!window.keplr.experimentalSuggestChain) {
             throw new Error('Please use the recent version of keplr extension.');
         }
-
         await window.keplr.experimentalSuggestChain(chainConfig)
 
         await window.keplr.enable(chainConfig.chainId)
@@ -36,7 +35,6 @@ export const connectWallet = createAsyncThunk('wallet/connect', async (arg, { re
             throw new Error('Please add your key first');
         }
 
-
         return accounts[0]
     } catch (err) {
         return rejectWithValue(err)
@@ -44,14 +42,24 @@ export const connectWallet = createAsyncThunk('wallet/connect', async (arg, { re
     }
 })
 
-export default createSlice({
+
+
+export const disconnectWallet = createAsyncThunk('wallet/disconnect', async (arg, { rejectWithValue }) => { })
+
+const walletSlice = createSlice({
     name: 'wallet',
     initialState,
-    reducers: {},
+    reducers: {
+    },
     extraReducers: (builder) => {
         builder.addCase(connectWallet.fulfilled, (state, action) => {
             state.address = action.payload.address;
             state.connected = true
         })
+        builder.addCase(disconnectWallet.fulfilled, (state, action) => {
+            state.address = ''
+            state.connected = false
+        })
     }
-}).reducer
+})
+export default walletSlice.reducer
