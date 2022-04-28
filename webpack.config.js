@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
 
   return {
     mode: argv.mode,
-    devtool: isDevelopment ? "source-map" : "hidden-source-map",
+    devtool: isDevelopment ? "source-map" : false,
     entry: "./src/index.tsx",
     output: {
       publicPath: "/",
@@ -61,7 +61,7 @@ module.exports = (env, argv) => {
               loader: "file-loader",
               options: {
                 name: "[name].[ext]",
-                outputPath: "assets"
+                outputPath: "public"
               }
             }
           ]
