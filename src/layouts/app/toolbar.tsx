@@ -132,7 +132,7 @@ const ToolbarWrap = styled(MaterialToolbar)`
   display: flex;
   margin: auto;
   justify-content: center;
-  max-width: 1200px;
+  max-width: ${deviceSize.desktopMin};
   width: 100%;
 `;
 

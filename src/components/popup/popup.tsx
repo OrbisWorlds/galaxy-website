@@ -10,8 +10,11 @@ interface Props {
 
 export default function Popup(props: Props) {
   return (
-    <Container>
+    <Container onClick={props.onClose}>
       <Content
+        onClick={e => {
+          e.stopPropagation();
+        }}
         sx={{
           maxWidth: props.maxWidth || "700px"
         }}

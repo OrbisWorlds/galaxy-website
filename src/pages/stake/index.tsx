@@ -190,9 +190,14 @@ export default function Stake() {
                   />
                 )
               },
-              { l: "Status", render: x => x.status.split("_").pop() },
+              {
+                width: 10,
+                l: "Status",
+                render: x => x.status.split("_").pop()
+              },
               {
                 l: "Voting Power",
+                width: 10,
                 render: (d, i) => (
                   <>
                     {parsePrettyNumber(
@@ -210,6 +215,7 @@ export default function Stake() {
               },
               {
                 l: "Commission",
+                width: 10,
                 render: (d, i) =>
                   (
                     parseFloat(d.commission.commission_rates.rate) * 100
@@ -240,6 +246,7 @@ export default function Stake() {
               },
               {
                 l: "",
+                width: 10,
                 render: (d, i) => (
                   <Manage
                     onClick={() => {
@@ -278,6 +285,7 @@ export default function Stake() {
                   />
                 )
               },
+              { l: "Status", render: x => x.status.split("_").pop() },
               {
                 l: "Voting Power",
                 render: d => (
@@ -415,6 +423,7 @@ const Content = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-width: ${devicesize.tabletMin};
   max-width: ${devicesize.desktopMin};
   margin: auto auto;
   margin-bottom: 100px;

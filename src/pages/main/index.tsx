@@ -146,7 +146,8 @@ interface SectionProps {
 }
 
 const Section = styled("section")`
-  max-width: ${(p: SectionProps) => (p.i === 2 ? "auto" : "1200px")};
+  max-width: ${(p: SectionProps) =>
+    p.i === 2 ? "auto" : deviceSize.desktopMin};
   flex-direction: ${(p: SectionProps) => (p.i <= 1 ? "column" : "row")};
   align-items: ${(p: SectionProps) =>
     p.i === 0

@@ -1,4 +1,5 @@
 import { Box, styled, Link } from "@mui/material";
+import deviceSize from "../../constants/deviceSize";
 import useDeviceType from "../../hooks/useDeviceType";
 
 interface Props {
@@ -43,7 +44,7 @@ const Container = styled("div")(
   border-top: 1px solid #393645;
   display: flex;
   justify-content: flex-end;
-  max-width: 1200px;
+  max-width: ${deviceSize.desktopMin};
   width: 100%;
 `
 );

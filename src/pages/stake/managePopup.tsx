@@ -56,7 +56,28 @@ export default function ManagePopup(props: Props) {
         <div style={{ marginTop: "20px" }} />
 
         <PopupSubLabel>Description</PopupSubLabel>
-        <PopupMessage>{props.validator.description.details}</PopupMessage>
+        <PopupMessage>
+          {props.validator.description.details.split("\n").map((x, i) => {
+            return (
+              <span key={i.toString()}>
+                {x.split(" ").map((z, y) => {
+                  return (
+                    <span key={y + "" + i}>
+                      {z.startsWith("http") ? (
+                        <a target={"_blank"} href={z} rel="noreferrer">
+                          {z}
+                        </a>
+                      ) : (
+                        z
+                      )}{" "}
+                    </span>
+                  );
+                })}
+                <br />
+              </span>
+            );
+          })}
+        </PopupMessage>
         <TokenAmountLabel
           label="My Delegation"
           denom={delegation?.balance.denom}
