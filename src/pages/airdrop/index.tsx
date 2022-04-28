@@ -187,7 +187,7 @@ export default function Airdrop() {
             >
               Read more about airdrops
             </a>
-            <img alt="share" src="/assets/images/share_color.svg" />
+            <img alt="share" src="/public/assets/images/share_color.svg" />
           </Link>
         </Content>
       </Container>
@@ -371,10 +371,10 @@ const Container = styled(Box)`
 
 const Background = styled("div")`
   min-height: 100vh;
-  background-image: url(/assets/images/airdrop-bg-m.jpg);
+  background-image: url(/public/assets/images/airdrop-bg-m.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   @media (min-width: 768px) {
-    background-image: url(/assets/images/airdrop-bg.jpg);
+    background-image: url(/public/assets/images/airdrop-bg.jpg);
   }
 `;

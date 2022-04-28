@@ -30,12 +30,12 @@ export default function Main() {
           </Label>
         </Box>
         <Box />
-        <Tiger src="/assets/images/tiger.png" alt="tiger" />
+        <Tiger src="/public/assets/images/tiger.png" alt="tiger" />
       </Section>
 
       <Section noDesktop={deviceType !== "desktop"} i={1}>
         <Grid container sx={{ position: "relative" }}>
-          <CNBackground alt="bg2" src="/assets/images/banner2-bg.png" />
+          <CNBackground alt="bg2" src="/public/assets/images/banner2-bg.png" />
           <Grid item xs={12}>
             <InterSection>
               <Label variant="h2" textAlign="right">
@@ -60,7 +60,7 @@ export default function Main() {
                   <img
                     width="100%"
                     alt="mobius"
-                    src="/assets/images/mobius.png"
+                    src="/public/assets/images/mobius.png"
                   />
                 </InterSection>
               </Grid>
@@ -105,7 +105,7 @@ export default function Main() {
                 <Link href="https://cosmos.network">
                   <CosmosButton>
                     Galaxy universe
-                    <img alt="more" src="/assets/images/ic-more.png" />
+                    <img alt="more" src="/public/assets/images/ic-more.png" />
                   </CosmosButton>
                 </Link>
               </InterSection>
@@ -121,7 +121,11 @@ export default function Main() {
                 mt: 5.5
               }}
             >
-              <img width="100%" alt="mobius" src="/assets/images/mobius.png" />
+              <img
+                width="100%"
+                alt="mobius"
+                src="/public/assets/images/mobius.png"
+              />
             </InterSection>
           )}
         </Grid>
@@ -199,7 +203,7 @@ const CNBackground = styled("img")`
 const Background = styled("div")(
   ({ background }: { background: string }) =>
     `
-      background-image: url(/assets/images/${background});
+      background-image: url(/public/assets/images/${background});
   
       background-size:  cover;
   background-repeat: no-repeat;

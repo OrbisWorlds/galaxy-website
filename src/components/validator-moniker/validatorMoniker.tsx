@@ -26,13 +26,17 @@ export default function ValidatorMoniker(props: Props) {
       if (image && image.src) {
         iconRef.current.src = image.src;
       } else {
-        iconRef.current.src = "assets/images/validator.svg";
+        iconRef.current.src = "/public/assets/images/validator.svg";
       }
     }
   }, [iconRef, validatorImages, props.operatorAddress]);
   return (
     <Container onClick={props.onClick} align={props.align || "center"}>
-      <Icon ref={iconRef} alt="validator" src={"assets/images/validator.svg"} />
+      <Icon
+        ref={iconRef}
+        alt="validator"
+        src={"/public/assets/images/validator.svg"}
+      />
       <Moniker sx={{ color: props.dark ? "#111" : "#fff" }}>
         {props.moniker}
       </Moniker>
