@@ -25,6 +25,8 @@ export default function Airdrop() {
 
   const [loading, setLoading] = React.useState(false);
 
+  let initialCheck = React.useRef(false);
+
   React.useEffect(() => {
     window.onload = () => {
       dispatch(connectWallet());
@@ -34,6 +36,7 @@ export default function Airdrop() {
 
   React.useEffect(() => {
     if (wallet.connected) {
+      setAddress(wallet.address);
       // navigate("/airdrop/claim", { replace: true });
     }
   }, [wallet, navigate]);
@@ -51,53 +54,68 @@ export default function Airdrop() {
     setSearched(false);
   };
 
-  const handleCheckClaimAmount = (e?: React.MouseEvent) => {
-    setLoading(true);
-    axios
-      .get(
-        "https://airdrop-api.galaxychain.zone/addresses/" +
-          address +
-          "/claimable"
-      )
-      .then(res => {
-        const data = res.data.Data as Record[];
+  const handleCheckClaimAmount = React.useCallback(
+    (e?: React.MouseEvent) => {
+      setLoading(true);
+      axios
+        .get(
+          "https://airdrop-api.galaxychain.zone/addresses/" +
+            address +
+            "/claimable"
+        )
+        .then(res => {
+          const data = res.data.Data as Record[];
 
-        const cosmos = data.filter(x => x.Type === "cosmos")[0];
-        const osmo = data.filter(x => x.Type === "osmo")[0];
-        const osmoPool = data.filter(x => x.Type === "osmo-pool")[0];
+          const cosmos = data.filter(x => x.Type === "cosmos")[0];
+          const osmo = data.filter(x => x.Type === "osmo")[0];
+          const osmoPool = data.filter(x => x.Type === "osmo-pool")[0];
 
-        if (cosmos) {
-          setCosmoshub(
-            String(cosmos.Uglx).slice(0, String(cosmos.Uglx).length - 6) +
-              "." +
-              String(cosmos.Uglx).slice(String(cosmos.Uglx).length - 6)
-          );
-        }
-        if (osmoPool) {
-          setOsmosisPool(
-            String(osmoPool.Uglx).slice(0, String(osmoPool.Uglx).length - 6) +
-              "." +
-              String(osmoPool.Uglx).slice(String(osmoPool.Uglx).length - 6)
-          );
-        }
+          if (cosmos) {
+            setCosmoshub(
+              String(cosmos.Uglx).slice(0, String(cosmos.Uglx).length - 6) +
+                "." +
+                String(cosmos.Uglx).slice(String(cosmos.Uglx).length - 6)
+            );
+          }
+          if (osmoPool) {
+            setOsmosisPool(
+              String(osmoPool.Uglx).slice(0, String(osmoPool.Uglx).length - 6) +
+                "." +
+                String(osmoPool.Uglx).slice(String(osmoPool.Uglx).length - 6)
+            );
+          }
 
-        if (osmo) {
-          setOsmosisStake(
-            String(osmo.Uglx).slice(0, String(osmo.Uglx).length - 6) +
-              "." +
-              String(osmo.Uglx).slice(String(osmo.Uglx).length - 6)
-          );
-        }
+          if (osmo) {
+            setOsmosisStake(
+              String(osmo.Uglx).slice(0, String(osmo.Uglx).length - 6) +
+                "." +
+                String(osmo.Uglx).slice(String(osmo.Uglx).length - 6)
+            );
+          }
 
-        setSearched(true);
-        setLoading(false);
-      })
-      .catch(e => {
-        alert(e.response.data?.Message || e.response.statusText);
-        setLoading(false);
-        handleClear();
-      });
-  };
+          setSearched(true);
+          setLoading(false);
+        })
+        .catch(e => {
+          alert(e.response.data?.Message || e.response.statusText);
+          setLoading(false);
+          handleClear();
+        });
+    },
+    [address]
+  );
+
+  React.useEffect(() => {
+    if (
+      wallet.connected &&
+      address &&
+      wallet.address === address &&
+      !initialCheck.current
+    ) {
+      initialCheck.current = true;
+      handleCheckClaimAmount();
+    }
+  }, [wallet, address, handleCheckClaimAmount]);
 
   return (
     <AppLayout background={<Background />}>
