@@ -193,7 +193,25 @@ export default function Stake() {
               {
                 width: 10,
                 l: "Status",
-                render: x => x.status.split("_").pop()
+                render: x => {
+                  return (
+                    <span>
+                      {x.status.split("_").pop()}
+                      {x.jailed ? (
+                        <Jailed>
+                          <br />
+                          <img
+                            src="/public/assets/images/jailed.svg"
+                            alt="jailed"
+                          />
+                          JAILED
+                        </Jailed>
+                      ) : (
+                        ""
+                      )}
+                    </span>
+                  );
+                }
               },
               {
                 l: "Voting Power",
@@ -285,7 +303,28 @@ export default function Stake() {
                   />
                 )
               },
-              { l: "Status", render: x => x.status.split("_").pop() },
+              {
+                l: "Status",
+                render: x => {
+                  return (
+                    <span>
+                      {x.status.split("_").pop()}
+                      {x.jailed ? (
+                        <Jailed>
+                          <br />
+                          <img
+                            src="/public/assets/images/jailed.svg"
+                            alt="jailed"
+                          />
+                          JAILED
+                        </Jailed>
+                      ) : (
+                        ""
+                      )}
+                    </span>
+                  );
+                }
+              },
               {
                 l: "Voting Power",
                 render: d => (
@@ -332,6 +371,18 @@ export default function Stake() {
     </AppLayout>
   );
 }
+
+const Jailed = styled("span")`
+  color: #ff2f2f;
+  font-size: 12px;
+  font-family: Heebo-Medium;
+  & img {
+    width: 10px;
+    margin-right: 2px;
+    height: 10px;
+    object-fit: cover;
+  }
+`;
 
 const VotingPower = styled("span")`
   font-size: 13px;
