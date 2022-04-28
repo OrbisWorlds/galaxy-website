@@ -174,7 +174,7 @@ export default function Stake() {
             </>
           )}
 
-          <Label>Delegated Vaildators</Label>
+          <Label>Delegated Validators</Label>
 
           <Table
             data={delegation.validators}
@@ -278,7 +278,7 @@ export default function Stake() {
             ]}
           />
 
-          <Label>Vaildators</Label>
+          <Label>Validators</Label>
 
           <Table
             data={validator.validators}
