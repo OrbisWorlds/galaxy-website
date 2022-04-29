@@ -4,7 +4,7 @@ export const parseOriginCoinAmount = (origin: string | number, demical: number =
         origin = String(origin)
     }
     if (origin.length < demical) {
-        return (origin)
+        return String(parseInt(origin) / 1000000)
     }
     return parseFloat((origin.substring(0, origin.length - demical) || "0") + "." + origin.substring(origin.length - demical)).toString()
 }
