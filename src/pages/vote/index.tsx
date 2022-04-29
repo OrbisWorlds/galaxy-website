@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import AppLayout from "../../layouts/app";
 import devicesize from "../../constants/deviceSize";
 import Tabs from "../../components/tabs";
@@ -11,8 +11,11 @@ import { Proposal, ProposalStatus } from "../../interfaces/galaxy/gov";
 import DepositPopup from "./depositPopup";
 import { connectWallet } from "../../store/wallet";
 import VotePopup from "./votePopup";
+import { useLocation, useParams } from "react-router-dom";
+
 export default function Vote() {
   const dispatch = useAppDispatch();
+  const { id } = useParams();
   const gov = useAppSelector(s => s.gov);
   const proposal = gov.proposal;
   const params = gov.params;
@@ -21,6 +24,22 @@ export default function Vote() {
   const [detailProposal, setDetailProposal] = React.useState<Proposal>();
   const [depositProposal, setDepositProposal] = React.useState<Proposal>();
   const [voteProposal, setVoteProposal] = React.useState<Proposal>();
+
+  let initialPopupOpened = useRef(false);
+
+  React.useEffect(() => {
+    if (
+      id &&
+      proposal &&
+      proposal.proposals.length >= 1 &&
+      !initialPopupOpened.current
+    ) {
+      initialPopupOpened.current = true;
+      setDetailProposal(
+        proposal.proposals.filter(x => x.proposal_id === id)[0] || undefined
+      );
+    }
+  }, [id, proposal]);
 
   React.useEffect(() => {
     window.onload = () => {
