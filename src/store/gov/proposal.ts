@@ -37,7 +37,7 @@ export const vote = createAsyncThunk('gov/deposit', async ({ proposal_id, option
                 value: {
                     voter,
                     proposalId: proposal_id,
-                    option
+                    option: parseInt(option)
                 }
             }],
             {
