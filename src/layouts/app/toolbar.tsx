@@ -118,7 +118,8 @@ export default function Toolbar(props: Props) {
                 )}
                 <span>
                   {wallet.connected
-                    ? `galaxy${wallet.address
+                    ? wallet.name ||
+                      `galaxy${wallet.address
                         .replace("galaxy", "")
                         .substring(0, 3)}...${wallet.address.substring(
                         wallet.address.length - 6
