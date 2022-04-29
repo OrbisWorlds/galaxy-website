@@ -24,12 +24,12 @@ export const connectWallet = createAsyncThunk('wallet/connect', async (arg, { re
 
         await window.keplr.enable(chainConfig.chainId)
 
-        if (!window.getOfflineSigner) {
+        if (!window.getOfflineSignerOnlyAmino) {
             throw new Error("Please install keplr extension.");
         }
 
 
-        const offlineSigner = window.getOfflineSigner(chainConfig.chainId)
+        const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId)
         const accounts = await offlineSigner.getAccounts()
         if (!accounts[0]) {
             throw new Error('Please add your key first');

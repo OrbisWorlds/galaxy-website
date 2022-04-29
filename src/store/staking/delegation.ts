@@ -26,11 +26,11 @@ const initialState: InitialState = {
 
 export const unDelegate = createAsyncThunk('staking/unDelegate', async ({ address, validatorAddress, amount }: DelegateParams, thunk) => {
     try {
-        if (!window.keplr || !window.getOfflineSigner) {
+        if (!window.keplr || !window.getOfflineSignerOnlyAmino) {
             throw new Error("Please install keplr extension.")
         }
         await window.keplr.enable(chainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
             chainConfig.rpc,
@@ -69,11 +69,11 @@ export const unDelegate = createAsyncThunk('staking/unDelegate', async ({ addres
 
 export const delegate = createAsyncThunk('staking/delegate', async ({ address, validatorAddress, amount }: DelegateParams, thunk) => {
     try {
-        if (!window.keplr || !window.getOfflineSigner) {
+        if (!window.keplr || !window.getOfflineSignerOnlyAmino) {
             throw new Error("Please install keplr extension.")
         }
         await window.keplr.enable(chainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
             chainConfig.rpc,
@@ -111,11 +111,11 @@ export const delegate = createAsyncThunk('staking/delegate', async ({ address, v
 
 export const reDelegate = createAsyncThunk('staking/reDelegate', async ({ address, validatorAddress, validatorDistAddress, amount }: ReDelegateParams, thunk) => {
     try {
-        if (!window.keplr || !window.getOfflineSigner) {
+        if (!window.keplr || !window.getOfflineSignerOnlyAmino) {
             throw new Error("Please install keplr extension.")
         }
         await window.keplr.enable(chainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
             chainConfig.rpc,
