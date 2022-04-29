@@ -145,7 +145,7 @@ export default function Stake() {
               >
                 Claim Reward :{" "}
                 {wallet.connected
-                  ? parsePrettyNumber(parseOriginCoinAmount(reward.totalReward))
+                  ? parseOriginCoinAmount(reward.totalReward)
                   : "-"}{" "}
                 GLX
               </ButtonBase>
