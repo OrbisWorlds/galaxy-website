@@ -215,7 +215,6 @@ export default function Stake() {
               },
               {
                 l: "Voting Power",
-                width: 10,
                 render: (d, i) => (
                   <>
                     {parsePrettyNumber(
@@ -284,8 +283,8 @@ export default function Stake() {
             data={validator.validators}
             th={[
               {
-                width: 10,
-                l: "Rank",
+                width: 5,
+                l: "#",
                 render: (d, i) => <Rank>{i + 1}</Rank>
               },
               {

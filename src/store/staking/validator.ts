@@ -22,7 +22,8 @@ export const fetchValidators = createAsyncThunk('staking/fetchValidators', async
     //hooks
     thunk.dispatch(fetchValidatorsPicture(validators))
 
-    return validators.sort((a, b) => parseInt(b.tokens) - parseInt(a.tokens))
+    return validators.map(x => ({ ...x, sort: Math.random() })).sort((a, b) => a.sort - b.sort).sort((a, b) => a === b ? 0 : a.jailed ? 1 : -1
+    )
 })
 
 
