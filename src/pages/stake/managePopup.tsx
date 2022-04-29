@@ -42,7 +42,7 @@ export default function ManagePopup(props: Props) {
         }
       />
       <Content className="column">
-        <PopupSubLabel>Webstie</PopupSubLabel>
+        <PopupSubLabel>Website</PopupSubLabel>
         <PopupMessage>
           <a
             target={"_blank"}
