@@ -108,7 +108,7 @@ export default function Toolbar(props: Props) {
             </nav>
           )}
 
-          {props.wallet && (
+          {deviceType !== "mobile" && props.wallet && (
             <WalletWrap>
               <Wallet disabled={wallet.connected} onClick={handleConnectWallet}>
                 {wallet.connected ? (

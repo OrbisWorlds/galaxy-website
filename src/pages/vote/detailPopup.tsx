@@ -19,9 +19,15 @@ import { voteOptionColor } from "../../constants/colors";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchProposalTally } from "../../store/gov";
-import { getVotePerc, parseOriginCoinAmount } from "../../utils";
+import {
+  getVotePerc,
+  parseOriginCoinAmount,
+  parsePrettyNumber
+} from "../../utils";
 import { PieChart, Pie } from "recharts";
 import { Status } from "../../components/gov";
+import deviceSize from "../../constants/deviceSize";
+import useDeviceType from "../../hooks/useDeviceType";
 interface Props {
   onProposal: () => void;
   onDeposit?: () => void;
@@ -31,12 +37,27 @@ interface Props {
 
 export default function DetailPopup(props: Props) {
   const dispatch = useAppDispatch();
+  const deviceType = useDeviceType();
   const tally =
     useAppSelector(s => s.gov.proposal.tally)[props.proposal.proposal_id] || {};
 
   React.useEffect(() => {
     dispatch(fetchProposalTally(props.proposal.proposal_id));
   }, [props.proposal, dispatch]);
+
+  const renderTotalVoted = (
+    <Total>
+      Total{" "}
+      <span>
+        {parsePrettyNumber(
+          parseOriginCoinAmount(
+            Object.keys(tally).reduce((a, b) => parseInt(tally[b]) + a, 0)
+          )
+        )}{" "}
+        GLX
+      </span>
+    </Total>
+  );
 
   return (
     <>
@@ -109,6 +130,7 @@ export default function DetailPopup(props: Props) {
           </VoteResult>
         ) : (
           <VoteResult>
+            {deviceType === "mobile" ? renderTotalVoted : null}
             <PieChart width={110} height={110}>
               <Pie
                 data={Object.keys(tally)
@@ -128,18 +150,7 @@ export default function DetailPopup(props: Props) {
               />
             </PieChart>
             <Box sx={{ flex: 1 }}>
-              <Total>
-                Total{" "}
-                <span>
-                  {parseOriginCoinAmount(
-                    Object.keys(tally).reduce(
-                      (a, b) => parseInt(tally[b]) + a,
-                      0
-                    )
-                  )}{" "}
-                  GLX
-                </span>
-              </Total>
+              {deviceType !== "mobile" ? renderTotalVoted : null}
               <Options>
                 {Object.keys(tally)
                   .sort((a, b) => parseInt(tally[b]) - parseInt(tally[a]))
@@ -159,9 +170,11 @@ export default function DetailPopup(props: Props) {
                   })}
               </Options>
             </Box>
-            <Button onClick={props.onProposal} sx={{ pl: 4.5, pr: 4.5 }}>
-              Proposal
-            </Button>
+            {deviceType !== "mobile" ? (
+              <Button onClick={props.onProposal} sx={{ pl: 4.5, pr: 4.5 }}>
+                Proposal
+              </Button>
+            ) : null}
           </VoteResult>
         )}
         <PopupFooter>
@@ -213,6 +226,9 @@ const Options = styled("div")`
   & div {
     margin-right: 20px;
   }
+  @media (max-width: ${deviceSize.laptopMin}) {
+    flex-direction: column;
+  }
 `;
 
 const Total = styled("span")`
@@ -223,6 +239,10 @@ const Total = styled("span")`
     color: #7d77ff;
     font-family: "Heebo-Medium";
   }
+  @media (max-width: ${deviceSize.laptopMin}) {
+    min-width: 100%;
+    margin-bottom: 20px;
+  }
 `;
 
 const VoteResult = styled("div")`
@@ -231,6 +251,7 @@ const VoteResult = styled("div")`
   background-color: #f7f7f7;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const PopupFooter = styled("div")`
@@ -242,5 +263,8 @@ const GridWrap = styled(Grid)`
     margin-left: 40px;
     margin-top: 30px;
     max-width: calc((100% - 120px) / 2);
+    @media (max-width: ${deviceSize.laptopMin}) {
+      max-width: calc(100% - 40px);
+    }
   }
 `;

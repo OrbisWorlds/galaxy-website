@@ -11,11 +11,13 @@ import { Proposal, ProposalStatus } from "../../interfaces/galaxy/gov";
 import DepositPopup from "./depositPopup";
 import { connectWallet } from "../../store/wallet";
 import VotePopup from "./votePopup";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import useDeviceType from "../../hooks/useDeviceType";
 
 export default function Vote() {
   const dispatch = useAppDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
   const gov = useAppSelector(s => s.gov);
   const proposal = gov.proposal;
   const params = gov.params;
