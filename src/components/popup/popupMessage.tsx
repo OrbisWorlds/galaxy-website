@@ -11,4 +11,5 @@ const Label = styled("span")`
   font-size: 14px;
   color: #999999;
   line-height: 24px;
+  word-wrap: break-word;
 `;

@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material";
+import deviceSize from "../../constants/deviceSize";
 
 interface Props<T> {
   th: {

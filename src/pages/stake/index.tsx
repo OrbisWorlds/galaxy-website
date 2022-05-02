@@ -21,7 +21,14 @@ import { claimAllRewards, fetchRewards } from "../../store/distribution";
 import { connectWallet } from "../../store/wallet";
 import { Delegation } from "../../interfaces/galaxy/staking/delegation";
 import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils/commom";
-import UnBonding from "../../components/stake/unBonding";
+import {
+  DelegateButton,
+  ManageButton,
+  VotingPower,
+  UnBonding
+} from "../../components/stake";
+import useDeviceType from "../../hooks/useDeviceType";
+import ValidatorCard from "../../components/stake/validatorCard";
 
 interface SelData {
   delegation?: Delegation;
@@ -31,6 +38,7 @@ interface SelData {
 
 export default function Stake() {
   const dispatch = useAppDispatch();
+  const deviceType = useDeviceType();
   const delegation = useAppSelector(s => s.staking.delegation);
   const wallet = useAppSelector(s => s.wallet);
   const validator = useAppSelector(s => s.staking.validator);
@@ -175,196 +183,245 @@ export default function Stake() {
           )}
 
           <Label>Delegated Vaildators</Label>
-
-          <Table
-            data={delegation.validators}
-            th={[
-              {
-                l: "Validator",
-                align: "left",
-                render: (d, i) => (
-                  <ValidatorMoniker
-                    align="flex-start"
-                    operatorAddress={d.operator_address}
-                    moniker={d.description.moniker}
-                  />
-                )
-              },
-              {
-                width: 10,
-                l: "Status",
-                render: x => {
-                  return (
-                    <span>
-                      {x.status.split("_").pop()}
-                      {x.jailed ? (
-                        <Jailed>
-                          <br />
-                          <img
-                            src="/public/assets/images/jailed.svg"
-                            alt="jailed"
-                          />
-                          JAILED
-                        </Jailed>
-                      ) : (
-                        ""
+          {deviceType === "mobile" ? (
+            delegation.validators.map((x, i) => {
+              return (
+                <ValidatorCard
+                  key={i.toString()}
+                  validator={x}
+                  pool={pool}
+                  staked={
+                    delegation.delegations.filter(
+                      y => y.delegation.validator_address === x.operator_address
+                    )[0]?.balance.amount
+                  }
+                  rewards={
+                    reward.rewards.filter(
+                      y => y.validator_address === x.operator_address
+                    )[0]?.reward[0]?.amount
+                  }
+                  onClick={() => {
+                    setSelData({ popup: "manage", validator: x });
+                  }}
+                  onAction={() => {
+                    setSelData({ popup: "manage", validator: x });
+                  }}
+                />
+              );
+            })
+          ) : (
+            <Table
+              data={delegation.validators}
+              th={[
+                {
+                  l: "Validator",
+                  align: "left",
+                  render: (d, i) => (
+                    <ValidatorMoniker
+                      align="flex-start"
+                      operatorAddress={d.operator_address}
+                      moniker={d.description.moniker}
+                    />
+                  )
+                },
+                {
+                  width: 10,
+                  l: "Status",
+                  render: x => {
+                    return (
+                      <span>
+                        {x.status.split("_").pop()}
+                        {x.jailed ? (
+                          <Jailed>
+                            <br />
+                            <img
+                              src="/public/assets/images/jailed.svg"
+                              alt="jailed"
+                            />
+                            JAILED
+                          </Jailed>
+                        ) : (
+                          ""
+                        )}
+                      </span>
+                    );
+                  }
+                },
+                {
+                  l: "Voting Power",
+                  render: (d, i) => (
+                    <>
+                      {parsePrettyNumber(
+                        parseFloat(parseOriginCoinAmount(d.tokens)).toFixed()
                       )}
-                    </span>
-                  );
+                      <br />
+                      <VotingPower>
+                        {(
+                          (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                          100
+                        ).toFixed(2) + "%"}
+                      </VotingPower>
+                    </>
+                  )
+                },
+                {
+                  l: "Commission",
+                  width: 10,
+                  render: (d, i) =>
+                    (
+                      parseFloat(d.commission.commission_rates.rate) * 100
+                    ).toFixed(2) + "%"
+                },
+                {
+                  l: "Staked Coins",
+                  render: (d, i) =>
+                    parsePrettyNumber(
+                      parseOriginCoinAmount(
+                        delegation.delegations.filter(
+                          x =>
+                            x.delegation.validator_address ===
+                            d.operator_address
+                        )[0]?.balance.amount
+                      )
+                    ) + " GLX"
+                },
+                {
+                  l: "Rewards",
+                  render: (d, i) =>
+                    (
+                      parseInt(
+                        reward.rewards.filter(
+                          x => x.validator_address === d.operator_address
+                        )[0]?.reward[0]?.amount
+                      ) / 1000000 || 0
+                    ).toFixed(6) + " GLX"
+                },
+                {
+                  l: "",
+                  width: 10,
+                  render: (d, i) => (
+                    <ManageButton
+                      onClick={() => {
+                        setSelData({ popup: "manage", validator: d });
+                      }}
+                    >
+                      Manage
+                    </ManageButton>
+                  )
                 }
-              },
-              {
-                l: "Voting Power",
-                render: (d, i) => (
-                  <>
-                    {parsePrettyNumber(
-                      parseFloat(parseOriginCoinAmount(d.tokens)).toFixed()
-                    )}
-                    <br />
-                    <VotingPower>
-                      {(
-                        (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
-                        100
-                      ).toFixed(2) + "%"}
-                    </VotingPower>
-                  </>
-                )
-              },
-              {
-                l: "Commission",
-                width: 10,
-                render: (d, i) =>
-                  (
-                    parseFloat(d.commission.commission_rates.rate) * 100
-                  ).toFixed(2) + "%"
-              },
-              {
-                l: "Staked Coins",
-                render: (d, i) =>
-                  parsePrettyNumber(
-                    parseOriginCoinAmount(
-                      delegation.delegations.filter(
-                        x =>
-                          x.delegation.validator_address === d.operator_address
-                      )[0]?.balance.amount
-                    )
-                  ) + " GLX"
-              },
-              {
-                l: "Rewards",
-                render: (d, i) =>
-                  (
-                    parseInt(
-                      reward.rewards.filter(
-                        x => x.validator_address === d.operator_address
-                      )[0]?.reward[0]?.amount
-                    ) / 1000000 || 0
-                  ).toFixed(6) + " GLX"
-              },
-              {
-                l: "",
-                width: 10,
-                render: (d, i) => (
-                  <Manage
-                    onClick={() => {
-                      setSelData({ popup: "manage", validator: d });
-                    }}
-                  >
-                    Manage
-                  </Manage>
-                )
-              }
-            ]}
-          />
+              ]}
+            />
+          )}
 
           <Label>Vaildators</Label>
 
-          <Table
-            data={validator.validators}
-            th={[
-              {
-                width: 5,
-                l: "#",
-                render: (d, i) => <Rank>{i + 1}</Rank>
-              },
-              {
-                width: 45,
-                align: "left",
-                l: "Validator",
-                render: (d, i) => (
-                  <ValidatorMoniker
-                    onClick={() => {
-                      setSelData({ popup: "manage", validator: d });
-                    }}
-                    operatorAddress={d.operator_address}
-                    align="flex-start"
-                    moniker={d.description.moniker}
-                  />
-                )
-              },
-              {
-                l: "Status",
-                render: x => {
-                  return (
-                    <span>
-                      {x.status.split("_").pop()}
-                      {x.jailed ? (
-                        <Jailed>
-                          <br />
-                          <img
-                            src="/public/assets/images/jailed.svg"
-                            alt="jailed"
-                          />
-                          JAILED
-                        </Jailed>
-                      ) : (
-                        ""
+          {deviceType === "mobile" ? (
+            validator.validators.map((x, i) => {
+              return (
+                <ValidatorCard
+                  key={i.toString()}
+                  validator={x}
+                  pool={pool}
+                  onClick={() => {
+                    setSelData({ popup: "manage", validator: x });
+                  }}
+                  onAction={() => {
+                    setSelData({
+                      popup: "delegate",
+                      validator: x
+                    });
+                  }}
+                />
+              );
+            })
+          ) : (
+            <Table
+              data={validator.validators}
+              th={[
+                {
+                  width: 5,
+                  l: "#",
+                  render: (d, i) => <Rank>{i + 1}</Rank>
+                },
+                {
+                  width: 45,
+                  align: "left",
+                  l: "Validator",
+                  render: (d, i) => (
+                    <ValidatorMoniker
+                      onClick={() => {
+                        setSelData({ popup: "manage", validator: d });
+                      }}
+                      operatorAddress={d.operator_address}
+                      align="flex-start"
+                      moniker={d.description.moniker}
+                    />
+                  )
+                },
+                {
+                  l: "Status",
+                  render: x => {
+                    return (
+                      <span>
+                        {x.status.split("_").pop()}
+                        {x.jailed ? (
+                          <Jailed>
+                            <br />
+                            <img
+                              src="/public/assets/images/jailed.svg"
+                              alt="jailed"
+                            />
+                            JAILED
+                          </Jailed>
+                        ) : (
+                          ""
+                        )}
+                      </span>
+                    );
+                  }
+                },
+                {
+                  l: "Voting Power",
+                  render: d => (
+                    <>
+                      {parsePrettyNumber(
+                        parseFloat(parseOriginCoinAmount(d.tokens)).toFixed()
                       )}
-                    </span>
-                  );
+                      <br />
+                      <VotingPower>
+                        {(
+                          (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
+                          100
+                        ).toFixed(2) + "%"}
+                      </VotingPower>
+                    </>
+                  )
+                },
+                {
+                  l: "Commission",
+                  render: (d, i) =>
+                    (
+                      parseFloat(d.commission.commission_rates.rate) * 100
+                    ).toFixed(2) + "%"
+                },
+                {
+                  l: "",
+                  render: (d, i) => (
+                    <DelegateButton
+                      onClick={() => {
+                        setSelData({
+                          popup: "delegate",
+                          validator: d
+                        });
+                      }}
+                    >
+                      Delegate
+                    </DelegateButton>
+                  )
                 }
-              },
-              {
-                l: "Voting Power",
-                render: d => (
-                  <>
-                    {parsePrettyNumber(
-                      parseFloat(parseOriginCoinAmount(d.tokens)).toFixed()
-                    )}
-                    <br />
-                    <VotingPower>
-                      {(
-                        (parseInt(d.tokens) / parseInt(pool.bonded_tokens)) *
-                        100
-                      ).toFixed(2) + "%"}
-                    </VotingPower>
-                  </>
-                )
-              },
-              {
-                l: "Commission",
-                render: (d, i) =>
-                  (
-                    parseFloat(d.commission.commission_rates.rate) * 100
-                  ).toFixed(2) + "%"
-              },
-              {
-                l: "",
-                render: (d, i) => (
-                  <Delegate
-                    onClick={() => {
-                      setSelData({
-                        popup: "delegate",
-                        validator: d
-                      });
-                    }}
-                  >
-                    Delegate
-                  </Delegate>
-                )
-              }
-            ]}
-          />
+              ]}
+            />
+          )}
         </Content>
       </Container>
     </AppLayout>
@@ -383,32 +440,10 @@ const Jailed = styled("span")`
   }
 `;
 
-const VotingPower = styled("span")`
-  font-size: 13px;
-  color: #7d77ff;
-`;
-
 const Rank = styled("span")`
   font-size: 14px;
   color: #fff;
   font-family: "Heebo-Medium";
-`;
-
-const Delegate = styled(ButtonBase)`
-  border-radius: 18px;
-  background-color: #2a267b;
-  color: #ffffff;
-  padding: 10px 18px;
-  font-size: 13;
-`;
-
-const Manage = styled(ButtonBase)`
-  border-radius: 18px;
-  background-color: transparent;
-  border: 1px solid #7d77ff;
-  padding: 10px 18px;
-  font-size: 13;
-  color: #7d77ff;
 `;
 
 const Statictis = styled("div")`
@@ -449,6 +484,12 @@ const Statictis = styled("div")`
       margin-left: 14px;
       color: #f4f3f6;
     }
+    @media (max-width: ${devicesize.tabletMin}) {
+      flex-direction: column;
+      & span {
+        margin-left: 0px;
+      }
+    }
   }
   #reward {
     margin-left: 40px;
@@ -459,6 +500,20 @@ const Statictis = styled("div")`
     background-color: #fff;
     border-radius: 20px;
     padding: 10px 28px;
+    @media (max-width: ${devicesize.tabletMin}) {
+      display: none;
+    }
+  }
+  @media (max-width: ${devicesize.tabletMin}) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 15px;
+    & div {
+      & div {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
   }
 `;
 
@@ -473,7 +528,6 @@ const Content = styled("div")`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: ${devicesize.tabletMin};
   max-width: ${devicesize.desktopMin};
   margin: auto auto;
   margin-bottom: 100px;

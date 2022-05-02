@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { parseOriginCoinAmount, parsePrettyNumber } from "../../utils";
 import { fetchDelegations } from "../../store/staking";
 import { Delegation } from "../../interfaces/galaxy/staking/delegation";
+import deviceSize from "../../constants/deviceSize";
 
 interface Props {
   onClose: () => void;
@@ -42,6 +43,9 @@ export default function ManagePopup(props: Props) {
         }
       />
       <Content className="column">
+        <PopupSubLabel>Operator Address</PopupSubLabel>
+        <PopupMessage>{props.validator.operator_address}</PopupMessage>
+        <div style={{ marginTop: "20px" }} />
         <PopupSubLabel>Website</PopupSubLabel>
         <PopupMessage>
           <a
@@ -52,9 +56,7 @@ export default function ManagePopup(props: Props) {
             {props.validator.description.website}
           </a>
         </PopupMessage>
-
         <div style={{ marginTop: "20px" }} />
-
         <PopupSubLabel>Description</PopupSubLabel>
         <PopupMessage>
           {props.validator.description.details.split("\n").map((x, i) => {
@@ -117,6 +119,16 @@ const Buttons = styled("div")`
   align-self: flex-end;
   & button {
     margin-left: 12px;
+    :first-of-type {
+      margin-left: 0px;
+    }
+  }
+  @media (max-width: ${deviceSize.tabletMin}) {
+    align-self: stretch;
+    & button {
+      flex: 1;
+      padding: 12px 0px;
+    }
   }
 `;
 const Content = styled("div")`

@@ -22,8 +22,7 @@ export const fetchValidators = createAsyncThunk('staking/fetchValidators', async
     //hooks
     thunk.dispatch(fetchValidatorsPicture(validators))
 
-    return validators.map(x => ({ ...x, sort: Math.random() })).sort((a, b) => a.sort - b.sort).sort((a, b) => a === b ? 0 : a.jailed ? 1 : -1
-    )
+    return validators
 })
 
 
@@ -76,7 +75,12 @@ export default createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchValidators.fulfilled, (state, action) => {
-            state.validators = [...action.payload]
+            if (state.validators.length !== action.payload.length) {
+                state.validators = action.payload
+                    .map(x => ({ ...x, sort: Math.random() })).sort((a, b) => a.sort - b.sort).sort((a, b) => a === b ? 0 : a.jailed ? 1 : -1)
+            } else {
+                state.validators = action.payload;
+            }
         })
 
         builder.addCase(fetchValidatorsPicture.fulfilled, (state, action) => {
