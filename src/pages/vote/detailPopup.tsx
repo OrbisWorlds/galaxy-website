@@ -180,26 +180,29 @@ export default function DetailPopup(props: Props) {
         <PopupFooter>
           <PopupLabel>Description</PopupLabel>
           <PopupMessage>
-            {props.proposal.content.description.split("\\n").map((x, i) => {
-              return (
-                <span key={i.toString()}>
-                  {x.split(" ").map((z, y) => {
-                    return (
-                      <span key={i + "" + y}>
-                        {z.startsWith("http") ? (
-                          <a target={"_blank"} href={z} rel="noreferrer">
-                            {z}
-                          </a>
-                        ) : (
-                          z
-                        )}{" "}
-                      </span>
-                    );
-                  })}
-                  <br />
-                </span>
-              );
-            })}
+            {props.proposal.content.description
+              .replaceAll("\\n", "\n")
+              .split("\n")
+              .map((x, i) => {
+                return (
+                  <span key={i.toString()}>
+                    {x.split(" ").map((z, y) => {
+                      return (
+                        <span key={i + "" + y}>
+                          {z.startsWith("http") ? (
+                            <a target={"_blank"} href={z} rel="noreferrer">
+                              {z}
+                            </a>
+                          ) : (
+                            z
+                          )}{" "}
+                        </span>
+                      );
+                    })}
+                    <br />
+                  </span>
+                );
+              })}
           </PopupMessage>
         </PopupFooter>
       </Popup>
