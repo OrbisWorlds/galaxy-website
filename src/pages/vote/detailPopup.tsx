@@ -8,7 +8,7 @@ import {
   PopupMessage,
   PopupSubLabel
 } from "../../components/popup";
-import { MostVoted } from "../../components/gov";
+import { ContentDetail, MostVoted } from "../../components/gov";
 import {
   Proposal,
   ProposalStatus,
@@ -204,6 +204,37 @@ export default function DetailPopup(props: Props) {
                 );
               })}
           </PopupMessage>
+
+          {props.proposal.content["@type"] ===
+          "/cosmos.params.v1beta1.ParameterChangeProposal" ? (
+            <PopupLabel>
+              <br />
+              Changes
+            </PopupLabel>
+          ) : props.proposal.content["@type"] ===
+            "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal" ? (
+            <PopupLabel>Upgrade Plan</PopupLabel>
+          ) : null}
+          {props.proposal.content["@type"] ===
+          "/cosmos.params.v1beta1.ParameterChangeProposal" ? (
+            <ContentDetail
+              data={props.proposal.content.changes?.map(x => ({
+                label: x.key + " - " + x.subspace,
+                value: x.value
+              }))}
+            />
+          ) : props.proposal.content["@type"] ===
+              "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal" &&
+            props.proposal.content.plan ? (
+            <ContentDetail
+              data={Object.keys(props.proposal.content.plan).map(x => ({
+                label: x,
+                value: props.proposal.content.plan
+                  ? props.proposal.content.plan[x]
+                  : ""
+              }))}
+            />
+          ) : null}
         </PopupFooter>
       </Popup>
     </>

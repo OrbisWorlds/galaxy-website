@@ -3,9 +3,15 @@ import { Coin } from "../../common"
 export interface Proposal {
     proposal_id: string
     content: {
-        "@type": "/cosmos.gov.v1beta1.TextProposal"
+        "@type": | "/cosmos.gov.v1beta1.TextProposal" | "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal" |
+        "/cosmos.params.v1beta1.ParameterChangeProposal";
         description: string
-        title: string
+        title: string;
+        plan?: {
+            [index: string]: string
+            name: string, time: string, height: string, info: string
+        }
+        changes?: { subspace: string, key: string, value: string }[]
     }
     status: ProposalStatus
     final_tally_result: Tally

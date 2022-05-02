@@ -1,3 +1,4 @@
 import MostVoted from "./mostVoted";
+import ContentDetail from "./contentDetail";
 export * from "./status";
-export { MostVoted };
+export { MostVoted, ContentDetail };
