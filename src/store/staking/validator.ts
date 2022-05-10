@@ -14,8 +14,9 @@ const initialState: InitialState = {
 }
 
 export const fetchValidators = createAsyncThunk('staking/fetchValidators', async (arg, thunk) => {
-    const response = await api.get("/cosmos/staking/v1beta1/validators")
+    const response = await api.get("/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED")
     const data = response.data;
+
 
     const validators = data.validators as Validator[]
 
