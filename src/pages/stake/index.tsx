@@ -182,7 +182,8 @@ export default function Stake() {
             </>
           )}
 
-          <Label>Delegated Vaildators</Label>
+
+           <Label>Delegated Validators</Label>
           {deviceType === "mobile" ? (
             delegation.validators.map((x, i) => {
               return (
@@ -313,7 +314,7 @@ export default function Stake() {
             />
           )}
 
-          <Label>Vaildators</Label>
+          <Label>Validators</Label>
 
           {deviceType === "mobile" ? (
             validator.validators.map((x, i) => {
