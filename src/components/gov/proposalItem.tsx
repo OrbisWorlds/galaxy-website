@@ -12,6 +12,7 @@ import { getMostVoted, parseOriginCoinAmount } from "../../utils";
 import { Coin } from "../../interfaces";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchProposalTally } from "../../store/gov";
+import useDeviceType from "../../hooks/useDeviceType";
 
 interface Props {
   proposal: Proposal;
@@ -24,6 +25,7 @@ interface Props {
 
 export default function ProposalItem(props: Props) {
   const dispatch = useAppDispatch();
+  const deviceType = useDeviceType();
   const tally = useAppSelector(s => s.gov.proposal.tally);
 
   React.useEffect(() => {
@@ -151,25 +153,27 @@ export default function ProposalItem(props: Props) {
           >
             Detail
           </Button>
-          {props.status === ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD ? (
-            <Button
-              onClick={() => {
-                if (props.onDeposit) props.onDeposit(props.proposal);
-              }}
-              shadowDisabled
-            >
-              Deposit
-            </Button>
-          ) : (
-            <Button
-              shadowDisabled
-              onClick={() => {
-                if (props.onVote) props.onVote(props.proposal);
-              }}
-            >
-              Vote
-            </Button>
-          )}
+          {deviceType !== "mobile" ? (
+            props.status === ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD ? (
+              <Button
+                onClick={() => {
+                  if (props.onDeposit) props.onDeposit(props.proposal);
+                }}
+                shadowDisabled
+              >
+                Deposit
+              </Button>
+            ) : (
+              <Button
+                shadowDisabled
+                onClick={() => {
+                  if (props.onVote) props.onVote(props.proposal);
+                }}
+              >
+                Vote
+              </Button>
+            )
+          ) : null}
         </div>
       </div>
     </VoteCard>
@@ -187,6 +191,7 @@ const VoteResult = styled("div")`
   display: flex;
   align-items: center;
   margin: 30px 40px 0px 40px;
+
   .v-t-c-l {
     width: 1px;
     height: 90%;
@@ -254,6 +259,9 @@ const VoteCard = styled.div`
     margin-top: 30px;
     border-top: 1px solid #19134f;
     padding: 24px 40px;
+    @media (max-width: ${devicesize.laptopMin}) {
+      padding: 24px 20px;
+    }
   }
   @media (max-width: ${devicesize.laptopMin}) {
     width: auto;

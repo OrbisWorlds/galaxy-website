@@ -1,4 +1,7 @@
 export interface Validator {
+
+    sort?: number;
+
     operator_address: string;
     jailed: boolean;
     status: BondStatus;

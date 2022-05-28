@@ -86,7 +86,7 @@ export default function Roadmap() {
         )}
         <image
           x="0"
-          y="0"
+          y="-25"
           href={
             deviceType !== "mobile"
               ? "/public/assets/images/roadmap.png"
@@ -111,7 +111,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "1Q 2022",
+                      t: "Q1 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -137,7 +137,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "1Q 2022",
+                      t: "Q1 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -166,14 +166,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "April, 2022",
+                      t: "April 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Galaxy Mainnet Live\nGLX Airdrop\nOsmosis Lp Register",
+                      t: "Galaxy Mainnet Live\nGLX Airdrop",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -192,14 +192,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "April, 2022",
+                      t: "April 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Mainnet Live\nGLX Airdrop\nOsmosis Lp Register",
+                      t: "Mainnet Live\nGLX Airdrop",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -221,14 +221,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "June, 2022",
+                      t: "May 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Story NFT Publish System",
+                      t: "Token listing on Osmosis",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -247,14 +247,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "June, 2022",
+                      t: "May 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Story NFT\nPublish System",
+                      t: "Token listing\non Osmosis",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -267,7 +267,7 @@ export default function Roadmap() {
             deviceType !== "mobile"
               ? {
                   x: 931,
-                  y: 510,
+                  y: 493,
                   data: [
                     {
                       t: "Roadmap #4",
@@ -276,14 +276,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "August, 2022",
+                      t: "Q3 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Galaxy NFT Marketplace",
+                      t: "Story NFT Publish System\nGalaxy NFT Marketplace",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -302,14 +302,14 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "Aug, 2022",
+                      t: "Q3 2022",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
                       fontSize: 34
                     },
                     {
-                      t: "Galaxy NFT\nMarketplace",
+                      t: "Story NFT\nPublish System\nGalaxy NFT\nMarketplace",
                       fontFamily: 3,
                       fill: 2,
                       mt: 15,
@@ -331,7 +331,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "November, 2022 ~",
+                      t: "November 2022 ~",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,
@@ -357,7 +357,7 @@ export default function Roadmap() {
                       fontSize: 14
                     },
                     {
-                      t: "Nov, 2022~",
+                      t: "Nov 2022~",
                       fontFamily: 2,
                       fill: 2,
                       mt: 13,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { TxFailedPopup } from "./components/tx";
 import { TxBroadcasting } from "./components/tx/txBroadcasting";
 import { TxSuccessfulPopup } from "./components/tx/txSuccessfulPopup";
@@ -22,8 +22,10 @@ export default function App() {
           <Route path="claim" element={<AirdropClaim />} />
           <Route path="" element={<Airdrop />} />
         </Route>
+        <Route path="/vote/:id" element={<Vote />} />
         <Route path="/vote" element={<Vote />} />
         <Route path="/" element={<Main />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <TxBroadcasting />
       <TxSuccessfulPopup />

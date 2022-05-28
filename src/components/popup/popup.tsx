@@ -54,7 +54,6 @@ const Container = styled("div")`
   z-index: 9999;
   left: 0;
   right: 0;
-  overflow-y: hidden;
   display: flex;
   bottom: 0;
   top: 0;

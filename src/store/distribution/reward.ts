@@ -20,11 +20,11 @@ const initialState: InitialState = {
 export const claimAllRewards = createAsyncThunk('distribution/claimAllRewards',
     async ({ address, validatorAddresses }: ClaimAllRewardParams, thunk) => {
         try {
-            if (!window.keplr || !window.getOfflineSigner) {
+            if (!window.keplr || !window.getOfflineSignerOnlyAmino) {
                 throw new Error("Please install keplr extension.")
             }
             await window.keplr.enable(chainConfig.chainId);
-            const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
+            const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId);
 
             const client = await SigningStargateClient.connectWithSigner(
                 chainConfig.rpc,

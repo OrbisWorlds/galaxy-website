@@ -19,11 +19,11 @@ const initialState: InitialState = {
 
 export const vote = createAsyncThunk('gov/deposit', async ({ proposal_id, option, voter }: MsgVote, thunk) => {
     try {
-        if (!window.keplr || !window.getOfflineSigner) {
+        if (!window.keplr || !window.getOfflineSignerOnlyAmino) {
             throw new Error("Please install keplr extension.")
         }
         await window.keplr.enable(chainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
             chainConfig.rpc,
@@ -37,7 +37,7 @@ export const vote = createAsyncThunk('gov/deposit', async ({ proposal_id, option
                 value: {
                     voter,
                     proposalId: proposal_id,
-                    option
+                    option: parseInt(option)
                 }
             }],
             {
@@ -58,11 +58,11 @@ export const vote = createAsyncThunk('gov/deposit', async ({ proposal_id, option
 
 export const deposit = createAsyncThunk('gov/deposit', async ({ proposal_id, depositor, amount }: MsgDeposit, thunk) => {
     try {
-        if (!window.keplr || !window.getOfflineSigner) {
+        if (!window.keplr || !window.getOfflineSignerOnlyAmino) {
             throw new Error("Please install keplr extension.")
         }
         await window.keplr.enable(chainConfig.chainId);
-        const offlineSigner = window.getOfflineSigner(chainConfig.chainId);
+        const offlineSigner = window.getOfflineSignerOnlyAmino(chainConfig.chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
             chainConfig.rpc,

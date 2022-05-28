@@ -14,15 +14,16 @@ const initialState: InitialState = {
 }
 
 export const fetchValidators = createAsyncThunk('staking/fetchValidators', async (arg, thunk) => {
-    const response = await api.get("/cosmos/staking/v1beta1/validators")
+    const response = await api.get("/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED")
     const data = response.data;
+
 
     const validators = data.validators as Validator[]
 
     //hooks
     thunk.dispatch(fetchValidatorsPicture(validators))
 
-    return validators.sort((a, b) => parseInt(b.tokens) - parseInt(a.tokens))
+    return validators
 })
 
 
@@ -75,7 +76,12 @@ export default createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchValidators.fulfilled, (state, action) => {
-            state.validators = [...action.payload]
+            if (state.validators.length !== action.payload.length) {
+                state.validators = action.payload
+                    .map(x => ({ ...x, sort: Math.random() })).sort((a, b) => a.sort - b.sort).sort((a, b) => a === b ? 0 : a.jailed ? 1 : -1)
+            } else {
+                state.validators = action.payload.sort((a, b) => a === b ? 0 : a.jailed ? 1 : -1)
+            }
         })
 
         builder.addCase(fetchValidatorsPicture.fulfilled, (state, action) => {
