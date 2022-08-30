@@ -131,7 +131,7 @@ export default function Main() {
         <Roadmap />
       </Section>
       */}
-      <Section i={2} noDesktop={deviceType !== "desktop"}>
+      <Section i={3} noDesktop={deviceType !== "desktop"}>
         <Introduce />
       </Section>
     </AppLayout>
