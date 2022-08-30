@@ -17,10 +17,9 @@ export default function Footer(props: Props) {
           position: "absolute",
           bottom: 0
         })
-      }}
-    >
+      }}>
       <Container dt={deviceType}>
-        <IconLink target="_blank" href="https://github.com/galaxies-labs">
+        <IconLink target="_blank" href="https://github.com/orbisworlds">
           <img src={"/public/assets/images/github.svg"} alt="github" />
         </IconLink>
         <IconLink target="_blank" href="https://medium.com/@galaxyuniverse">
@@ -29,7 +28,7 @@ export default function Footer(props: Props) {
         <IconLink target="_blank" href="https://discord.gg/DkPNtpJQ8C">
           <img src={"/public/assets/images/discord.svg"} alt="discord" />
         </IconLink>
-        <IconLink target="_blank" href="https://twitter.com/glxuniverse">
+        <IconLink target="_blank" href="https://twitter.com/orbisworlds">
           <img src={"/public/assets/images/twitter.svg"} alt="twitter" />
         </IconLink>
       </Container>
