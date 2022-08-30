@@ -16,8 +16,7 @@ export default function Main() {
         <Background
           background={deviceType === "mobile" ? "main-bg-m.jpg" : "main-bg.jpg"}
         />
-      }
-    >
+      }>
       <Section i={0}>
         <Box sx={{ zIndex: 2 }}>
           <SubLabel zIndex={2} variant="subtitle2">
@@ -54,8 +53,7 @@ export default function Main() {
                 xs={7}
                 sx={{
                   mt: 3
-                }}
-              >
+                }}>
                 <InterSection>
                   <img
                     width="100%"
@@ -73,8 +71,7 @@ export default function Main() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-end"
-              }}
-            >
+              }}>
               <Grid item xs={12}>
                 <InterSection>
                   <Text variant="body1" textAlign="right">
@@ -102,9 +99,9 @@ export default function Main() {
               </Grid>
 
               <InterSection>
-                <Link href="https://cosmos.network">
+                <Link href="https://orbisworlds.org">
                   <CosmosButton>
-                    Galaxy universe
+                    Metaverse
                     <img alt="more" src="/public/assets/images/ic-more.png" />
                   </CosmosButton>
                 </Link>
@@ -119,8 +116,7 @@ export default function Main() {
                 marginLeft: "auto",
                 marginRight: "auto",
                 mt: 5.5
-              }}
-            >
+              }}>
               <img
                 width="100%"
                 alt="mobius"
@@ -130,10 +126,12 @@ export default function Main() {
           )}
         </Grid>
       </Section>
-      <Section i={2}>
+      {/*
+       <Section i={2}>
         <Roadmap />
       </Section>
-      <Section i={3} noDesktop={deviceType !== "desktop"}>
+      */}
+      <Section i={2} noDesktop={deviceType !== "desktop"}>
         <Introduce />
       </Section>
     </AppLayout>

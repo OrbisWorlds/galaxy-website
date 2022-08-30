@@ -46,8 +46,7 @@ export default function Toolbar(props: Props) {
         }}
         color="transparent"
         position="fixed"
-        elevation={0}
-      >
+        elevation={0}>
         <ToolbarWrap>
           <Title variant="h6" onClick={() => navigate("/")}>
             GALAXY
@@ -55,7 +54,8 @@ export default function Toolbar(props: Props) {
 
           {deviceType !== "mobile" && (
             <nav>
-              <StyledLink
+              {/*
+                 <StyledLink
                 sx={{
                   color: location.pathname.startsWith("/story")
                     ? "#5954cc"
@@ -65,14 +65,15 @@ export default function Toolbar(props: Props) {
               >
                 Story
               </StyledLink>
+                */}
+
               <StyledLink
                 sx={{
                   color: location.pathname.startsWith("/nft")
                     ? "#5954cc"
                     : "#fff"
                 }}
-                to="/nft"
-              >
+                to="/nft">
                 NFT
               </StyledLink>
               <StyledLink
@@ -81,8 +82,7 @@ export default function Toolbar(props: Props) {
                     ? "#5954cc"
                     : "#fff"
                 }}
-                to="/stake"
-              >
+                to="/stake">
                 Stake
               </StyledLink>
               <StyledLink
@@ -91,8 +91,7 @@ export default function Toolbar(props: Props) {
                     ? "#5954cc"
                     : "#fff"
                 }}
-                to="/vote"
-              >
+                to="/vote">
                 Vote
               </StyledLink>
               <StyledLink
@@ -101,8 +100,7 @@ export default function Toolbar(props: Props) {
                     ? "#5954cc"
                     : "#fff"
                 }}
-                to="/airdrop"
-              >
+                to="/airdrop">
                 Airdrop
               </StyledLink>
             </nav>
